@@ -7,7 +7,17 @@ fit=Fitness()
 sol=Solution()
 
 class Simulated_A():
-    def __init__(self,size,parameters):
+    def __init__(self,size,parameters=[]):
+        if parameters==[]:
+            try:
+                path=os.getcwd()
+                print(path)
+                file=open(path+"\\Metaheuristics\\"+"Simulated"+".param",'r')
+                lst=file.read().split('\n')
+                parameters=eval(lst[0])
+
+            except:
+                print("Parameters not found")
         self.solution=sol.init_solution(size[0],size[1])
         self.parameters=parameters
         print(self.solution)
