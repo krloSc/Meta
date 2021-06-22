@@ -2,13 +2,16 @@ from Metaheuristics import *
 from problem.Problem import*
 from evaluate.Evaluate import *
 
-problem=Problem("ground")
+problem=Problem("functions")
 evaluate=Evaluate()
 parameters=[{"to":1000,"ta":0.001,"delta":0.99}]
 x=Simulated.Simulated((4,2))#,parameters)
-y=Simulated.Simulated((10,2))
-metas = [x,y]
-evaluate.eva(metas,problem,10)
+y=Simulated.Simulated((1,2))
+z=Fwa.Fwa((20,2))
+aa=Pso.Pso((5,2))
+bb=Mine.Mine((5,2))
+metas = [x,y,z,aa,bb]
+evaluate.eva(metas,problem,5,visual=True)
 #solution, fitness=x.simulated(problem)
 #solution2, fitness2=y.simulated(problem)
 #print(solution, fitness)

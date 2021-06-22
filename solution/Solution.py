@@ -35,7 +35,7 @@ class Solution():
                 #print("anchor: ",x)
                 #print(dist)
             force=force_factor/dist
-            print("force:",force)
+            #print("force:",force)
 
         for x in range(ms):
             solutions[x]=sol[x]+sol[x]*entrophy#*force[x]*100

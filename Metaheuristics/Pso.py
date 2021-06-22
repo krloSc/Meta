@@ -6,49 +6,44 @@ import matplotlib.pyplot as plt
 fit=Fitness()
 sol=Solution()
 
-print("PSO Metaheuristic")
+class Pso():
 
-############### Initial Population #################
-swarm_size=500
-dimension=2
-particles=sol.init_solution(swarm_size,dimension)
-init_particles=particles #eliminar
-current_fitness=fit.evaluate(particles)
-best_particle=particles[np.argmin(current_fitness)]
-velocity=uniform(0,1,swarm_size*dimension)
-velocity=velocity.reshape(-1,dimension)
-best_particles=particles
-################## Evaluation ######################
-def pso(particles,criteria):
-    global velocity, best_particle, best_particles
-    for i in range(criteria):
-        r1=uniform(0,1,swarm_size).reshape(-1,1)
-        r2=uniform(0,1,swarm_size).reshape(-1,1)
-        velocity=0.5*velocity+r1*0.1*(best_particles-particles)+r2*0.5*(best_particle-particles)
-        particles=sol.update_sol(particles,velocity) #poblacion actualizada
-        #print(particles)
-        current_fitness=fit.evaluate(particles)
-        #print(current_fitness)
-        if (fit.evaluate(particles[np.argmin(current_fitness)])<fit.evaluate(best_particle)):
-            best_particle=particles[np.argmin(current_fitness)] #
-        #print(fit.evaluate(best_particles))
-        best_particles[current_fitness<fit.evaluate(best_particles)]=particles[current_fitness<fit.evaluate(best_particles)]
-    print("-------------------------------- \n")
-    print(fit.evaluate(best_particle))
+    def __init__(self,size,parameters=[]):
+        if parameters==[]:
+            try:
+                path=os.getcwd()
+                file=open(path+"\\Metaheuristics\\"+self.__class__.__name__+".param",'r')
+                lst=file.read().split('\n')
+                parameters=eval(lst[0])
+
+            except:
+                print("Parameters not found")
+        self.solution=sol.init_solution(size[0],size[1])
+        self.parameters=parameters
 
 
+    ############### Initial Population #################
+    #init_solution=self.solution #eliminar
 
-
-X = np.arange(-10, 10, 0.1)
-Y = np.arange(-10, 10, 0.1)
-X,Y=np.meshgrid(X,Y)
-#Z=X**2 + Y**2 + (25 * (np.sin(X)**2 + np.sin(Y)**2))
-Z=0.5+((np.sin(np.sqrt(X**2+Y**2))**2-0.5)/(1+0.001*(X**2+Y**2))**2)
-#Z=np.cos(np.sqrt(X**2+Y**2))*np.sin(X/2+4)
-fig,ax=plt.subplots(1,1)
-ax.contourf(X, Y, Z,100)
-ax.autoscale(False)
-pso(particles,100)
-ax.scatter(best_particles[:,0],best_particles[:,1],color='r',alpha=1,zorder=1)
-ax.scatter(init_particles[:,0],init_particles[:,1],color='r',alpha=0.3,zorder=1)
-plt.show()
+    ################## Evaluation ######################
+    def run(self,problem):
+        current_fitness=fit.evaluate(self.solution,problem)
+        best_particle=self.solution[np.argmin(current_fitness)]
+        velocity=uniform(0,1,self.solution.size)
+        velocity=velocity.reshape(-1,self.solution.shape[1])
+        best_sol=self.solution
+        for i in range(1000):
+            r1=uniform(0,1,self.solution.shape[0]).reshape(-1,1)
+            r2=uniform(0,1,self.solution.shape[0]).reshape(-1,1)
+            velocity=0.5*velocity+r1*0.1*(best_sol-self.solution)+r2*0.5*(best_particle-self.solution)
+            self.solution=sol.update_sol(self.solution,velocity) #poblacion actualizada
+            #print(self.solution)
+            current_fitness=fit.evaluate(self.solution,problem)
+            #print(current_fitness)
+            if (fit.evaluate(self.solution[np.argmin(current_fitness)],problem)<fit.evaluate(best_particle,problem)):
+                best_particle=self.solution[np.argmin(current_fitness)] #
+            #print(fit.evaluate(best_sol))
+            best_sol[current_fitness<fit.evaluate(best_sol,problem)]=self.solution[current_fitness<fit.evaluate(best_sol,problem)]
+        #print("-------------------------------- \n")
+        #print(fit.evaluate(best_particle,problem))
+        return best_particle, fit.evaluate(best_particle,problem)

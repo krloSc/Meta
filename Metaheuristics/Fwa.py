@@ -10,9 +10,10 @@ class Fwa():
 
     def __init__(self,size,parameters=[]):
         if parameters==[]:
+            print(__class__.__name__)
             try:
                 path=os.getcwd()
-                file=open(path+"\\Metaheuristics\\"+"Simulated"+".param",'r')
+                file=open(path+"\\Metaheuristics\\"+__class__.__name__+".param",'r')
                 lst=file.read().split('\n')
                 parameters=eval(lst[0])
 
@@ -33,39 +34,40 @@ class Fwa():
         index=np.argsort(prob,axis=None)
         return solution[index[-19:]]
 
-    def fwa(solution):
-        e=0.001
-        s_hat=100
-        a_hat=10
-        best=min(fit.evaluate(solution))
-        worst=np.max(fit.evaluate(solution))
+    def run(self,problem):
+        e=self.parameters.get("e")
+        s_hat=self.parameters.get("s_hat")
+        a_hat=self.parameters.get("a_hat")
+        best=min(fit.evaluate(self.solution,problem))
+        worst=np.max(fit.evaluate(self.solution,problem))
         xmin=1
         xmax=10
         for i in range(20):
-            for i in range(solution.shape[0]): #numero de fireworks
-                s=np.rint(s_hat*(worst-fit.evaluate(solution)+e)/(np.sum(worst-fit.evaluate(solution))+e))
+            for i in range(self.solution.shape[0]): #numero de fireworks
+                s=np.rint(s_hat*(worst-fit.evaluate(self.solution,problem)+e)/(np.sum(worst-fit.evaluate(self.solution,problem))+e))
                 s[s<xmin]=xmin
                 s[s>xmax]=xmax
-                a=a_hat*(fit.evaluate(solution)-best+e)/(np.sum(fit.evaluate(solution)-best)+e)
+                a=a_hat*(fit.evaluate(self.solution,problem)-best+e)/(np.sum(fit.evaluate(self.solution,problem)-best)+e)
                 r_d=randint(0,2,(int(s[i]),2))
                 r_d[(np.max(r_d,axis=1)<1)]=np.array([1,1]) #al menos alguno de los dos debe actualizarse
                 upd=a[i]*r_d*uniform(-1,1,r_d.shape)                       # (s,2)
-                variable=sol.generate_from2(solution[i,:].reshape(1,-1),s[i],upd)
+                variable=sol.generate_from2(self.solution[i,:].reshape(1,-1),s[i],upd)
                 try:
                     solutions=np.concatenate((solutions,variable[0]))
                 except:
                     solutions=variable[0]
-            solutions=np.concatenate((solutions,solution))
-            bindex=np.argmin(fit.evaluate(solutions))
-            best=min(fit.evaluate(solutions))
-            worst=max(fit.evaluate(solutions))
+            solutions=np.concatenate((solutions,self.solution))
+            bindex=np.argmin(fit.evaluate(solutions,problem))
+            best=min(fit.evaluate(solutions,problem))
+            worst=max(fit.evaluate(solutions,problem))
             best_spark=solutions[bindex].reshape(1,-1)
             solutions=np.delete(solutions,bindex,0)
-            n_minus=nfire(solutions)
-            solution=np.concatenate((best_spark,n_minus))
-        print(best_spark,fit.evaluate(best_spark))
-        return solution
+            n_minus=Fwa.nfire(solutions)
+            self.solution=np.concatenate((best_spark,n_minus))
+        #print(best_spark,fit.evaluate(best_spark,problem)))
+        return best_spark, fit.evaluate(best_spark,problem)
 
+    """
     solution=fwa(solution)
     X = np.arange(-25, 25, 0.1)
     Y = np.arange(-25, 25, 0.1)
@@ -79,4 +81,4 @@ class Fwa():
     ax.scatter(solution[:,0],solution[:,1],color='r',alpha=1,zorder=1)
 
     #print(solution)
-    plt.show()
+    plt.show()"""
