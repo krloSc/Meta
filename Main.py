@@ -12,11 +12,6 @@ aa=Pso.Pso((5,2))
 bb=Mine.Mine((5,2))
 metas = [x,y,z,aa,bb]
 evaluate.eva(metas,problem,5,visual=True)
-#solution, fitness=x.simulated(problem)
-#solution2, fitness2=y.simulated(problem)
-#print(solution, fitness)
-#print(solution2, fitness2)
-
 
 
 """
