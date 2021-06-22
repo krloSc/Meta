@@ -5,7 +5,6 @@ class Problem():
     def __init__(self,problem):
         try:
             path=os.getcwd()
-            print(path)
             file=open(path+"\\problem\\"+problem+".prob",'r')
             lst=file.read().split('\n')
             self.problem=lst[0]

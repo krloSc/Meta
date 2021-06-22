@@ -6,13 +6,12 @@ import matplotlib.pyplot as plt
 fit=Fitness()
 sol=Solution()
 
-class Simulated_A():
+class Simulated():
     def __init__(self,size,parameters=[]):
         if parameters==[]:
             try:
                 path=os.getcwd()
-                print(path)
-                file=open(path+"\\Metaheuristics\\"+"Simulated"+".param",'r')
+                file=open(path+"\\Metaheuristics\\"+self.__class__.__name__+".param",'r')
                 lst=file.read().split('\n')
                 parameters=eval(lst[0])
 
@@ -20,9 +19,9 @@ class Simulated_A():
                 print("Parameters not found")
         self.solution=sol.init_solution(size[0],size[1])
         self.parameters=parameters
-        print(self.solution)
+        #print(self.__class__.__name__)
 
-    def simulated(self,problem):
+    def run(self,problem):
         t=self.parameters.get("to")
         ta=self.parameters.get("ta")
         delta=self.parameters.get("delta")
@@ -45,8 +44,9 @@ class Simulated_A():
                         self.solution[i,:]=best_nbr
             t=t*delta
             n+=1
-        print(fit.evaluate(self.solution,problem))
-        return self.solution
+        #print(fit.evaluate(self.solution,problem))
+        #print(np.min(fit.evaluate(self.solution,problem)),np.argmin(fit.evaluate(self.solution,problem)))
+        return self.solution[np.argmin(fit.evaluate(self.solution,problem))] , np.min(fit.evaluate(self.solution,problem))
 
 
 
