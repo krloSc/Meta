@@ -1,7 +1,7 @@
 from Metaheuristics import *
 import numpy as np
 import matplotlib.pyplot as plt
-
+from math import floor
 class Evaluate():
 
     def __init__(self):
@@ -33,6 +33,7 @@ class Evaluate():
             fig,ax=plt.subplots(1,1)
             ax.contourf(X, Y, Z,100)
             ax.autoscale(False)
-            for i in range(0,len(metas),2):
-                ax.scatter(pos[:,i],pos[:,i+1],alpha=1,zorder=1)
+            for i in range(0,2*len(metas),2):
+                ax.scatter(pos[:,i],pos[:,i+1],label=metas[floor(i/2)].__class__.__name__,alpha=1,zorder=1)
+            ax.legend()
             plt.show()
