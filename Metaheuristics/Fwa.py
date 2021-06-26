@@ -66,19 +66,3 @@ class Fwa():
             self.solution=np.concatenate((best_spark,n_minus))
         #print(best_spark,fit.evaluate(best_spark,problem)))
         return best_spark, fit.evaluate(best_spark,problem)
-
-    """
-    solution=fwa(solution)
-    X = np.arange(-25, 25, 0.1)
-    Y = np.arange(-25, 25, 0.1)
-    X,Y=np.meshgrid(X,Y)
-    #Z=X**2 + Y**2 + (25 * (np.sin(X)**2 + np.sin(Y)**2))
-    Z=0.5+((np.sin(np.sqrt(X**2+Y**2))**2-0.5)/(1+0.001*(X**2+Y**2))**2)
-    #Z=np.cos(np.sqrt(X**2+Y**2))*np.sin(X/2+4)
-    fig,ax=plt.subplots(1,1)
-    ax.contourf(X, Y, Z,100)
-    ax.autoscale(False)
-    ax.scatter(solution[:,0],solution[:,1],color='r',alpha=1,zorder=1)
-
-    #print(solution)
-    plt.show()"""
