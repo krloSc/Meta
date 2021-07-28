@@ -3,6 +3,7 @@ from solution.Solution import *
 import numpy as np
 from numpy.random import rand,uniform,randint
 import matplotlib.pyplot as plt
+import time
 fit=Fitness()
 sol=Solution()
 
@@ -42,6 +43,7 @@ class Fwa():
         worst=np.max(fit.evaluate(self.solution,problem))
         xmin=1
         xmax=10
+        initime=time.time()
         for i in range(20):
             for i in range(self.solution.shape[0]): #numero de fireworks
                 s=np.rint(s_hat*(worst-fit.evaluate(self.solution,problem)+e)/(np.sum(worst-fit.evaluate(self.solution,problem))+e))
@@ -65,4 +67,5 @@ class Fwa():
             n_minus=Fwa.nfire(solutions)
             self.solution=np.concatenate((best_spark,n_minus))
         #print(best_spark,fit.evaluate(best_spark,problem)))
+        self.time_taken = (time.time()-initime)
         return best_spark, fit.evaluate(best_spark,problem)

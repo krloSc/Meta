@@ -4,6 +4,7 @@ from problem.Problem import*
 import numpy as np
 from numpy.random import rand,uniform,randint
 import matplotlib.pyplot as plt
+import time
 fit=Fitness()
 sol=Solution()
 
@@ -24,6 +25,7 @@ class Mine():
         self.parameters=parameters
 
     def run(self,problem):
+        initime=time.time()
         new_sol=np.copy(self.solution)
         subset=sol.generate_from2(self.solution,10,uniform(-0.2,0.2,(10,2))) #mejorar estancamiento
         #print(solution)
@@ -70,4 +72,5 @@ class Mine():
                 #print(e)
             #print("anchor ",anchor)
             n=n+2
+        self.time_taken = (time.time()-initime)
         return self.solution[np.argmin(fit.evaluate(self.solution,problem))] , np.min(fit.evaluate(self.solution,problem))

@@ -1,8 +1,7 @@
 from Metaheuristics import *
 from problem.Problem import*
 from evaluate.Evaluate import *
-
-problem=Problem("ground")
+problem=Problem("functions","space")
 evaluate=Evaluate()
 parameters=[{"to":1000,"ta":0.001,"delta":0.99}]
 x=Simulated.Simulated((4,2))#,parameters)

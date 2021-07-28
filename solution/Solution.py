@@ -26,15 +26,15 @@ class Solution():
         ms=sol.shape[0]
         dimn=sol.shape[1]
         solutions=np.zeros((ms,int(nsolutions),dimn),dtype=float)
-        force=np.zeros(sol.shape)
-        if anchor.shape[0]>1: #buscar emjor solucion
-            dist=np.zeros(sol.shape)
+        #force=np.zeros(sol.shape)
+        #if anchor.shape[0]>1: #buscar emjor solucion
+            #dist=np.zeros(sol.shape)
             #print(anchor.shape[0])
-            for x in range(anchor.shape[0]):
-                dist=dist+(sol-anchor[x])**2
+            #for x in range(anchor.shape[0]):
+                #dist=dist+(sol-anchor[x])**2
                 #print("anchor: ",x)
                 #print(dist)
-            force=force_factor/dist
+            #force=force_factor/dist
             #print("force:",force)
 
         for x in range(ms):

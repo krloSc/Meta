@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import os
 
 class Fitness():
@@ -12,5 +13,10 @@ class Fitness():
         except:
             X=solutions[0]
             Y=solutions[1]
-        Z=eval(problem.problem)
+
+        if (problem.type == "space"):
+            Z=eval(problem.problem)
+        else:
+            Z=pd.problem.problem[X][Y]
+
         return Z

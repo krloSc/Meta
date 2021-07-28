@@ -3,6 +3,7 @@ from solution.Solution import *
 import numpy as np
 from numpy.random import rand,uniform
 import matplotlib.pyplot as plt
+import time
 fit=Fitness()
 sol=Solution()
 
@@ -27,6 +28,7 @@ class Pso():
 
     ################## Evaluation ######################
     def run(self,problem):
+        initime=time.time()
         current_fitness=fit.evaluate(self.solution,problem)
         best_particle=self.solution[np.argmin(current_fitness)]
         velocity=uniform(0,1,self.solution.size)
@@ -46,4 +48,5 @@ class Pso():
             best_sol[current_fitness<fit.evaluate(best_sol,problem)]=self.solution[current_fitness<fit.evaluate(best_sol,problem)]
         #print("-------------------------------- \n")
         #print(fit.evaluate(best_particle,problem))
+        self.time_taken = (time.time()-initime)
         return best_particle, fit.evaluate(best_particle,problem)

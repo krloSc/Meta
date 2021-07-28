@@ -11,14 +11,17 @@ class Evaluate():
         self.metas=metas
         pos=np.ones((epoch,2*len(self.metas)))
         self.fitness=np.ones((epoch,len(self.metas)))
+        self.results=np.ones((len(metas),epoch,3))
         porc=epoch*len(self.metas)
         p=0
         for i in range(epoch):
             n=0
             for meta, j in zip(self.metas,range(len(self.metas))):
-                x,y=meta.run(problem)
-                pos[i,n:n+2]=x
-                self.fitness[i,j]=y
+                resul,fit=meta.run(problem)
+                pos[i,n:n+2]=resul
+                self.results[j,i,0:2]=resul
+                self.fitness[i,j]=fit
+                self.results[j,i,2]=fit
                 n=n+2
                 print(f"{p*100/porc:.2f}%")
                 p=p+1
@@ -29,7 +32,9 @@ class Evaluate():
         for i in range(len(self.metas)):
             self.best_fit[i]=np.min(self.fitness[:,i])
             print(self.metas[i].__class__.__name__,":\t ",self.best_fit[i])
+        #print(self.results)
 
+        #print(np.argmin(self.results[:,:,2],axis=1))
         #for i in range(len(self.metas)):
             #print(f"{np.std(self.fitness[:,i]):2f}")
 
@@ -46,12 +51,22 @@ class Evaluate():
             ax.legend()
             plt.show()
     def analysis(self):
+        fit_index=np.argmin(self.results[:,:,2],axis=1)
+        global_fit=np.argmin(self.results[range(len(self.metas)),fit_index,:][:,2])
         print("______________________________")
         print("\tAnalysis")
         print("______________________________")
-        print("Best solution:\t",np.min(self.best_fit))
-        print("At:\ postion x,y" )
+        print("Best solution:\t",self.results[global_fit,fit_index[global_fit],2])
+        print("At:\ postion x,y",self.results[global_fit,fit_index[global_fit],0:2] )
         print("______________________________")
-        print("Metaheuristic \t Parameters \t Best solution \t std \t error")#parametrizar esto, agregar tiempo requerido, num iter, etc.
+        print("Metaheuristic \t Parameters \t Best solution \t std \t error(mean)")#parametrizar esto, agregar tiempo requerido, num iter, etc.
         for i in range(len(self.metas)):
-            print(self.metas[i].__class__.__name__,"\t","xpos, ypos","\t",self.best_fit[i,0],"\t",np.std(self.fitness[:,i]),"error")
+            index=np.argmin(self.results[i,:,2]) #Menor entre cada epoch
+            name=self.metas[i].__class__.__name__
+            x_pos=self.results[i,index,0]
+            y_pos=self.results[i,index,1]
+            best_sol=self.results[i,index,2]
+            std=np.std(self.results[i,:,2])
+            error=np.abs(np.mean(self.results[i,:,2])-global_fit)
+            time=self.metas[i].time_taken
+            print(name,"\t",x_pos,y_pos,"\t",best_sol,std,error,time,"sec")

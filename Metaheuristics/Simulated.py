@@ -3,6 +3,7 @@ from solution.Solution import *
 import numpy as np
 from numpy.random import rand,uniform
 import matplotlib.pyplot as plt
+import time
 fit=Fitness()
 sol=Solution()
 
@@ -22,6 +23,7 @@ class Simulated():
         #print(self.__class__.__name__)
 
     def run(self,problem):
+        initime=time.time()
         t=self.parameters.get("to")
         ta=self.parameters.get("ta")
         delta=self.parameters.get("delta")
@@ -46,6 +48,7 @@ class Simulated():
             n+=1
         #print(fit.evaluate(self.solution,problem))
         #print(np.min(fit.evaluate(self.solution,problem)),np.argmin(fit.evaluate(self.solution,problem)))
+        self.time_taken = (time.time()-initime)
         return self.solution[np.argmin(fit.evaluate(self.solution,problem))] , np.min(fit.evaluate(self.solution,problem))
 
 
