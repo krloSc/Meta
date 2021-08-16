@@ -20,19 +20,17 @@ class Simulated():
                 print("Parameters not found")
         self.solution=sol.init_solution(size[0],size[1])
         self.parameters=parameters
-        #print(self.__class__.__name__)
 
     def run(self,problem):
         initime=time.time()
-        t=self.parameters.get("to")
-        ta=self.parameters.get("ta")
-        delta=self.parameters.get("delta")
+        t=self.parameters.get("to",1000)
+        ta=self.parameters.get("ta",0.001)
+        delta=self.parameters.get("delta",0.99)
         n=1
         while t>ta:
             n_s=5
-            factor=uniform(-1,1,(n_s,self.solution.shape[1]))*1/(0.1*n)                                                           # neighbour (3,5,2)
+            factor=uniform(-1,1,(n_s,self.solution.shape[1]))*1/(0.1*n)
             neigbours=sol.generate_from2(self.solution,n_s,factor)
-            #print(neigbours)
             for i in range(neigbours.shape[0]):
                 current_fitness=fit.evaluate(self.solution[i,:],problem)
                 best_nbr=neigbours[i,np.argmin(fit.evaluate(neigbours[i,:,:],problem))]
@@ -46,27 +44,5 @@ class Simulated():
                         self.solution[i,:]=best_nbr
             t=t*delta
             n+=1
-        #print(fit.evaluate(self.solution,problem))
-        #print(np.min(fit.evaluate(self.solution,problem)),np.argmin(fit.evaluate(self.solution,problem)))
         self.time_taken = (time.time()-initime)
         return self.solution[np.argmin(fit.evaluate(self.solution,problem))] , np.min(fit.evaluate(self.solution,problem))
-
-
-
-
-                                                     #completar cambios de esta gente
-    """
-
-    parameters={"to":1000,"ta":0.001,"delta":0.99}
-    solution=simulated(solution,5,parameters)
-    #print(solution)
-    X = np.arange(-10, 10, 0.1)
-    Y = np.arange(-10, 10, 0.1)
-    X,Y=np.meshgrid(X,Y)
-    Z=X**2 + Y**2 + (25 * (np.sin(X)**2 + np.sin(Y)**2))
-    #Z=np.cos(np.sqrt(X**2+Y**2))*np.sin(X/2+4)
-    fig,ax=plt.subplots(1,1)
-    ax.contourf(X, Y, Z,100)
-    ax.autoscale(False)
-    ax.scatter(solution[:,0],solution[:,1],color='r',alpha=1,zorder=1)
-    plt.show()"""

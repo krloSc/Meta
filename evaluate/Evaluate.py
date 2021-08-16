@@ -31,12 +31,9 @@ class Evaluate():
         self.best_fit=np.ones((len(self.metas),1))
         for i in range(len(self.metas)):
             self.best_fit[i]=np.min(self.fitness[:,i])
-            print(self.metas[i].__class__.__name__,":\t ",self.best_fit[i])
-        #print(self.results)
-
-        #print(np.argmin(self.results[:,:,2],axis=1))
-        #for i in range(len(self.metas)):
-            #print(f"{np.std(self.fitness[:,i]):2f}")
+            print(f'{self.metas[i].__class__.__name__:<15}',
+            ":\t ",
+            f'{self.best_fit[i][0]:^15.13f}')
 
         if visual:
             X = np.arange(problem.x_min, problem.x_max, 0.1)
@@ -59,7 +56,7 @@ class Evaluate():
         print("Best solution:\t",self.results[global_fit,fit_index[global_fit],2])
         print("At:\ postion x,y",self.results[global_fit,fit_index[global_fit],0:2] )
         print("______________________________")
-        print("Metaheuristic \t Parameters \t Best solution \t std \t error(mean)")#parametrizar esto, agregar tiempo requerido, num iter, etc.
+        print(f"{'Metaheuristic':^15}\t{'Best solution':^15}\t{'Std':^15}\t{'Error(mean)':^15}\t{'Time taken':^15}")
         for i in range(len(self.metas)):
             index=np.argmin(self.results[i,:,2]) #Menor entre cada epoch
             name=self.metas[i].__class__.__name__
@@ -69,4 +66,10 @@ class Evaluate():
             std=np.std(self.results[i,:,2])
             error=np.abs(np.mean(self.results[i,:,2])-global_fit)
             time=self.metas[i].time_taken
-            print(name,"\t",x_pos,y_pos,"\t",best_sol,std,error,time,"sec")
+            #print(name,"\t",x_pos,y_pos,"\t",best_sol,std,error,time,"sec")
+            print(f'{name:^15.13}\t'
+                    f'{best_sol:^15.4e}\t'
+                    f'{std:^15.4e}\t'
+                    f'{error:^15.4f}\t'
+                    f'{time:>8.4f} sec'
+                    )
