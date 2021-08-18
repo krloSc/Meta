@@ -15,15 +15,15 @@ class Solution():
     def generate_from(
                         self,
                         sol: np.ndarray,
-                        nsolutions: int,
+                        new_solutions: int,
                         entrophy: float
                         ) -> np.ndarray:
-        """Generate a random array of solutions arround a given solution"""
+        """Generate a random array of solutions arround every given solution"""
 
-        ms=sol.shape[0]
+        number_sol=sol.shape[0]
         dimn=sol.shape[1]
-        solutions=np.zeros((ms,int(nsolutions),dimn),dtype=float)
-        for x in range(ms):
+        solutions=np.zeros((number_sol,int(new_solutions),dimn),dtype=float)
+        for x in range(number_sol):
             solutions[x]=sol[x]+sol[x]*entrophy
         return solutions
 

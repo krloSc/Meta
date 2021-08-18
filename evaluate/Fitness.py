@@ -3,14 +3,18 @@ import pandas as pd
 import os
 
 class Fitness():
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
-    def evaluate(self,solutions,problem):
+    def evaluate(self, solutions: np.ndarray, problem) -> float:
+        """Evaluate the problem's fitness function"""
+
         try:
+            #for population
             X=solutions[:,0]
             Y=solutions[:,1]
         except:
+            #for single solution
             X=solutions[0]
             Y=solutions[1]
 
