@@ -53,7 +53,7 @@ class Fwa():
                 r_d=randint(0,2,(int(s[i]),2))
                 r_d[(np.max(r_d,axis=1)<1)]=np.array([1,1]) #al menos alguno de los dos debe actualizarse
                 upd=a[i]*r_d*uniform(-1,1,r_d.shape)                       # (s,2)
-                variable=sol.generate_from2(self.solution[i,:].reshape(1,-1),s[i],upd)
+                variable=sol.generate_from(self.solution[i,:].reshape(1,-1),s[i],upd)
                 try:
                     solutions=np.concatenate((solutions,variable[0]))
                 except:

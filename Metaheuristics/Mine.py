@@ -27,7 +27,7 @@ class Mine():
     def run(self,problem):
         initime=time.time()
         new_sol=np.copy(self.solution)
-        subset=sol.generate_from2(self.solution,10,uniform(-0.2,0.2,(10,2))) #mejorar estancamiento
+        subset=sol.generate_from(self.solution,10,uniform(-0.2,0.2,(10,2))) #mejorar estancamiento
         #print(solution)
 
         for i in range(subset.shape[0]):
@@ -56,7 +56,7 @@ class Mine():
                 #print(r_d)
             #input()
             entrophy=uniform(-1,1,(sub_dim,self.solution.shape[1]))/(0.01*n)#*r_d
-            subset=sol.generate_from2(self.solution,sub_dim,entrophy,100,anchor=anchor)
+            subset=sol.generate_from(self.solution,sub_dim,entrophy)
             for i in range(self.solution.shape[0]):
                 current_sub=subset[i]
                 current_sol[i]=current_sub[np.argmin(fit.evaluate(subset[i],problem))]

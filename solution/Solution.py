@@ -8,21 +8,8 @@ class Solution():
             sol=uniform(-1,1,(x,y))*10
             return sol
 
-    def generate_from(self,sol,nsolutions,entrophy):
-        ms=sol.shape[0]
-        dimn=sol.shape[1]
-        solutions=np.zeros((ms,nsolutions,dimn),dtype=float)
-        for x in range(ms):
-            for y in range(nsolutions):
-                for i in range(dimn):
-                    try:
-                        solutions[x,y,i]=(sol[x,i]+sol[x,i]*entrophy[y,i])
-                        print("pass")
-                    except:
-                        solutions[x,y,i]=(sol[x,i]+sol[x,i]*(rand()-0.5)*entrophy)
-        return solutions
 
-    def generate_from2(self,sol,nsolutions,entrophy,force_factor=1,anchor=np.array([])):
+    def generate_from(self,sol,nsolutions,entrophy):
         ms=sol.shape[0]
         dimn=sol.shape[1]
         solutions=np.zeros((ms,int(nsolutions),dimn),dtype=float)

@@ -30,7 +30,7 @@ class Simulated():
         while t>ta:
             n_s=5
             factor=uniform(-1,1,(n_s,self.solution.shape[1]))*1/(0.1*n)
-            neigbours=sol.generate_from2(self.solution,n_s,factor)
+            neigbours=sol.generate_from(self.solution,n_s,factor)
             for i in range(neigbours.shape[0]):
                 current_fitness=fit.evaluate(self.solution[i,:],problem)
                 best_nbr=neigbours[i,np.argmin(fit.evaluate(neigbours[i,:,:],problem))]

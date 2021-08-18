@@ -8,6 +8,8 @@ class Evaluate():
         pass
 
     def eva (self,metas,problem,epoch=5,visual=False):
+        """Obtain an array of results and print the best solutions"""
+
         self.metas=metas
         pos=np.ones((epoch,2*len(self.metas)))
         self.fitness=np.ones((epoch,len(self.metas)))
@@ -25,6 +27,7 @@ class Evaluate():
                 n=n+2
                 print(f"{p*100/porc:.2f}%")
                 p=p+1
+
         print("______________________________")
         print("Metaheuristic \t Best Solution")
         print("______________________________")
@@ -34,8 +37,10 @@ class Evaluate():
             print(f'{self.metas[i].__class__.__name__:<15}',
             ":\t ",
             f'{self.best_fit[i][0]:^15.13f}')
-
         if visual:
+            self.visual(problem, pos)
+
+    def visual(self, problem, pos) -> None:
             X = np.arange(problem.x_min, problem.x_max, 0.1)
             Y = np.arange(problem.y_min, problem.y_max, 0.1)
             X,Y=np.meshgrid(X,Y)
@@ -47,6 +52,7 @@ class Evaluate():
                 ax.scatter(pos[:,i],pos[:,i+1],label=self.metas[floor(i/2)].__class__.__name__,alpha=1,zorder=1)
             ax.legend()
             plt.show()
+
     def analysis(self):
         fit_index=np.argmin(self.results[:,:,2],axis=1)
         global_fit=np.argmin(self.results[range(len(self.metas)),fit_index,:][:,2])
