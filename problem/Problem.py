@@ -8,6 +8,7 @@ import re
 
 class OptimizationType(Enum):
     """Assign ids to optimization problem types"""
+
     MAXIMIZATION = auto()
     MINIMIZATION = auto()
 
@@ -44,7 +45,7 @@ class SpaceProblem(Problem):
 class RasterProblem(Problem):
     """Space problem definition"""
 
-    def get_digit(self,doc_line: str) -> int:
+    def get_digit(self, doc_line: str) -> int:
         """ return the first digit found in a string"""
 
         try:
@@ -55,8 +56,9 @@ class RasterProblem(Problem):
             digit = doc_line.split()
             return digit[1]
 
-    def get_values_from_file(self):
+    def get_values_from_file(self) -> None:
         """Get raster data values from ASC files"""
+
         path=os.getcwd()
         file=open(path+"\\problem\\"+self.name+".ASC",'r')
         lst=file.read().split('\n')
@@ -75,7 +77,8 @@ class RasterProblem(Problem):
                                     delimiter=None,
                                     index_col=False,
                                     header=None,
-                                    skipinitialspace=True)
+                                    skipinitialspace=True
+                                    )
 
         self.problem = self.problem[::-1]
         return

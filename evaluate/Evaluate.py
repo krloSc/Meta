@@ -6,6 +6,7 @@ class Evaluate():
 
     def __init__(self):
         pass
+        return
 
     def eva (self,metas,problem,epoch=5,visual=False):
         """Obtain an array of results and print the best solutions"""
@@ -37,8 +38,10 @@ class Evaluate():
             print(f'{self.metas[i].__class__.__name__:<15}',
             ":\t ",
             f'{self.best_fit[i][0]:^15.13f}')
+
         if visual:
             self.visual(problem, pos)
+        return
 
     def visual(self, problem, pos) -> None:
             X = np.arange(problem.x_min, problem.x_max, 0.1)
@@ -52,6 +55,7 @@ class Evaluate():
                 ax.scatter(pos[:,i],pos[:,i+1],label=self.metas[floor(i/2)].__class__.__name__,alpha=1,zorder=1)
             ax.legend()
             plt.show()
+            return
 
     def analysis(self):
         fit_index=np.argmin(self.results[:,:,2],axis=1)
@@ -79,3 +83,4 @@ class Evaluate():
                     f'{error:^15.4f}\t'
                     f'{time:>8.4f} sec'
                     )
+        return
