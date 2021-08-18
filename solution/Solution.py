@@ -9,7 +9,7 @@ class Solution():
     def init_solution(self, x: int, y: int) -> np.ndarray:
         """Generate a random array of solutions"""
 
-        sol=uniform(-1,1,(x,y))*10
+        sol = uniform(-1,1,(x,y))*10
         return sol
 
     def generate_from(
