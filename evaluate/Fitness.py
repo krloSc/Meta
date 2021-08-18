@@ -14,7 +14,7 @@ class Fitness():
             X=solutions[0]
             Y=solutions[1]
 
-        if (problem.type == "space"):
+        if (problem.__class__.__name__ == "SpaceProblem"):
             Z=eval(problem.problem)
         else:
             Z=pd.problem.problem[X][Y]

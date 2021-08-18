@@ -2,7 +2,8 @@ from Metaheuristics import *
 from problem.Problem import*
 from evaluate.Evaluate import *
 from util import map
-problem=Problem("functions","space")
+problem=SpaceProblem("functions",OptimizationType.MINIMIZATION)
+problem.get_values_from_file()
 evaluate=Evaluate()
 parameters={"to":1500,"ta":0.0001,"delta":0.95}
 x=Simulated.Simulated((4,2),parameters)
