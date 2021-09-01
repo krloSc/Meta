@@ -1,11 +1,9 @@
-from evaluate.Fitness import *
 from solution.Solution import *
 from problem.Problem import*
 import numpy as np
 from numpy.random import rand,uniform,randint
 import matplotlib.pyplot as plt
 import time
-fit=Fitness()
 sol=Solution()
 
 #Inicializacion
@@ -21,10 +19,11 @@ class Mine():
 
             except:
                 print("Parameters not found")
-        self.solution=sol.init_solution(size[0],size[1])
+        self.size = size
         self.parameters=parameters
 
     def run(self,problem):
+        self.solution=sol.init_solution(self.size[0],self.size[1], problem.boundaries)
         initime=time.time()
         new_sol=np.copy(self.solution)
         subset=sol.generate_from(self.solution,10,uniform(-0.2,0.2,(10,2))) #mejorar estancamiento

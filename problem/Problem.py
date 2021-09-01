@@ -23,6 +23,10 @@ class Problem(ABC):
     def get_values_from_file(self) -> None:
         pass
 
+    @abstractmethod
+    def eval_fitness_function(self, solutions: np.ndarray) -> np.ndarray:
+        pass
+
 
 class SpaceProblem(Problem):
     """Space problem definition"""
@@ -34,12 +38,25 @@ class SpaceProblem(Problem):
         file=open(path+"\\problem\\"+self.name+".prob",'r')
         lst=file.read().split('\n')
         self.problem=lst[0]
-        self.x_min=float(lst[1])
-        self.x_max=float(lst[2])
-        self.y_min=float(lst[3])
-        self.y_max=float(lst[4])
+        x_min=float(lst[1])
+        x_max=float(lst[2])
+        y_min=float(lst[3])
+        y_max=float(lst[4])
+        self.boundaries = {
+                            "x_min" : x_min,
+                            "x_max" : x_max,
+                            "y_min" : y_min,
+                            "y_max" : y_max,
+                        }
         file.close()
         return
+
+    def eval_fitness_function(self, solutions: np.ndarray) -> np.ndarray:
+        """Evaluate the problem's fitness function"""
+        X=solutions.reshape(-1,2)[:,0]
+        Y=solutions.reshape(-1,2)[:,1]
+        Z=eval(self.problem)
+        return Z
 
 
 class RasterProblem(Problem):
@@ -50,7 +67,7 @@ class RasterProblem(Problem):
 
         try:
             digit = [value for value in re.findall(r'-?\d+', doc_line)]
-            return digit[0]
+            return float(digit[0])
         except:
             # in case nondata value is not a number
             digit = doc_line.split()
@@ -62,7 +79,7 @@ class RasterProblem(Problem):
         path=os.getcwd()
         file=open(path+"\\problem\\"+self.name+".ASC",'r')
         lst=file.read().split('\n')
-        self.column=self.get_digit(lst[0])
+        self.columns=self.get_digit(lst[0])
         self.rows=self.get_digit(lst[1])
         self.x_left=self.get_digit(lst[2])
         self.y_below=self.get_digit(lst[3])
@@ -81,7 +98,25 @@ class RasterProblem(Problem):
                                     )
 
         self.problem = self.problem[::-1]
+        self.problem = self.problem.replace(np.NaN,0) #//cambiar
+        self.boundaries = {
+                            "x_min" : 0,
+                            "x_max" : self.rows-1,
+                            "y_min" : 0,
+                            "y_max" : self.columns-1,
+                        }
         return
+
+    def eval_fitness_function(self, solutions: np.ndarray) -> np.ndarray:
+        """Evaluate the problem's fitness function"""
+        X=np.rint(solutions.reshape(-1,2)[:,0])
+        Y=np.rint(solutions.reshape(-1,2)[:,1])
+        try:
+            Z=np.diag(self.problem.iloc[X,Y])
+        except:
+            Z=self.problem.iloc[X,Y]
+        return Z
+
 
 def main() -> None:
 

@@ -17,6 +17,7 @@ def get_val(string):
         except:
             pass
     return value
+    
 def get_map(map):
     path=os.getcwd()
     file=open(path+"\\problem\\"+map+".ASC",'r')

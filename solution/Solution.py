@@ -4,12 +4,18 @@ class Solution():
     def __init__(self) -> np.ndarray:
         """Initialize an empty array of solutions"""
 
-        self.sol=np.array([0,0],dtype=float)
+        self.sol=np.array([[0,0]], dtype=float) #//modificar urgent
 
-    def init_solution(self, x: int, y: int) -> np.ndarray:
+    def init_solution(self, x: int, y: int, boundaries: dict) -> np.ndarray:
         """Generate a random array of solutions"""
 
-        sol = uniform(-1,1,(x,y))*10
+        self.x_min = boundaries["x_min"]
+        self.x_max = boundaries["x_max"]
+        self.y_min = boundaries["y_min"]
+        self.y_max = boundaries["y_max"]
+        sol_x = uniform(self.x_min,self.x_max, size = (x,1))
+        sol_y = uniform(self.y_min,self.y_max, size = (x,1))
+        sol = np.append(sol_x, sol_y, axis = 1)
         return sol
 
     def generate_from(
@@ -21,14 +27,18 @@ class Solution():
         """Generate a random array of solutions arround every given solution"""
 
         number_sol=sol.shape[0]
-        dimn=sol.shape[1]
-        solutions=np.zeros((number_sol,int(new_solutions),dimn),dtype=float)
+        dimn = sol.shape[1]
+        solutions = np.zeros((number_sol,int(new_solutions),dimn),dtype = float)
         for x in range(number_sol):
-            solutions[x]=sol[x]+sol[x]*entrophy
+            solutions[x] = sol[x] + entrophy
+        solutions[:,:,0] = np.clip(solutions[:,:,0],self.x_min,self.x_max-1)
+        solutions[:,:,1] = np.clip(solutions[:,:,1],self.y_min,self.y_max-1)
         return solutions
 
     def update_sol(self, solutions: np.ndarray, slopes: np.ndarray) -> np.ndarray:
         """Update a solution according to a rate of change"""
 
-        solutions=solutions+slopes
-        return(solutions)
+        solutions = solutions+slopes
+        solutions[:,0] = np.clip(solutions[:,0],self.x_min,self.x_max-1)
+        solutions[:,1] = np.clip(solutions[:,1],self.y_min,self.y_max-1)
+        return solutions
