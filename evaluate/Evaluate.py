@@ -99,14 +99,14 @@ class Evaluate():
 
     def analysis(self):
         """Print statistical analysis of Metaheuristics' performance"""
-        
+
         fit_index=self.best_index(self.results[:,:,2],axis=1)
         global_fit=self.best_index(self.results[range(len(self.metas)),fit_index,:][:,2])
         print("______________________________")
         print("\tAnalysis")
         print("______________________________")
         print("Best solution:\t",self.results[global_fit,fit_index[global_fit],2])
-        print("At:\ positiontion x,y",self.results[global_fit,fit_index[global_fit],0:2] ) ## fix x,y pos
+        print("At:\ positiontion x,y",self.results[global_fit,fit_index[global_fit],::-1] ) ## fix x,y pos
         print("______________________________")
         print(f"{'Metaheuristic':^15}\t"
                 f"{'Best solution':^15}\t"
