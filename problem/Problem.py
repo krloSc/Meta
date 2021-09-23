@@ -74,10 +74,10 @@ class RasterProblem(Problem):
             return digit[1]
 
     def get_values_from_file(self) -> None:
-        """Get raster data values from ASC files"""
+        """Get raster data values from .asc files"""
 
         path=os.getcwd()
-        file=open(path+"/problem/"+self.name+".ASC",'r')
+        file=open(path+"/problem/"+self.name+".asc",'r')
         lst=file.read().split('\n')
         self.columns=self.get_digit(lst[0])
         self.rows=self.get_digit(lst[1])
@@ -86,7 +86,7 @@ class RasterProblem(Problem):
         self.cellsize=self.get_digit(lst[4])
         self.nondata=self.get_digit(lst[5])
         file.close()
-        self.problem = pd.read_csv(path+"/problem/"+"PVOUT.ASC",
+        self.problem = pd.read_csv(path+"/problem/"+"PVOUT.asc",
                                     skiprows=6,
                                     encoding="gbk",
                                     engine='python',
