@@ -118,7 +118,6 @@ class Ga():
         mutated = mutated.reshape(1,-1,2)
         self.solution_update(mutated, solution)
 
-
         return
 
 
