@@ -13,7 +13,7 @@ class Fwa():
             print(__class__.__name__)
             try:
                 path=os.getcwd()
-                file=open(path+"\\Metaheuristics\\"+__class__.__name__+".param",'r')
+                file=open(path+"/Metaheuristics/"+__class__.__name__+".param",'r')
                 lst=file.read().split('\n')
                 self.parameters=eval(lst[0])
 
