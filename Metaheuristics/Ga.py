@@ -80,15 +80,8 @@ class Ga():
         offspring_fitness = self.individual_fitness(offspring, offspring.shape[0])
         if self.comparator(offspring_fitness, self.worst(current_fitness)):
             index = np.argsort(current_fitness)[0]
-            #input(index)
-            #print("previous")
-            #print(solution)
-            #print(current_fitness)
             current_fitness[index] = offspring_fitness
             solution[index] = offspring
-            #print("update:")
-            #print(solution)
-            #input(current_fitness)
 
         return
 
@@ -113,15 +106,8 @@ class Ga():
         max_index = parent.shape[0]
         genes = np.random.choice(range(max_index), max_genes, replace=False)
         mutated = parent.copy()
-        #print("Mutation")
-        #print(max_genes)
-        #print(genes)
-        #input(parent)
         for i in genes:
             mutated[i] = sol.generate_single(parent[i], randomness)
-        #print("mutated")
-        #input(mutated)
-        #print("---------------mutation update---------------")
         mutated = mutated.reshape(1,-1,2)
         self.solution_update(mutated, solution)
 
@@ -143,8 +129,6 @@ class Ga():
         generations = self.parameters.get("generations", 10)
         self.rows = self.size[0]
         columns = self.size[1]
-
-
         elite = np.array([])
 
         for i in range(generations):
@@ -154,6 +138,7 @@ class Ga():
 
             fitness = self.individual_fitness(solution, solution.shape[0])
             random_amount = randomness
+
             while random_amount > rnd_thold:
                 index_a, index_b= self.parents_selection(np.argsort(fitness[::self.order])) #take a look on this
                 parent_a = solution[index_a]
@@ -161,10 +146,13 @@ class Ga():
                 self.recombination(parent_a, parent_b, solution)
                 self.mutation(parent_a, max_mut_genes, randomness, solution) #probably the best cromosome
                 random_amount *= 0.95
+
             elite = solution[np.argsort(fitness[:-4:-1])] #elite size
+
         best = solution[self.best_index(fitness)].reshape(-1,2)
         fit = problem.eval_fitness_function(best)
         best_gene = best[self.best_index(fit)]
         best_gene_fit = problem.eval_fitness_function(best_gene)
         self.time_taken = (time.time()-initime)
+
         return best_gene, best_gene_fit
