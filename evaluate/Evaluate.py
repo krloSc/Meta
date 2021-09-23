@@ -74,6 +74,7 @@ class Evaluate():
                         alpha=1,
                         zorder=1
                         )
+
         ax.legend()
         plt.show()
         return
@@ -93,6 +94,13 @@ class Evaluate():
                         alpha=1,
                         zorder=1
                         )
+        #ax.scatter(
+        #            self.problem.sub_stations[:,0],
+        #            self.problem.sub_stations[:,1],
+        #            alpha=0.5,
+        #            zorder=1,
+        #            color = 'r'
+        #            )
         ax.legend()
         plt.show()
         return

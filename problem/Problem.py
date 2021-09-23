@@ -62,6 +62,8 @@ class SpaceProblem(Problem):
 class RasterProblem(Problem):
     """Space problem definition"""
 
+    sub_stations = np.random.randint(600,1200,(50,2))
+
     def get_digit(self, doc_line: str) -> int:
         """ return the first digit found in a string"""
 
@@ -70,8 +72,7 @@ class RasterProblem(Problem):
             return float(digit[0])
         except:
             # in case nondata value is not a number
-            digit = doc_line.split()
-            return digit[1]
+            return np.NaN
 
     def get_values_from_file(self) -> None:
         """Get raster data values from ASC files"""
@@ -88,7 +89,7 @@ class RasterProblem(Problem):
         file.close()
         self.problem = pd.read_csv(path+"\\problem\\"+"PVOUT.ASC",
                                     skiprows=6,
-                                    encoding="gbk",
+                                    encoding="UTF-8",
                                     engine='python',
                                     sep=' ',
                                     delimiter=None,
@@ -98,7 +99,7 @@ class RasterProblem(Problem):
                                     )
 
         self.problem = self.problem[::-1]
-        self.problem = self.problem.replace(np.NaN,0) #//cambiar
+        self.problem = self.problem.replace(self.nondata,0)
         self.boundaries = {
                             "x_min" : 0,
                             "x_max" : self.rows-1,
@@ -109,12 +110,24 @@ class RasterProblem(Problem):
 
     def eval_fitness_function(self, solutions: np.ndarray) -> np.ndarray:
         """Evaluate the problem's fitness function"""
+
+        solutions = solutions.reshape(-1,2)
         X=np.rint(solutions.reshape(-1,2)[:,0])
         Y=np.rint(solutions.reshape(-1,2)[:,1])
         try:
             Z=np.diag(self.problem.iloc[X,Y])
         except:
             Z=self.problem.iloc[X,Y]
+
+        delta_x = np.zeros((solutions.shape[0],self.sub_stations.shape[0]))
+        delta_y = np.zeros((solutions.shape[0],self.sub_stations.shape[0]))
+        for i in range(solutions.shape[0]):
+            delta_x[i] = solutions[i,0] - self.sub_stations[:,0]
+            delta_y[i] = solutions[i,1] - self.sub_stations[:,1]
+        del_x = delta_x**2
+        del_y = delta_y**2
+        distance = np.sqrt(del_x + del_y)
+        Z = Z #- np.min(distance, axis = 1)/10
         return Z
 
 

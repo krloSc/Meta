@@ -10,7 +10,6 @@ class Fwa():
 
     def __init__(self,size, optimization: OptimizationType, parameters={}):
         if parameters=={}:
-            print(__class__.__name__)
             try:
                 path=os.getcwd()
                 file=open(path+"\\Metaheuristics\\"+__class__.__name__+".param",'r')

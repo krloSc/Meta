@@ -6,15 +6,15 @@ class Solution():
 
         self.sol=np.array([[0,0]], dtype=float) #//modificar urgent
 
-    def init_solution(self, x: int, y: int, boundaries: dict) -> np.ndarray:
+    def init_solution(self, rows: int, columns: int, boundaries: dict) -> np.ndarray:
         """Generate a random array of solutions"""
 
         self.x_min = boundaries["x_min"]
         self.x_max = boundaries["x_max"]
         self.y_min = boundaries["y_min"]
         self.y_max = boundaries["y_max"]
-        sol_x = uniform(self.x_min,self.x_max, size = (x,1))
-        sol_y = uniform(self.y_min,self.y_max, size = (x,1))
+        sol_x = uniform(self.x_min,self.x_max, size = (rows,1))
+        sol_y = uniform(self.y_min,self.y_max, size = (rows,1))
         sol = np.append(sol_x, sol_y, axis = 1)
         return sol
 
@@ -34,6 +34,13 @@ class Solution():
         solutions[:,:,0] = np.clip(solutions[:,:,0],self.x_min,self.x_max-1)
         solutions[:,:,1] = np.clip(solutions[:,:,1],self.y_min,self.y_max-1)
         return solutions
+
+    def generate_single(self, origin, randomness = 1):
+
+        solution = origin + np.random.rand(2)*randomness
+        solution[0] = np.clip(solution[0],self.x_min,self.x_max-1)
+        solution[1] = np.clip(solution[1],self.y_min,self.y_max-1)
+        return solution
 
     def update_sol(self, solutions: np.ndarray, slopes: np.ndarray) -> np.ndarray:
         """Update a solution according to a rate of change"""

@@ -55,7 +55,7 @@ class Pso():
         velocity = velocity.reshape(-1,self.solution.shape[1])
         best_sol = self.solution
 
-        for i in range(50):
+        for i in range(500):
 
             r1 = uniform(0,1,self.solution.shape[0]).reshape(-1,1)
             r2 = uniform(0,1,self.solution.shape[0]).reshape(-1,1)
