@@ -40,6 +40,7 @@ class Ga():
         return
 
     def individual_fitness(self, solution: np.ndarray, rows) -> np.ndarray:
+        """Obtain the fitness of a entire cromosome perfoming a sum of every gene's fitness in it"""
 
         fitness = self.problem.eval_fitness_function(solution.reshape(-1,2))
         fitness = np.sum(fitness.reshape(rows,-1), axis = 1)
@@ -60,8 +61,9 @@ class Ga():
                 break
         return parent_a, parent_b
 
-    def generate_individuals(self, columns, elite):
-        """Hay que agregar los elite y adaptarse al tamaño dado"""
+    def generate_individuals(self, columns: np.ndarray, elite: np.ndarray):
+        """Generate a set of cromosomes including elites from previous generations"""
+
         cromosome_len = self.parameters.get("cromosome_len", 4) #cromosome size
         solution = sol.init_solution(self.rows, columns, self.problem.boundaries)
         for i in range(cromosome_len-1): #number of solution per cromosome
@@ -74,8 +76,9 @@ class Ga():
                 self.solution_update(elite[i].reshape(1,-1,2), solution)
         return solution
 
-    def solution_update(self, offspring, solution) -> None:
-        """Hace super check con respecto al size ####################### ojooooooo"""
+    def solution_update(self, offspring: np.ndarray, solution: np.ndarray) -> None:
+        """Update the solution if the new cromosme is better than the worst"""
+
         current_fitness = self.individual_fitness(solution, solution.shape[0])
         offspring_fitness = self.individual_fitness(offspring, offspring.shape[0])
         if self.comparator(offspring_fitness, self.worst(current_fitness)):
@@ -85,8 +88,12 @@ class Ga():
 
         return
 
-    def recombination(self, parent_a, parent_b, solution) -> None:
+    def recombination(
+            self, parent_a: np.ndarray,
+            parent_b: np.ndarray,
+            solution: np.ndarray) -> None:
         """perform a recombination process to produce a new offspring"""
+
         max_index =  parent_a.shape[0]
         index = np.random.randint(1,max_index)
         child = np.concatenate((parent_a[:index], parent_b[index:]), axis = 0)
@@ -145,7 +152,7 @@ class Ga():
                 parent_b = solution[index_b]
                 self.recombination(parent_a, parent_b, solution)
                 self.mutation(parent_a, max_mut_genes, randomness, solution) #probably the best cromosome
-                random_amount *= 0.95
+                random_amount *= 0.90
 
             elite = solution[np.argsort(fitness[:-4:-1])] #elite size
 
