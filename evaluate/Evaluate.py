@@ -3,6 +3,9 @@ from Metaheuristics import *
 import numpy as np
 import matplotlib.pyplot as plt
 from math import floor
+from datetime import datetime
+import os
+
 class Evaluate():
 
     def __init__(self):
@@ -24,19 +27,17 @@ class Evaluate():
         self.fitness=np.ones((epoch,len(self.metas)), dtype = float)
         self.results=np.ones((len(metas),epoch,3), dtype = float)
         porc=epoch*len(self.metas)
-        p=0
 
         for i in range(epoch):
             n=0
-            for meta, j in zip(self.metas,range(len(self.metas))): #ennumerate
+            for j, meta in enumerate(metas): #ennumerate
                 resul,fit=meta.run(problem)
                 position[i,n:n+2]=resul
                 self.results[j,i,0:2]=resul
                 self.fitness[i,j]=fit
                 self.results[j,i,2]=fit
                 n=n+2
-                print(f"{p*100/porc:.2f}%")
-                p=p+1
+                print(f"Running {meta.__class__.__name__:} {i+1}/{epoch}")
 
         self.position = position
         print("______________________________")
@@ -100,19 +101,30 @@ class Evaluate():
     def analysis(self):
         """Print statistical analysis of Metaheuristics' performance"""
 
+        date = datetime.today()
+        path = os.getcwd()
+        file_name = (str(date.year)
+                +"_"+str(date.month)
+                +"_"+str(date.day)
+                +"_"+str(date.hour)
+                +str(date.minute)
+                +str(date.second)
+                +"_"+"log")
+        print(path)
+        file = open(path+"/results/"+file_name+".txt","w+")
         fit_index=self.best_index(self.results[:,:,2],axis=1)
         global_fit=self.best_index(self.results[range(len(self.metas)),fit_index,:][:,2])
-        print("______________________________")
-        print("\tAnalysis")
-        print("______________________________")
-        print("Best solution:\t",self.results[global_fit,fit_index[global_fit],2])
-        print("At:\ positiontion x,y",self.results[global_fit,fit_index[global_fit],::-1] ) ## fix x,y pos
-        print("______________________________")
-        print(f"{'Metaheuristic':^15}\t"
+        file.write("______________________________")
+        file.write("\tAnalysis")
+        file.write("______________________________\n")
+        file.write(f"Best solution:\t{self.results[global_fit,fit_index[global_fit],2]}\n")
+        file.write(f"At:\ positiontion x,y{self.results[global_fit,fit_index[global_fit],::-1]}\n") ## fix x,y pos
+        file.write("____________________________________________________________________\n")
+        file.write(f"{'Metaheuristic':^15}\t"
                 f"{'Best solution':^15}\t"
                 f"{'Std':^15}\t"
                 f"{'Error(mean)':^15}\t"
-                f"{'Time taken':^15}")
+                f"{'Time taken':^15}\n")
 
         for i in range(len(self.metas)):
             index=self.best_index(self.results[i,:,2]) #Menor entre cada epoch
@@ -123,10 +135,16 @@ class Evaluate():
             std=np.std(self.results[i,:,2])
             error=np.abs(np.mean(self.results[i,:,2])-global_fit)
             time=self.metas[i].time_taken
-            print(f'{name:^15.13}\t'
+            file.write(f'{name:^15.13}\t'
                     f'{best_sol:^15.4e}\t'
                     f'{std:^15.4e}\t'
                     f'{error:^15.4f}\t'
-                    f'{time:>8.4f} sec'
+                    f'{time:>8.4f} sec\n'
                     )
+        file.close()
+        file = open(path+"/results/"+file_name+".txt","r+")
+        text_result = file.read().split("\n")
+        for lines in text_result:
+            print(lines)
+        file.close()
         return

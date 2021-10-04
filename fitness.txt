@@ -1,0 +1,29 @@
+peak_power = 3000kwp
+Isi (costo implementacion)= $1250/kwp
+powerline_cost= aprox 177000 por km (69kv)
+distance = variable
+life_span = 25
+nominal_discount_rate = 0.08
+inflation_rate = 0.05
+loan_duration = 10
+loan_interest = 0.09
+selling_price = 0.15
+energy_sold = 4500000 #justificar valor produccion anual
+actual_discount_rate = (nominal_discount_rate-inflation_rante)/(1+inflation_rate)
+ki = 1/(1+actual_discount_rate)
+kg = (1+inflation_rate)/(1+actual_discount_rate)
+maintenance = 14*peak_power
+maintenance_increase_rate =0.01
+kmo = (1+maintenance_increase_rate)/(1+actual_discount_rate)
+
+investment = implementation_cost*peak_power + distance*powerline_cost
+
+annual_payment = 0.8*investment*((loan_interest*(1+loan_interest)**loan_duration)/(((1+loan_interest)**loan_duration)-1))
+
+present_value = 0.2*investment + annual_payment*((ki*(1-ki)**life_span)/(1-ki**life_span))
+
+present_income = selling_price*energy_sold*((kg*(1-kg**life_span)/(1-kg))
+
+present_cashout = maintenance*((1-kmo**life_span)/(1-kmo))
+
+net_value = present_income - present_cashout - present_value

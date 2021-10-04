@@ -10,15 +10,9 @@ sol=Solution()
 class Pso():
 
     def __init__(self,size, optimization: OptimizationType, parameters={}):
-        if parameters==[]:
-            try:
-                path=os.getcwd()
-                file=open(path+"/Metaheuristics/"+self.__class__.__name__+".param",'r')
-                lst=file.read().split('\n')
-                parameters=eval(lst[0])
 
-            except:
-                print("Parameters not found")
+        if type(parameters) == str:
+            parameters = param.get_parameters(parameters)
         self.size = size
         self.parameters=parameters
 

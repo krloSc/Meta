@@ -9,19 +9,13 @@ sol=Solution()
 class Fwa():
 
     def __init__(self,size, optimization: OptimizationType, parameters={}):
-        if parameters=={}:
-            print(__class__.__name__)
-            try:
-                path=os.getcwd()
-                file=open(path+"/Metaheuristics/"+__class__.__name__+".param",'r')
-                lst=file.read().split('\n')
-                self.parameters=eval(lst[0])
 
-            except:
-                print("Parameters not found")
-                self.parameters=parameters
+        if type(parameters) == str:
+            parameters = param.get_parameters(parameters)
 
         self.size = size
+        self.parameters=parameters
+
         if optimization == OptimizationType.MINIMIZATION:
             self.comparator = np.less
             self.better_index = np.argmin
@@ -48,9 +42,9 @@ class Fwa():
 
     def run(self,problem):
         self.solution=sol.init_solution(self.size[0],self.size[1], problem.boundaries)
-        e=self.parameters.get("e")
-        s_hat=self.parameters.get("s_hat")
-        a_hat=self.parameters.get("a_hat")
+        e=self.parameters.get("e",0.001)
+        s_hat=self.parameters.get("s_hat",100)
+        a_hat=self.parameters.get("a_hat",10)
         fitness_list = problem.eval_fitness_function(self.solution)
         best=self.best_value(fitness_list)
         worst=self.worst(fitness_list)
