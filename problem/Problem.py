@@ -110,12 +110,55 @@ class RasterProblem(Problem):
 
     def eval_fitness_function(self, solutions: np.ndarray) -> np.ndarray:
         """Evaluate the problem's fitness function"""
+
+        solutions = solutions.reshape(-1,2)
         X=np.rint(solutions.reshape(-1,2)[:,0])
         Y=np.rint(solutions.reshape(-1,2)[:,1])
         try:
             Z=np.diag(self.problem.iloc[X,Y])
         except:
             Z=self.problem.iloc[X,Y]
+
+        delta_x = np.zeros((solutions.shape[0],self.sub_stations.shape[0]))
+        delta_y = np.zeros((solutions.shape[0],self.sub_stations.shape[0]))
+        for i in range(solutions.shape[0]):
+            delta_x[i] = solutions[i,0] - self.sub_stations[:,0]
+            delta_y[i] = solutions[i,1] - self.sub_stations[:,1]
+        del_x = delta_x**2
+        del_y = delta_y**2
+
+        peak_power = 3000 #kwp
+        implementation_cost = 1250 # $/kwp
+        powerline_cost = 177000 # aprox per km (69kv)
+        life_span = 25
+        distance = np.sqrt(del_x + del_y) #Unit? Coger la minima
+        nominal_discount_rate = 0.08
+        inflation_rate = 0.05
+        loan_duration = 10
+        loan_interest = 0.09
+        selling_price = 0.15
+        energy_sold = 4500000 #justificar valor produccion anual
+        actual_discount_rate = (nominal_discount_rate-inflation_rante)/(1+inflation_rate)
+        ki = 1/(1+actual_discount_rate)
+        kg = (1+inflation_rate)/(1+actual_discount_rate)
+        maintenance = 14*peak_power
+        maintenance_increase_rate =0.01
+        kmo = (1+maintenance_increase_rate)/(1+actual_discount_rate)
+
+        investment = implementation_cost*peak_power + distance*powerline_cost
+
+        annual_payment = 0.8*investment*((loan_interest*(1+loan_interest)**loan_duration)/(((1+loan_interest)**loan_duration)-1))
+
+        present_value = 0.2*investment + annual_payment*((ki*(1-ki)**life_span)/(1-ki**life_span))
+
+        present_income = selling_price*energy_sold*(kg*(1-kg**life_span)/(1-kg))
+
+        present_cashout = maintenance*((1-kmo**life_span)/(1-kmo))
+
+        net_value = present_income - present_cashout - present_value
+
+
+        Z = net_value
         return Z
 
 
