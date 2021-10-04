@@ -131,14 +131,14 @@ class RasterProblem(Problem):
         implementation_cost = 1250 # $/kwp
         powerline_cost = 177000 # aprox per km (69kv)
         life_span = 25
-        distance = np.sqrt(del_x + del_y) #Unit? Coger la minima
+        distance =np.min(np.sqrt(del_x + del_y), axis = 1) #Unit? Coger la minima
         nominal_discount_rate = 0.08
         inflation_rate = 0.05
         loan_duration = 10
         loan_interest = 0.09
         selling_price = 0.15
         energy_sold = 4500000 #justificar valor produccion anual
-        actual_discount_rate = (nominal_discount_rate-inflation_rante)/(1+inflation_rate)
+        actual_discount_rate = (nominal_discount_rate-inflation_rate)/(1+inflation_rate)
         ki = 1/(1+actual_discount_rate)
         kg = (1+inflation_rate)/(1+actual_discount_rate)
         maintenance = 14*peak_power
