@@ -3,7 +3,6 @@ import os
 def get_parameters(file_name):
     try:
         path=os.getcwd()
-        print(path)
         file=open(path+"/Metaheuristics/parameters/"+file_name+".param",'r')
         lst=file.read().split('\n')
         parameters = dict()
@@ -16,7 +15,6 @@ def get_parameters(file_name):
             else:
                 value = int(value)
             parameters[parameter] = value
-        print(parameters)
 
     except:
         print("Parameters file not found - Using default values")

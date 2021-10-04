@@ -62,6 +62,7 @@ class SpaceProblem(Problem):
 class RasterProblem(Problem):
     """Space problem definition"""
 
+    sub_stations = np.random.randint(600,1200,(50,2))
     def get_digit(self, doc_line: str) -> int:
         """ return the first digit found in a string"""
 
