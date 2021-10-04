@@ -136,8 +136,8 @@ class RasterProblem(Problem):
         inflation_rate = 0.05
         loan_duration = 10
         loan_interest = 0.09
-        selling_price = 0.15
-        energy_sold = 4500000 #justificar valor produccion anual
+        selling_price = 0.3
+        energy_sold = peak_power * Z*365 #justificar valor produccion anual
         actual_discount_rate = (nominal_discount_rate-inflation_rate)/(1+inflation_rate)
         ki = 1/(1+actual_discount_rate)
         kg = (1+inflation_rate)/(1+actual_discount_rate)
@@ -157,9 +157,7 @@ class RasterProblem(Problem):
 
         net_value = present_income - present_cashout - present_value
 
-
-        Z = net_value
-        return Z
+        return net_value
 
 
 def main() -> None:
