@@ -136,7 +136,7 @@ class RasterProblem(Problem):
         inflation_rate = 0.05
         loan_duration = 10
         loan_interest = 0.09
-        selling_price = 0.3
+        selling_price = 0.23
         energy_sold = peak_power * Z*365 #justificar valor produccion anual
         actual_discount_rate = (nominal_discount_rate-inflation_rate)/(1+inflation_rate)
         ki = 1/(1+actual_discount_rate)

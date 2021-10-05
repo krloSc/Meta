@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from math import floor
 from datetime import datetime
 import os
+from util.map import map
 
 class Evaluate():
 
@@ -13,6 +14,11 @@ class Evaluate():
 
     def eva (self,metas,problem,epoch=5):
         """Obtain an array of results and print the best solutions"""
+
+        self.x_min = problem.boundaries["y_min"]
+        self.x_max = problem.boundaries["y_max"]
+        self.y_min = problem.boundaries["x_min"]
+        self.y_max = problem.boundaries["x_max"]
 
         if problem.optimization_type == OptimizationType.MINIMIZATION:
             self.best_value = min
@@ -56,12 +62,8 @@ class Evaluate():
     def visual(self) -> None:
         """Visual output for Space-like problems"""
 
-        x_min = self.problem.boundaries["y_min"]
-        x_max = self.problem.boundaries["y_max"]
-        y_min = self.problem.boundaries["x_min"]
-        y_max = self.problem.boundaries["x_max"]
-        X = np.arange(x_min, x_max, 0.1)
-        Y = np.arange(y_min, y_max, 0.1)
+        X = np.arange(self.x_min, self.x_max, 0.1)
+        Y = np.arange(self.y_min, self.y_max, 0.1)
         X,Y=np.meshgrid(X,Y)
         Z=eval(self.problem.problem)
         fig,ax=plt.subplots(1,1)
@@ -119,7 +121,7 @@ class Evaluate():
                 +str(date.minute)
                 +str(date.second)
                 +"_"+"log")
-        print(path)
+
         file = open(path+"/results/"+file_name+".txt","w+")
         fit_index=self.best_index(self.results[:,:,2],axis=1)
         global_fit=self.best_index(self.results[range(len(self.metas)),fit_index,:][:,2])
@@ -127,7 +129,14 @@ class Evaluate():
         file.write("\tAnalysis")
         file.write("______________________________\n")
         file.write(f"Best solution:\t{self.results[global_fit,fit_index[global_fit],2]}\n")
-        file.write(f"At:\ positiontion x,y{self.results[global_fit,fit_index[global_fit],::-1]}\n") ## fix x,y pos
+        x_position = self.results[global_fit,fit_index[global_fit]][1]
+        y_position = self.results[global_fit,fit_index[global_fit]][0]
+
+        if isinstance(self.problem, RasterProblem):
+            x_position = map(x_position,self.x_min, self.x_max, -74.00000, -59.000006)
+            y_position = map(y_position,self.y_min, self.y_max, 0.0000, 12.9999950)
+
+        file.write(f"At: {x_position, y_position}\n") #lat & long
         file.write("____________________________________________________________________\n")
         file.write(f"{'Metaheuristic':^15}\t"
                 f"{'Best solution':^15}\t"
@@ -150,8 +159,7 @@ class Evaluate():
                     f'{error:^15.4f}\t'
                     f'{time:>8.4f} sec\n'
                     )
-        file.close()
-        file = open(path+"/results/"+file_name+".txt","r+")
+        file.seek(0,0) # set the pointer to the begining
         text_result = file.read().split("\n")
         for lines in text_result:
             print(lines)

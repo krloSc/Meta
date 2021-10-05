@@ -18,7 +18,7 @@ metas = [   pso,
             fireworks
         ]
 
-evaluate.eva(metas,problem,5)
+evaluate.eva(metas,problem,2)
 evaluate.analysis()
 evaluate.visual_raster()
 input("Press Enter key to exit...")
