@@ -12,7 +12,7 @@ class Fwa():
 
         if type(parameters) == str:
             parameters = param.get_parameters(parameters)
-
+        self.lines = []
         self.size = size
         self.parameters=parameters
 
@@ -73,6 +73,7 @@ class Fwa():
             best=self.best_value(problem.eval_fitness_function(solutions))
             worst=self.worst(problem.eval_fitness_function(solutions))
             best_spark=solutions[bindex].reshape(1,-1)
+            self.lines.append(problem.eval_fitness_function(best_spark))
             solutions=np.delete(solutions,bindex,0)
             n_minus=Fwa.nfire(solutions)
             self.solution=np.concatenate((best_spark,n_minus))

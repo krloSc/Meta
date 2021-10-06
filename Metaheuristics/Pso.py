@@ -13,6 +13,7 @@ class Pso():
 
         if type(parameters) == str:
             parameters = param.get_parameters(parameters)
+        self.lines = []
         self.size = size
         self.parameters=parameters
 
@@ -64,7 +65,7 @@ class Pso():
             current_fitness = problem.eval_fitness_function(self.solution)
             current_best_fitness = self.best_value(current_fitness)
             best_particle_fitness = problem.eval_fitness_function(best_particle)
-
+            self.lines.append(best_particle_fitness)
             if self.comparator(current_best_fitness, best_particle_fitness):
                 best_particle=self.solution[self.better_index(current_fitness)]
 

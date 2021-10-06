@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import Enum, auto
+from util import map
 import numpy as np
 import pandas as pd
 import os
@@ -61,18 +62,26 @@ class SpaceProblem(Problem):
 
 class RasterProblem(Problem):
     """Space problem definition"""
+    path = os.getcwd()
+    file = open(path+"/problem/sub_stations.txt","r")
+    sub_stations = np.array(file.read().split())
+    sub_stations = sub_stations.astype(np.float)
+    sub_stations = sub_stations.reshape(-1,2)
 
-    sub_stations = np.random.randint(600,1200,(50,2))
     def get_digit(self, doc_line: str) -> int:
         """ return the first digit found in a string"""
 
         try:
-            digit = [value for value in re.findall(r'-?\d+', doc_line)]
-            return float(digit[0])
+            value = re.search('([0-9]|-).*',doc_line).group()
         except:
-            # in case nondata value is not a number
-            digit = doc_line.split()
-            return digit[1]
+            return re.search('\w*$',doc_line).group()
+
+        if value.find(".") != -1: #if value has a decimal point
+            value = float(value)
+        else:
+            value = int(value)
+
+        return value
 
     def get_values_from_file(self) -> None:
         """Get raster data values from .asc files"""
@@ -87,6 +96,7 @@ class RasterProblem(Problem):
         self.cellsize=self.get_digit(lst[4])
         self.nondata=self.get_digit(lst[5])
         file.close()
+
         self.problem = pd.read_csv(path+"/problem/"+"PVOUT.asc",
                                     skiprows=6,
                                     encoding="gbk",
@@ -119,19 +129,17 @@ class RasterProblem(Problem):
         except:
             Z=self.problem.iloc[X,Y]
 
-        delta_x = np.zeros((solutions.shape[0],self.sub_stations.shape[0]))
-        delta_y = np.zeros((solutions.shape[0],self.sub_stations.shape[0]))
-        for i in range(solutions.shape[0]):
-            delta_x[i] = solutions[i,0] - self.sub_stations[:,0]
-            delta_y[i] = solutions[i,1] - self.sub_stations[:,1]
-        del_x = delta_x**2
-        del_y = delta_y**2
+        subs_lat, subs_lon = self.sub_stations[:,0],self.sub_stations[:,1]
+        current_lat, current_lon = self.get_coordinates(solutions)
+        distance = []
+        for lat, lon in zip(current_lat, current_lon):
+            distance.append(np.min(map.get_distance(lat, lon, subs_lat, subs_lon)))
 
+        distance = np.array(distance)
         peak_power = 3000 #kwp
         implementation_cost = 1250 # $/kwp
         powerline_cost = 177000 # aprox per km (69kv)
         life_span = 25
-        distance =np.min(np.sqrt(del_x + del_y), axis = 1) #Unit? Coger la minima
         nominal_discount_rate = 0.08
         inflation_rate = 0.05
         loan_duration = 10
@@ -157,7 +165,12 @@ class RasterProblem(Problem):
 
         net_value = present_income - present_cashout - present_value
 
-        return net_value
+        return net_value/1000000
+
+    def get_coordinates(self, solution: np.ndarray) -> np.ndarray:
+        longitude = self.x_left+solution[:,1]*self.cellsize
+        latitude = self.y_below+solution[:,0]*self.cellsize
+        return longitude, latitude
 
 
 def main() -> None:

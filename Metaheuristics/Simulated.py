@@ -12,7 +12,7 @@ class Simulated():
 
         if type(parameters) == str:
             parameters = param.get_parameters(parameters)
-
+        self.lines = []
         self.size = size
         self.parameters=parameters
 
@@ -53,7 +53,8 @@ class Simulated():
                     ann=np.exp(-l/t)
                     if (r<ann):
                         self.solution[i,:]=best_nbr
-
+                fitness_list = problem.eval_fitness_function(self.solution)
+                self.lines.append(self.best_value(fitness_list))
             t=t*delta
             n+=1
         self.time_taken = (time.time()-initime)

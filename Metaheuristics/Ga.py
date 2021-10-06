@@ -16,6 +16,7 @@ class Ga():
         if type(parameters) == str:
             parameters = param.get_parameters(parameters)
 
+        self.lines = []
         self.size = size
         self.parameters=parameters
 
@@ -79,7 +80,9 @@ class Ga():
             index = np.argsort(current_fitness)[0]
             current_fitness[index] = offspring_fitness
             solution[index] = offspring
-
+        #update line:
+        best_index = np.argsort(current_fitness)[-1]
+        self.lines.append(current_fitness[best_index])
         return
 
     def recombination(
@@ -111,8 +114,6 @@ class Ga():
             mutated[i] = sol.generate_single(parent[i], randomness)
         mutated = mutated.reshape(1,-1,2)
         self.solution_update(mutated, solution)
-
-
         return
 
 

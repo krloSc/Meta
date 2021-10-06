@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from math import floor
 from datetime import datetime
 import os
-from util.map import map
+from util import map
 
 class Evaluate():
 
@@ -128,20 +128,23 @@ class Evaluate():
         file.write("______________________________")
         file.write("\tAnalysis")
         file.write("______________________________\n")
-        file.write(f"Best solution:\t{self.results[global_fit,fit_index[global_fit],2]}\n")
+        global_fitness = self.results[global_fit,fit_index[global_fit],2]
+        file.write(f"Best solution:\t{global_fitness}\n")
         x_position = self.results[global_fit,fit_index[global_fit]][1]
         y_position = self.results[global_fit,fit_index[global_fit]][0]
 
         if isinstance(self.problem, RasterProblem):
-            x_position = map(x_position,self.x_min, self.x_max, -74.00000, -59.000006)
-            y_position = map(y_position,self.y_min, self.y_max, 0.0000, 12.9999950)
+            x_position, y_position = self.problem.get_coordinates(np.array([[x_position,y_position]]))
+            x_position = x_position[0]
+            y_position = y_position[0]
 
-        file.write(f"At: {x_position, y_position}\n") #lat & long
+
+        file.write(f"At: {y_position, x_position}\n") #lat & long
         file.write("____________________________________________________________________\n")
         file.write(f"{'Metaheuristic':^15}\t"
                 f"{'Best solution':^15}\t"
                 f"{'Std':^15}\t"
-                f"{'Error(mean)':^15}\t"
+                f"{'Error(mean) respect to best':^24}\t"
                 f"{'Time taken':^15}\n")
 
         for i in range(len(self.metas)):
@@ -151,12 +154,12 @@ class Evaluate():
             y_position=self.results[i,index,1]
             best_sol=self.results[i,index,2]
             std=np.std(self.results[i,:,2])
-            error=np.abs(np.mean(self.results[i,:,2])-global_fit)
+            error=np.abs(np.mean(self.results[i,:,2])-global_fitness)
             time=self.metas[i].time_taken
             file.write(f'{name:^15.13}\t'
-                    f'{best_sol:^15.4e}\t'
+                    f'{best_sol:^15.4}\t'
                     f'{std:^15.4e}\t'
-                    f'{error:^15.4f}\t'
+                    f'{error:^24.4f}\t'
                     f'{time:>8.4f} sec\n'
                     )
         file.seek(0,0) # set the pointer to the begining
