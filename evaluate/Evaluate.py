@@ -134,7 +134,7 @@ class Evaluate():
         y_position = self.results[global_fit,fit_index[global_fit]][0]
 
         if isinstance(self.problem, RasterProblem):
-            x_position, y_position = self.problem.get_coordinates(np.array([[x_position,y_position]]))
+            y_position, x_position = self.problem.get_coordinates(np.array([[x_position,y_position]]))
             x_position = x_position[0]
             y_position = y_position[0]
 

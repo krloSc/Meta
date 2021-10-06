@@ -129,7 +129,7 @@ class RasterProblem(Problem):
         except:
             Z=self.problem.iloc[X,Y]
 
-        subs_lat, subs_lon = self.sub_stations[:,0],self.sub_stations[:,1]
+        subs_lat, subs_lon = self.sub_stations[:,1],self.sub_stations[:,0]
         current_lat, current_lon = self.get_coordinates(solutions)
         distance = []
         for lat, lon in zip(current_lat, current_lon):
@@ -170,7 +170,7 @@ class RasterProblem(Problem):
     def get_coordinates(self, solution: np.ndarray) -> np.ndarray:
         longitude = self.x_left+solution[:,1]*self.cellsize
         latitude = self.y_below+solution[:,0]*self.cellsize
-        return longitude, latitude
+        return latitude, longitude
 
 
 def main() -> None:
