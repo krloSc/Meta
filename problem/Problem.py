@@ -87,7 +87,7 @@ class RasterProblem(Problem):
         """Get raster data values from .asc files"""
 
         path=os.getcwd()
-        file=open(path+"/problem/"+self.name+".asc",'r')
+        file=open(path+"/problem/maps/"+self.name+".asc",'r')
         lst=file.read().split('\n')
         self.columns=self.get_digit(lst[0])
         self.rows=self.get_digit(lst[1])
@@ -97,7 +97,7 @@ class RasterProblem(Problem):
         self.nondata=self.get_digit(lst[5])
         file.close()
 
-        self.problem = pd.read_csv(path+"/problem/"+"PVOUT.asc",
+        self.problem = pd.read_csv(path+"/problem/maps/"+self.name+".asc",
                                     skiprows=6,
                                     encoding="gbk",
                                     engine='python',

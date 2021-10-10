@@ -1,32 +1,13 @@
 from problem.Problem import*
 from solution.Solution import *
+from Metaheuristics.meta import Metaheuristic
 import numpy as np
 from numpy.random import rand,uniform,randint
 import matplotlib.pyplot as plt
 import time
 sol=Solution()
 
-class Fwa():
-
-    def __init__(self,size, optimization: OptimizationType, parameters={}):
-
-        if type(parameters) == str:
-            parameters = param.get_parameters(parameters)
-        self.lines = []
-        self.size = size
-        self.parameters=parameters
-
-        if optimization == OptimizationType.MINIMIZATION:
-            self.comparator = np.less
-            self.better_index = np.argmin
-            self.best_value = min
-            self.worst = max
-        else:
-            self.comparator = np.greater
-            self.better_index = np.argmax
-            self.best_value = max
-            self.worst = min
-        return
+class Fwa(Metaheuristic):
 
     def nfire(solution):
         dist=np.zeros((solution.shape[0],1))
@@ -69,7 +50,7 @@ class Fwa():
                 except:
                     solutions=variable[0]
             solutions=np.concatenate((solutions,self.solution))
-            bindex=self.better_index(problem.eval_fitness_function(solutions))
+            bindex=self.best_index(problem.eval_fitness_function(solutions))
             best=self.best_value(problem.eval_fitness_function(solutions))
             worst=self.worst(problem.eval_fitness_function(solutions))
             best_spark=solutions[bindex].reshape(1,-1)

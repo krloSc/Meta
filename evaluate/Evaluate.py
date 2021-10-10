@@ -86,7 +86,7 @@ class Evaluate():
 
         Z=self.problem.problem.values
         fig,ax=plt.subplots(1,1)
-        ax.contourf(Z,50)
+        ax.contourf(Z,50, cmap = "YlOrBr")
         ax.autoscale(False)
         for i in range(0,2*len(self.metas),2):
             ax.scatter(
@@ -96,7 +96,8 @@ class Evaluate():
                         alpha=1,
                         zorder=1
                         )
-
+#marker=r'$\clubsuit$',
+#s=40,
         ax.scatter(
                     self.problem.sub_stations[:,0],
                     self.problem.sub_stations[:,1],

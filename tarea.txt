@@ -1,0 +1,10 @@
+hill climbing
+ga hibrido
+
+Verificar lo del mapa *
+
+evaluar por regiones *
+
+analizar los resultados de los algortimos y su robustez y que tan cercanos al optimo
+
+analizr los parametros del fitness y ver como afectan

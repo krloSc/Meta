@@ -1,5 +1,6 @@
 import numpy as np
 from numpy.random import randint,rand, uniform
+
 class Solution():
     def __init__(self) -> np.ndarray:
         """Initialize an empty array of solutions"""
