@@ -1,5 +1,6 @@
 from problem.Problem import*
 from Metaheuristics import *
+import math
 import numpy as np
 import matplotlib.pyplot as plt
 from math import floor
@@ -32,16 +33,18 @@ class Evaluate():
         position=np.ones((epoch,2*len(self.metas)))
         self.fitness=np.ones((epoch,len(self.metas)), dtype = float)
         self.results=np.ones((len(metas),epoch,3), dtype = float)
-        porc=epoch*len(self.metas)
+        self.graphs = []
 
         for i in range(epoch):
             n=0
-            for j, meta in enumerate(metas): #ennumerate
+            for j, meta in enumerate(metas):
                 resul,fit=meta.run(problem)
                 position[i,n:n+2]=resul
                 self.results[j,i,0:2]=resul
                 self.fitness[i,j]=fit
                 self.results[j,i,2]=fit
+                self.graphs.append(meta.lines)
+                meta.lines = []
                 n=n+2
                 print(f"Running {meta.__class__.__name__:} {i+1}/{epoch}")
 
@@ -110,7 +113,31 @@ class Evaluate():
         plt.show()
         return
 
-    def analysis(self):
+    def plot_graphs(self):
+        """Plot the fitness for each Metaheuristic"""
+
+        if math.sqrt(len(self.metas)) == int(math.sqrt(len(self.metas))):
+
+            grid = int(math.sqrt(len(self.metas)))
+            fig, axs = plt.subplots(grid,grid)
+
+        elif len(self.metas)%2 == 0:
+
+            fig, axs = plt.subplots(2,int(len(self.metas)/2))
+
+        else:
+
+            fig, axs = plt.subplots(1, int(len(self.metas)))
+
+        for meta, ax, i in zip(self.metas, axs.flatten(), range(len(self.metas))):
+            ax.plot(self.graphs[i])
+            ax.set_title(meta.__class__.__name__, fontsize=8)
+
+        plt.show()
+
+        pass
+
+    def analysis(self, detailed = False):
         """Print statistical analysis of Metaheuristics' performance"""
 
         date = datetime.today()
@@ -149,7 +176,7 @@ class Evaluate():
                 f"{'Time taken':^15}\n")
 
         for i in range(len(self.metas)):
-            index=self.best_index(self.results[i,:,2]) #Menor entre cada epoch
+            index=self.best_index(self.results[i,:,2])
             name=self.metas[i].__class__.__name__
             x_position=self.results[i,index,0]
             y_position=self.results[i,index,1]
@@ -163,6 +190,7 @@ class Evaluate():
                     f'{error:^24.4f}\t'
                     f'{time:>8.4f} sec\n'
                     )
+
         file.seek(0,0) # set the pointer to the begining
         text_result = file.read().split("\n")
         for lines in text_result:
