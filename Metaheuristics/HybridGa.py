@@ -1,14 +1,14 @@
 from solution.Solution import *
 from problem.Problem import*
 import numpy as np
-from numpy.random import rand,uniform
+from numpy.random import rand,uniform, choice, randint
 import matplotlib.pyplot as plt
 import time
 from util import param
 from Metaheuristics.meta import Metaheuristic
 sol=Solution()
 
-class Ga(Metaheuristic):
+class HybridGa(Metaheuristic):
 
 
     def individual_fitness(self, solution: np.ndarray, rows) -> np.ndarray:
@@ -83,28 +83,50 @@ class Ga(Metaheuristic):
             solution: np.ndarray) -> np.ndarray:
 
         """ perform cromosome mutation """
-        max_genes = np.random.randint(1,mut_genes+1)
-        max_index = parent.shape[0]
-        genes = np.random.choice(range(max_index), max_genes, replace=False)
-        mutated = parent.copy()
-        for i in genes:
-            mutated[i] = sol.generate_single(parent[i], randomness)
-        mutated = mutated.reshape(1,-1,2)
-        self.solution_update(mutated, solution)
+
+        mask = self.create_mask(*parent.shape)
+        fitness = self.problem.eval_fitness_function(parent)
+        improved_parent = parent + mask*self.step
+        current_fitness = self.problem.eval_fitness_function(parent)
+        better_index = self.comparator(current_fitness, fitness)
+        if np.any(better_index):
+            parent[better_index] = improved_parent[better_index]
         return
+
+    def select_elites(
+            self,
+            solution: np.ndarray,
+            fitness: np.ndarray) -> np.ndarray:
+        """ Return an array of elites for the next generation"""
+
+        elites = solution[np.argsort(fitness)]
+        if self.order == 1: #MAXIMIZATION
+            elites = elites[::-1]
+
+        return elites[:self.elite_size]
+
+    def create_mask(self, population, dimension):
+
+        mask =  np.zeros((population, dimension))
+        for i in range(population):
+            mask[i] = choice(range(dimension), dimension, replace = False)
+
+        return mask
 
 
     def run(self, problem: Problem) -> tuple:
         """ Run the Ga algorithm and return the best solution and its fitness"""
         initime=time.time()
         self.problem = problem
+        self.step = self.parameters.get("step",3)
         cross_rate = self.parameters.get("cross_rate",0.3)
         mutation_rate = self.parameters.get("mutation_rate",0.7)
         max_mut_genes = self.parameters.get("mut_genes", 3) # must be < total genes
         randomness = self.parameters.get("randomness", 500)
-        decreasing = self.parameters.get("decreasing", 0.8)
+        decreasing_rate = self.parameters.get("decreasing", 0.8)
         rnd_thold = self.parameters.get("rnd_thold", 0.8)
         generations = self.parameters.get("generations", 10)
+        self.elite_size = self.parameters.get("elite_size", 3)
         self.rows = self.size[0]
         columns = self.size[1]
         elite = np.array([])
@@ -118,14 +140,16 @@ class Ga(Metaheuristic):
             random_amount = randomness
 
             while random_amount > rnd_thold:
-                index_a, index_b= self.parents_selection(np.argsort(fitness[::self.order])) #take a look on this
+                index_a, index_b= self.parents_selection(np.argsort(fitness*-self.order)) #take a look on this
                 parent_a = solution[index_a]
                 parent_b = solution[index_b]
-                self.recombination(parent_a, parent_b, solution)
-                self.mutation(parent_a, max_mut_genes, randomness, solution) #probably the best cromosome
-                random_amount *= 0.90
-
-            elite = solution[np.argsort(fitness[:-4:-1])] #elite size
+                if rand() <= cross_rate:
+                    self.recombination(parent_a, parent_b, solution)
+                if rand() <= mutation_rate:
+                    self.mutation(parent_a, max_mut_genes, randomness, solution) #probably the best cromosome
+                random_amount *= decreasing_rate
+            fitness =  self.individual_fitness(solution, solution.shape[0])
+            elite = self.select_elites(solution, fitness)
 
         best = solution[self.best_index(fitness)].reshape(-1,2)
         fit = problem.eval_fitness_function(best)

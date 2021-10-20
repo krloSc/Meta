@@ -21,6 +21,7 @@ class Simulated(Metaheuristic):
         while t>ta:
             n_s=5
             factor=uniform(-1,1,(n_s,self.solution.shape[1]))*100/(0.1*n) #ojoo
+            print(factor)
             neigbours=sol.generate_from(self.solution,n_s,factor)
 
             for i in range(neigbours.shape[0]):

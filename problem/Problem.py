@@ -68,6 +68,10 @@ class RasterProblem(Problem):
     sub_stations = sub_stations.astype(np.float)
     sub_stations = sub_stations.reshape(-1,2)
 
+    #def __post_init__(self):
+    #    self.get_values_from_file()
+    #    return
+
     def get_digit(self, doc_line: str) -> int:
         """ return the first digit found in a string"""
 
@@ -124,6 +128,7 @@ class RasterProblem(Problem):
         solutions = solutions.reshape(-1,2)
         X=np.rint(solutions.reshape(-1,2)[:,0])
         Y=np.rint(solutions.reshape(-1,2)[:,1])
+
         try:
             Z=np.diag(self.problem.iloc[X,Y])
         except:

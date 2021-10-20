@@ -50,3 +50,7 @@ class Solution():
         solutions[:,0] = np.clip(solutions[:,0],self.x_min,self.x_max-1)
         solutions[:,1] = np.clip(solutions[:,1],self.y_min,self.y_max-1)
         return solutions
+
+    def check_boundaries(self,solutions):
+        solutions[:,0] = np.clip(solutions[:,0],self.x_min,self.x_max-1)
+        solutions[:,1] = np.clip(solutions[:,1],self.y_min,self.y_max-1)

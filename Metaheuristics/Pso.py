@@ -13,9 +13,10 @@ class Pso(Metaheuristic):
     def update_velocity(self, prev_velocity, best_sol, best_particle, r1, r2):
 
         velocity = (
-                    0.5*prev_velocity
-                    + r1*0.1*(best_sol-self.solution)
-                    + r2*0.5*(best_particle-self.solution))
+                    0.1*prev_velocity
+                    + r1*1.5*(best_sol-self.solution)
+                    + r2*3*(best_particle-self.solution))
+        #print(velocity)
         return velocity
 
     def run(self,problem):
@@ -33,7 +34,7 @@ class Pso(Metaheuristic):
         velocity = velocity.reshape(-1,self.solution.shape[1])
         best_sol = self.solution
 
-        for i in range(50):
+        for i in range(100):
 
             r1 = uniform(0,1,self.solution.shape[0]).reshape(-1,1)
             r2 = uniform(0,1,self.solution.shape[0]).reshape(-1,1)
