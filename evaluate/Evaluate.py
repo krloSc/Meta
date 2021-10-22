@@ -88,7 +88,7 @@ class Evaluate():
             ax.scatter(
                         self.results[i,:,1],
                         self.results[i,:,0],
-                        label=self.metas[floor(i/2)].__class__.__name__,
+                        label=self.metas[i].__class__.__name__,
                         alpha=1,
                         zorder=1
                         )

@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 problem = RasterProblem("Falcon",OptimizationType.MAXIMIZATION)
 problem.get_values_from_file()
 evaluate = Evaluate.Evaluate()
-parameters = {"to":1500,"ta":0.0001,"delta":0.95}
+parameters = {"to":1000,"ta":0.01,"delta":0.99}
 simulated_one = Simulated.Simulated((1,2),problem, parameters)
 fireworks = Fwa.Fwa((20,2),problem)
 pso = Pso.Pso((100,2),problem,parameters="ga_parameters_v1")
@@ -16,9 +16,8 @@ ga = Ga.Ga((5,2),problem,parameters="ga_parameters_v1")
 hill = Hill.HillClimbing((10,2),problem,parameters="ga_parameters_v1")
 hybrid = HybridGa.HybridGa((5,2),problem,parameters="ga_parameters_v1")
 metas = [
-            pso,
-            ga,
-            hill
+            simulated_one,
+            pso
         ]
 evaluate.eva(metas,problem,5)
 #evaluate.plot_graphs() #alpha

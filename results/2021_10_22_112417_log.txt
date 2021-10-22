@@ -1,0 +1,47 @@
+______________________________	Analysis______________________________
+Best solution:	39.213356944127156
+At: (11.862349144716688, -70.00421951059994)
+____________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	Error(mean) respect to best	  Time taken   
+      Ga       	     36.82     	  0.0000e+00   	         2.3980         	  0.4867 sec
+      Pso      	     39.21     	  0.0000e+00   	         0.0000         	  0.5535 sec
+
+___________________________________ Detailed analysis ___________________________________
+
+Name:                     Ga             
+Best solution:            36.81531       
+Location:                 11.424214892672305	-69.61236641309732
+Number of Ocurrence:      1              
+Mean:                     36.815310012614006
+Standard deviation:       0.0            
+imprecision:              0.0            
+
+       Parameters used        
+cross_rate                0.3            
+mutation_rate             0.7            
+mut_genes                 3              
+randomness                500            
+decreasing                0.8            
+rnd_thold                 0.8            
+generations               10             
+cromosome_len             4              
+_____________________________________________________________________________________
+
+Name:                     Pso            
+Best solution:            39.21336       
+Location:                 11.612447125500049	-69.7543174913833
+Number of Ocurrence:      1              
+Mean:                     39.213356944127156
+Standard deviation:       0.0            
+imprecision:              0.0            
+
+       Parameters used        
+cross_rate                0.3            
+mutation_rate             0.7            
+mut_genes                 3              
+randomness                500            
+decreasing                0.8            
+rnd_thold                 0.8            
+generations               10             
+cromosome_len             4              
+_____________________________________________________________________________________

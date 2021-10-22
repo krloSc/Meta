@@ -16,12 +16,13 @@ class Simulated(Metaheuristic):
         t=self.parameters.get("to",1000)
         ta=self.parameters.get("ta",0.001)
         delta=self.parameters.get("delta",0.99)
-        n=1
+        upper_limit = problem.boundaries["y_max"]
+        slope = (upper_limit-5)/(t-ta)
+        bias = 5-ta*slope
 
         while t>ta:
             n_s=5
-            factor=uniform(-1,1,(n_s,self.solution.shape[1]))*100/(0.1*n) #ojoo
-            print(factor)
+            factor=uniform(-1,1,(n_s,self.solution.shape[1]))*(t*slope+bias) #ojoo
             neigbours=sol.generate_from(self.solution,n_s,factor)
 
             for i in range(neigbours.shape[0]):
@@ -41,7 +42,6 @@ class Simulated(Metaheuristic):
                 fitness_list = problem.eval_fitness_function(self.solution)
                 self.lines.append(self.best_value(fitness_list))
             t=t*delta
-            n+=1
         self.time_taken = (time.time()-initime)
         fitness_list = problem.eval_fitness_function(self.solution)
         best_solution = self.solution[self.best_index(fitness_list)]

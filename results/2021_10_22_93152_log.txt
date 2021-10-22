@@ -1,0 +1,67 @@
+______________________________	Analysis______________________________
+Best solution:	38.578456077527896
+At: (7.987321152526649, -63.31266585951605)
+____________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	Error(mean) respect to best	  Time taken   
+      Pso      	     38.58     	  5.0623e-02   	         0.0627         	  0.5844 sec
+      Ga       	     37.66     	  8.3534e-01   	         2.2233         	  0.5416 sec
+ HillClimbing  	     35.91     	  4.9348e-01   	         3.4651         	  0.4867 sec
+
+___________________________________ Detailed analysis ___________________________________
+
+Name:                     Pso            
+Best solution:            38.57846       
+Location:                 7.662334152483949	-62.98767885947335
+Number of Ocurrence:      1              
+Mean:                     38.51580163474372
+Standard deviation:       0.05062262743604584
+imprecision:              0.04959817154257991
+
+       Parameters used        
+cross_rate                0.3            
+mutation_rate             0.7            
+mut_genes                 3              
+randomness                500            
+decreasing                0.8            
+rnd_thold                 0.8            
+generations               10             
+cromosome_len             4              
+_____________________________________________________________________________________
+
+Name:                     Ga             
+Best solution:            37.65518       
+Location:                 7.535518189669874	-62.77961049577615
+Number of Ocurrence:      1              
+Mean:                     36.35510860955865
+Standard deviation:       0.8353375754430734
+imprecision:              0.7841351681145682
+
+       Parameters used        
+cross_rate                0.3            
+mutation_rate             0.7            
+mut_genes                 3              
+randomness                500            
+decreasing                0.8            
+rnd_thold                 0.8            
+generations               10             
+cromosome_len             4              
+_____________________________________________________________________________________
+
+Name:                     HillClimbing   
+Best solution:            35.9088        
+Location:                 7.338218970374955	-62.701787707640186
+Number of Ocurrence:      1              
+Mean:                     35.113355870570054
+Standard deviation:       0.49347641923738306
+imprecision:              0.4591614610658482
+
+       Parameters used        
+cross_rate                0.3            
+mutation_rate             0.7            
+mut_genes                 3              
+randomness                500            
+decreasing                0.8            
+rnd_thold                 0.8            
+generations               10             
+cromosome_len             4              
+_____________________________________________________________________________________

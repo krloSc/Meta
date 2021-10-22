@@ -156,7 +156,7 @@ class RasterProblem(Problem):
         distance = np.array(distance)
         peak_power = 3000 #kwp
         implementation_cost = 1250 # $/kwp
-        powerline_cost = 177000 # aprox per km (69kv)
+        powerline_cost = 177000*1 # aprox per km (69kv)
         life_span = 25
         nominal_discount_rate = 0.08
         inflation_rate = 0.05
