@@ -30,36 +30,28 @@ class Evaluate():
 
         self.problem = problem
         self.metas=metas
-        position=np.ones((epoch,2*len(self.metas)))
-        self.fitness=np.ones((epoch,len(self.metas)), dtype = float)
         self.results=np.ones((len(metas),epoch,3), dtype = float)
         self.graphs = []
 
         for i in range(epoch):
-            n=0
             for j, meta in enumerate(metas):
+                print(f"Running {meta.__class__.__name__:} {i+1}/{epoch}")
                 resul,fit=meta.run(problem)
-                position[i,n:n+2]=resul
                 self.results[j,i,0:2]=resul
-                self.fitness[i,j]=fit
                 self.results[j,i,2]=fit
                 self.graphs.append(meta.lines)
                 meta.lines = []
-                n=n+2
-                print(f"Running {meta.__class__.__name__:} {i+1}/{epoch}")
 
-        self.position = position
         print("______________________________")
         print("Metaheuristic \t Best Solution")
         print("______________________________")
         self.best_fit = np.ones((len(self.metas),1))
 
         for i in range(len(self.metas)):
-            self.best_fit[i] = self.best_value(self.fitness[:,i])
+            self.best_fit[i] = self.best_value(self.results[i,:,2])
             print(f'{self.metas[i].__class__.__name__:<15}',
             ":\t ",
             f'{self.best_fit[i][0]:^15.13f}')
-
         return
 
     def visual(self) -> None:
@@ -72,10 +64,10 @@ class Evaluate():
         fig,ax=plt.subplots(1,1)
         ax.contourf(X,Y,Z,10)
         ax.autoscale(False)
-        for i in range(0,2*len(self.metas),2):
+        for i in range(len(self.metas)):
             ax.scatter(
-                        self.position[:,i+1],
-                        self.position[:,i],
+                        self.results[i,:,1],
+                        self.results[i,:,0],
                         label=self.metas[floor(i/2)].__class__.__name__,
                         alpha=1,
                         zorder=1
@@ -91,10 +83,11 @@ class Evaluate():
         fig,ax=plt.subplots(1,1)
         ax.contourf(Z,50, cmap = "YlOrBr")
         ax.autoscale(False)
-        for i in range(0,2*len(self.metas),2):
+
+        for i in range(len(self.metas)):
             ax.scatter(
-                        self.position[:,i+1],
-                        self.position[:,i],
+                        self.results[i,:,1],
+                        self.results[i,:,0],
                         label=self.metas[floor(i/2)].__class__.__name__,
                         alpha=1,
                         zorder=1
@@ -102,8 +95,8 @@ class Evaluate():
 #marker=r'$\clubsuit$',
 #s=40,
         ax.scatter(
-                    self.problem.sub_stations[:,0],
-                    self.problem.sub_stations[:,1],
+                    self.problem.sub_stations_index[:,0],
+                    self.problem.sub_stations_index[:,1],
                     alpha=0.5,
                     zorder=1,
                     color = 'w'
@@ -190,6 +183,41 @@ class Evaluate():
                     f'{error:^24.4f}\t'
                     f'{time:>8.4f} sec\n'
                     )
+        if detailed:
+            file.write("\n")
+            file.write(f'{"":_<35} Detailed analysis {"":_>35}\n')
+            for i in range(len(self.metas)):
+                parameters = self.metas[i].parameters
+                fitness = self.results[i,:,2]
+                index=self.best_index(fitness)
+                x_pos=self.results[i,index,0]
+                y_pos=self.results[i,index,1]
+                if isinstance(self.problem, RasterProblem):
+                    x_pos, y_pos = self.problem.get_coordinates(np.array([[x_pos,y_pos]]))
+                    x_pos = x_pos[0]
+                    y_pos = y_pos[0]
+                best_sol=self.results[i,index,2]
+                number_occurrence = np.sum(fitness==best_sol)
+                std = np.std(fitness)
+                mean = np.mean(fitness)
+                imprecision = np.mean(np.abs(fitness-mean))
+
+                file.write("\n")
+                file.write(f'{"Name:":<25} {self.metas[i].__class__.__name__ : <15}\n')
+                file.write(f'{"Best solution:":<25} {best_sol:<15.7}\n')
+                file.write(f'{"Location:":<25} {x_pos:<15}\t{y_pos:<15}\n')
+                file.write(f'{"Number of Ocurrence:":<25} {number_occurrence:<15}\n')
+                file.write(f'{"Mean:":<25} {mean:<15}\n')
+                file.write(f'{"Standard deviation:":<25} {std:<15}\n')
+                file.write(f'{"imprecision:":<25} {imprecision:<15}\n')
+                file.write("\n")
+
+                file.write(f'{"Parameters used":^30}\n')
+                for key, value in zip(parameters.keys(), parameters.values()):
+                    file.write(f'{key:<25} {value:<15}\n')
+
+                file.write(f'{"":_>85}\n')
+
 
         file.seek(0,0) # set the pointer to the begining
         text_result = file.read().split("\n")

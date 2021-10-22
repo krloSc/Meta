@@ -62,15 +62,22 @@ class SpaceProblem(Problem):
 
 class RasterProblem(Problem):
     """Space problem definition"""
-    path = os.getcwd()
-    file = open(path+"/problem/sub_stations.txt","r")
-    sub_stations = np.array(file.read().split())
-    sub_stations = sub_stations.astype(np.float)
-    sub_stations = sub_stations.reshape(-1,2)
+
 
     #def __post_init__(self):
     #    self.get_values_from_file()
     #    return
+
+    def get_indexes(self, sub_stations: np.ndarray) -> np.ndarray:
+
+        xmin = np.array([self.x_left,self.y_below])
+        upper_lon = self.x_left + self.columns*self.cellsize
+        upper_lat = self.y_below + self.rows*self.cellsize
+        xmax = np.array([upper_lon,upper_lat])
+        ymin = np.array([0,0])
+        ymax = np.array([self.columns, self.rows])
+
+        return map.map(sub_stations,xmin,xmax,ymin,ymax)
 
     def get_digit(self, doc_line: str) -> int:
         """ return the first digit found in a string"""
@@ -120,6 +127,12 @@ class RasterProblem(Problem):
                             "y_min" : 0,
                             "y_max" : self.columns-1,
                         }
+
+        file = open(path+"/problem/sub_stations.txt","r")
+        self.sub_stations = np.array(file.read().split())
+        self.sub_stations = self.sub_stations.astype(np.float)
+        self.sub_stations = self.sub_stations.reshape(-1,2)
+        self.sub_stations_index = self.get_indexes(self.sub_stations)
         return
 
     def eval_fitness_function(self, solutions: np.ndarray) -> np.ndarray:

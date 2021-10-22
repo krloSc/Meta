@@ -20,4 +20,8 @@ def get_distance(lat1,lon1,lat2,lon2) -> float:
   return d
 
 if __name__ == "__main__":
-    print(get_distance( 10.1563889, -67.995, 10.145, -68.03472222222221))
+    value = np.array([[1,1],[2,3]])
+    xmin = np.array([0,0])
+    xmax = np.array([10,10])
+    ymax = np.array([100,1000])
+    print(map(value,xmin,xmax,xmin,ymax))
