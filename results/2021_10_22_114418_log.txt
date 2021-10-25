@@ -1,0 +1,42 @@
+______________________________	Analysis______________________________
+Best solution:	39.21337849475048
+At: (11.862437065815522, -70.00421950789655)
+____________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	Error(mean) respect to best	  Time taken   
+   Simulated   	     39.2      	  1.9819e-01   	         0.1208         	  1.7104 sec
+      Pso      	     39.21     	  2.0114e-05   	         0.0000         	  0.5555 sec
+
+___________________________________ Detailed analysis ___________________________________
+
+Name:                     Simulated      
+Best solution:            39.20188       
+Location:                 11.614768859528912	-69.7620827303212
+Number of Ocurrence:      1              
+Mean:                     39.09256879521904
+Standard deviation:       0.19819491972495384
+imprecision:              0.15847855731991417
+
+       Parameters used        
+to                        100            
+ta                        0.01           
+delta                     0.99           
+_____________________________________________________________________________________
+
+Name:                     Pso            
+Best solution:            39.21338       
+Location:                 11.612447128203446	-69.75422957028447
+Number of Ocurrence:      1              
+Mean:                     39.213367283226
+Standard deviation:       2.0114292481378178e-05
+imprecision:              1.6074435991697554e-05
+
+       Parameters used        
+cross_rate                0.3            
+mutation_rate             0.7            
+mut_genes                 3              
+randomness                500            
+decreasing                0.8            
+rnd_thold                 0.8            
+generations               10             
+cromosome_len             4              
+_____________________________________________________________________________________

@@ -1,0 +1,47 @@
+______________________________	Analysis______________________________
+Best solution:	39.21337846150365
+At: (11.862436904897336, -70.00421950944953)
+____________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	Error(mean) respect to best	  Time taken   
+      Fwa      	     39.18     	  2.4480e-01   	         0.3041         	  0.6062 sec
+      Pso      	     39.21     	  1.0954e-04   	         0.0001         	  0.5466 sec
+
+___________________________________ Detailed analysis ___________________________________
+
+Name:                     Fwa            
+Best solution:            39.17846       
+Location:                 11.621690183576186	-69.7460155055661
+Number of Ocurrence:      1              
+Mean:                     38.909319342758025
+Standard deviation:       0.24479622024803402
+imprecision:              0.21257654725625058
+
+       Parameters used        
+cross_rate                0.3            
+mutation_rate             0.7            
+mut_genes                 3              
+randomness                500            
+decreasing                0.8            
+rnd_thold                 0.8            
+generations               10             
+cromosome_len             4              
+_____________________________________________________________________________________
+
+Name:                     Pso            
+Best solution:            39.21338       
+Location:                 11.612447126650466	-69.75422973120266
+Number of Ocurrence:      1              
+Mean:                     39.21332363869199
+Standard deviation:       0.00010954071799474429
+imprecision:              8.763256991812795e-05
+
+       Parameters used        
+cross_rate                0.3            
+mutation_rate             0.7            
+mut_genes                 3              
+randomness                500            
+decreasing                0.8            
+rnd_thold                 0.8            
+generations               10             
+cromosome_len             4              
+_____________________________________________________________________________________

@@ -1,0 +1,27 @@
+______________________________	Analysis______________________________
+Best solution:	38.63115293116522
+At: (11.607102743223258, -70.13932201900808)
+____________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	Error(mean) respect to best	  Time taken   
+      Fwa      	     38.63     	  1.6493e+00   	         1.2911         	  1.3464 sec
+
+___________________________________ Detailed analysis ___________________________________
+
+Name:                     Fwa            
+Best solution:            38.63115       
+Location:                 11.47734461709191	-70.00956389287674
+Number of Ocurrence:      1              
+Mean:                     37.34003567272648
+Standard deviation:       1.6492963973858916
+imprecision:              1.297149304432952
+
+       Parameters used        
+cross_rate                0.3            
+mutation_rate             0.7            
+mut_genes                 3              
+randomness                500            
+decreasing                0.8            
+rnd_thold                 0.8            
+generations               10             
+cromosome_len             4              
+_____________________________________________________________________________________
