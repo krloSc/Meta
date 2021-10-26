@@ -1,5 +1,6 @@
 from problem.Problem import*
 from Metaheuristics import *
+from scipy.stats import rankdata
 import math
 import numpy as np
 import matplotlib.pyplot as plt
@@ -24,10 +25,11 @@ class Evaluate():
         if problem.optimization_type == OptimizationType.MINIMIZATION:
             self.best_value = min
             self.best_index = np.argmin
+            self.order = -1
         else:
             self.best_value = max
             self.best_index = np.argmax
-
+            self.order = 1
         self.problem = problem
         self.metas=metas
         self.results=np.ones((len(metas),epoch,3), dtype = float)
@@ -42,17 +44,28 @@ class Evaluate():
                 self.graphs.append(meta.lines)
                 meta.lines = []
 
-        print("______________________________")
-        print("Metaheuristic \t Best Solution")
-        print("______________________________")
-        self.best_fit = np.ones((len(self.metas),1))
+        #print("______________________________")
+        #print("Metaheuristic \t Best Solution")
+        #print("______________________________")
+        self.ranking = self.get_ranking(self.results)
+        #self.best_fit = np.ones((len(self.metas),1))
 
-        for i in range(len(self.metas)):
-            self.best_fit[i] = self.best_value(self.results[i,:,2])
-            print(f'{self.metas[i].__class__.__name__:<15}',
-            ":\t ",
-            f'{self.best_fit[i][0]:^15.13f}')
+        #for i in range(len(self.metas)):
+        #    self.best_fit[i] = self.best_value(self.results[i,:,2])
+        #    print(f'{self.metas[i].__class__.__name__:<15}',
+        #    ":\t ",
+        #    f'{self.best_fit[i][0]:^15.13f}')
         return
+
+    def get_ranking(self, results: np.ndarray) -> np.ndarray:
+
+        ranking = np.zeros((results.shape[0],results.shape[1]))
+        for i in range(results.shape[1]):
+            ranking[:,i]=rankdata(results[:,i,2]*-self.order)
+        ranking = np.sum(ranking, axis=1)
+        ranking = rankdata(ranking)
+
+        return ranking
 
     def visual(self) -> None:
         """Visual output for Space-like problems"""
@@ -146,9 +159,10 @@ class Evaluate():
         file = open(path+"/results/"+file_name+".txt","w+")
         fit_index=self.best_index(self.results[:,:,2],axis=1)
         global_fit=self.best_index(self.results[range(len(self.metas)),fit_index,:][:,2])
-        file.write("______________________________")
-        file.write("\tAnalysis")
-        file.write("______________________________\n")
+
+        file.write(f'{"":_<38} Summary {"":_>38}\n')
+        file.write("\n")
+
         global_fitness = self.results[global_fit,fit_index[global_fit],2]
         file.write(f"Best solution:\t{global_fitness}\n")
         x_position = self.results[global_fit,fit_index[global_fit]][1]
@@ -161,12 +175,12 @@ class Evaluate():
 
 
         file.write(f"At: {y_position, x_position}\n") #lat & long
-        file.write("____________________________________________________________________\n")
+        file.write(f'{"":_>85}\n')
         file.write(f"{'Metaheuristic':^15}\t"
                 f"{'Best solution':^15}\t"
                 f"{'Std':^15}\t"
-                f"{'Error(mean) respect to best':^24}\t"
-                f"{'Time taken':^15}\n")
+                f"{'Time taken':^15}\t"
+                f"{'ranking':^15}\n")
 
         for i in range(len(self.metas)):
             index=self.best_index(self.results[i,:,2])
@@ -175,17 +189,16 @@ class Evaluate():
             y_position=self.results[i,index,1]
             best_sol=self.results[i,index,2]
             std=np.std(self.results[i,:,2])
-            error=np.abs(np.mean(self.results[i,:,2])-global_fitness)
             time=self.metas[i].time_taken
             file.write(f'{name:^15.13}\t'
                     f'{best_sol:^15.4}\t'
                     f'{std:^15.4e}\t'
-                    f'{error:^24.4f}\t'
-                    f'{time:>8.4f} sec\n'
+                    f'{time:^15.4f}\t'
+                    f'{self.ranking[i]:^15}\n'
                     )
         if detailed:
             file.write("\n")
-            file.write(f'{"":_<35} Detailed analysis {"":_>35}\n')
+            file.write(f'{"":_<33} Detailed analysis {"":_>33}\n')
             for i in range(len(self.metas)):
                 parameters = self.metas[i].parameters
                 fitness = self.results[i,:,2]

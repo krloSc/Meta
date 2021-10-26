@@ -1,0 +1,107 @@
+___________________________________ Summary ___________________________________
+Best solution:	39.213378516779244
+At: (11.86243711914409, -70.00421951018168)
+_____________________________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	  Time taken   	    ranking    
+      Pso      	     39.21     	  2.1472e-02   	    0.5705     	      4.5      
+      Pso      	     39.21     	  2.6319e-02   	    0.5705     	      2.5      
+      Pso      	     39.21     	  2.1418e-02   	    0.5705     	      1.0      
+      Pso      	     39.21     	  1.4804e-04   	    0.5705     	      4.5      
+      Pso      	     39.21     	  2.1388e-02   	    0.5705     	      2.5      
+
+___________________________________ Detailed analysis ___________________________________
+
+Name:                     Pso            
+Best solution:            39.21338       
+Location:                 11.612447129313939	-69.75422951216497
+Number of Ocurrence:      1              
+Mean:                     39.20259862836984
+Standard deviation:       0.021471979947047925
+imprecision:              0.017177513345455964
+
+       Parameters used        
+cross_rate                0.3            
+mutation_rate             0.7            
+mut_genes                 3              
+randomness                500            
+decreasing                0.8            
+rnd_thold                 0.8            
+generations               10             
+cromosome_len             4              
+_____________________________________________________________________________________
+
+Name:                     Pso            
+Best solution:            39.21338       
+Location:                 11.612447126306144	-69.75422963183098
+Number of Ocurrence:      1              
+Mean:                     39.191888885887764
+Standard deviation:       0.026319247323430172
+imprecision:              0.025787490541745228
+
+       Parameters used        
+cross_rate                0.3            
+mutation_rate             0.7            
+mut_genes                 3              
+randomness                500            
+decreasing                0.8            
+rnd_thold                 0.8            
+generations               10             
+cromosome_len             4              
+_____________________________________________________________________________________
+
+Name:                     Pso            
+Best solution:            39.21338       
+Location:                 11.612447150285139	-69.75422951251107
+Number of Ocurrence:      1              
+Mean:                     39.2024855277724
+Standard deviation:       0.02141773022386909
+imprecision:              0.017133232438875722
+
+       Parameters used        
+cross_rate                0.3            
+mutation_rate             0.7            
+mut_genes                 3              
+randomness                500            
+decreasing                0.8            
+rnd_thold                 0.8            
+generations               10             
+cromosome_len             4              
+_____________________________________________________________________________________
+
+Name:                     Pso            
+Best solution:            39.21338       
+Location:                 11.612447125918305	-69.7542295169559
+Number of Ocurrence:      1              
+Mean:                     39.213302326952586
+Standard deviation:       0.00014803878281495836
+imprecision:              0.00011842181789489814
+
+       Parameters used        
+cross_rate                0.3            
+mutation_rate             0.7            
+mut_genes                 3              
+randomness                500            
+decreasing                0.8            
+rnd_thold                 0.8            
+generations               10             
+cromosome_len             4              
+_____________________________________________________________________________________
+
+Name:                     Pso            
+Best solution:            39.21338       
+Location:                 11.612447138590301	-69.75422951060428
+Number of Ocurrence:      1              
+Mean:                     39.202423508156855
+Standard deviation:       0.02138809408311457
+imprecision:              0.017107454152454692
+
+       Parameters used        
+cross_rate                0.3            
+mutation_rate             0.7            
+mut_genes                 3              
+randomness                500            
+decreasing                0.8            
+rnd_thold                 0.8            
+generations               10             
+cromosome_len             4              
+_____________________________________________________________________________________
