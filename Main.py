@@ -8,21 +8,20 @@ import matplotlib.pyplot as plt
 problem = RasterProblem("Falcon",OptimizationType.MAXIMIZATION)
 problem.get_values_from_file()
 evaluate = Evaluate.Evaluate()
-parameters = {"to":1000,"ta":0.01,"delta":0.99}
-simulated_one = Simulated.Simulated((1,2),problem, parameters)
-fireworks = Fwa.Fwa((10,2),problem,parameters="ga_parameters_v1")
-pso = Pso.Pso((100,2),problem,parameters="ga_parameters_v1")
+simulated = Simulated.Simulated((1,2),problem, parameters= "simulated")
+fireworks = Fwa.Fwa((20,2),problem,parameters="firework")
+pso = Pso.Pso((100,2),problem,parameters="PSO")
 ga = Ga.Ga((5,2),problem,parameters="ga_parameters_v1")
-hill = Hill.HillClimbing((50,2),problem,parameters="ga_parameters_v1")
-hybrid = HybridGa.HybridGa((5,2),problem,parameters="ga_parameters_v1")
+ga2 = GA_MOD.Ga((10,2),problem,parameters="Ga_v2")
+ga3 = ga_v3.Ga_v3((6,2),problem,parameters="Ga_v2")
+hill = Hill.HillClimbing((60,2),problem,parameters="hill")
+hybrid = HybridGa.HybridGa((6,2),problem,parameters="hybrid2")
 metas = [
-            pso,
-            simulated_one,
-            ga,
+            fireworks,
             pso
         ]
 evaluate.eva(metas,problem,5)
-evaluate.plot_graphs() #alpha
 evaluate.analysis(detailed=True)
+evaluate.plot_graphs() #alpha
 evaluate.visual_raster()
 input("Press Enter key to exit...")

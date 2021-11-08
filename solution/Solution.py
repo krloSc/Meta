@@ -38,7 +38,7 @@ class Solution():
 
     def generate_single(self, origin, randomness = 1):
 
-        solution = origin + np.random.rand(2)*randomness
+        solution = origin + uniform(-1,1,size= 2)*randomness
         solution[0] = np.clip(solution[0],self.x_min,self.x_max-1)
         solution[1] = np.clip(solution[1],self.y_min,self.y_max-1)
         return solution

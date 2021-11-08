@@ -1,0 +1,4 @@
+iterations  40
+inertia 0.1
+r_one_factor 1.5
+r_two_factor 3

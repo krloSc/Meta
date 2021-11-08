@@ -16,7 +16,8 @@ class Ga(Metaheuristic):
 
         fitness = self.problem.eval_fitness_function(solution.reshape(-1,2))
         fitness = np.sum(fitness.reshape(rows,-1), axis = 1)
-        return fitness
+        genes = solution.shape[1]
+        return (fitness/genes)
 
     def parents_selection(self, individuals: np.ndarray) -> np.ndarray:
         """Parents selection through Roulette Wheel selection"""
@@ -57,9 +58,6 @@ class Ga(Metaheuristic):
             index = np.argsort(current_fitness)[0]
             current_fitness[index] = offspring_fitness
             solution[index] = offspring
-        #update line:
-        best_index = np.argsort(current_fitness)[-1]
-        self.lines.append(current_fitness[best_index])
         return
 
     def recombination(
@@ -89,6 +87,10 @@ class Ga(Metaheuristic):
         mutated = parent.copy()
         for i in genes:
             mutated[i] = sol.generate_single(parent[i], randomness)
+        mutated = mutated.reshape(-1,2)
+        parent_fitness = self.problem.eval_fitness_function(parent.reshape(-1,2))
+        mutated_fitness = self.problem.eval_fitness_function(mutated)
+        mutated[self.comparator(parent_fitness,mutated_fitness)] = parent[self.comparator(parent_fitness,mutated_fitness)]
         mutated = mutated.reshape(1,-1,2)
         self.solution_update(mutated, solution)
         return
@@ -128,6 +130,7 @@ class Ga(Metaheuristic):
                     columns,
                     elite)
 
+
             fitness = self.individual_fitness(solution, solution.shape[0])
             random_amount = randomness
 
@@ -137,12 +140,15 @@ class Ga(Metaheuristic):
                 parent_b = solution[index_b]
                 if rand() <= cross_rate:
                     self.recombination(parent_a, parent_b, solution)
-                if rand() <= mutation_rate:
-                    self.mutation(parent_a, max_mut_genes, random_amount, solution) #probably the best cromosome
+                #if rand() <= mutation_rate:
+                else:
+                    self.mutation(parent_a, max_mut_genes, random_amount, solution)
+                    self.mutation(parent_b, max_mut_genes, random_amount, solution)
                 random_amount *= decreasing_rate
+                #input()
             fitness =  self.individual_fitness(solution, solution.shape[0])
             elite = self.select_elites(solution, fitness)
-
+            self.lines.append(self.best_value(fitness))
         best = solution[self.best_index(fitness)].reshape(-1,2)
         fit = problem.eval_fitness_function(best)
         best_gene = best[self.best_index(fit)]

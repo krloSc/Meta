@@ -183,7 +183,8 @@ class RasterProblem(Problem):
 
         net_value = present_income - present_cashout - present_value
 
-        return net_value/1000000
+        net_value = net_value/1000000
+        return net_value.round(4)
 
     def get_coordinates(self, solution: np.ndarray) -> np.ndarray:
         longitude = self.x_left+solution[:,1]*self.cellsize

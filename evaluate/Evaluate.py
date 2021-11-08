@@ -25,10 +25,12 @@ class Evaluate():
         if problem.optimization_type == OptimizationType.MINIMIZATION:
             self.best_value = min
             self.best_index = np.argmin
+            self.worst_index = np.argmax
             self.order = -1
         else:
             self.best_value = max
             self.best_index = np.argmax
+            self.worst_index = np.argmin
             self.order = 1
         self.problem = problem
         self.metas=metas
@@ -203,6 +205,7 @@ class Evaluate():
                 parameters = self.metas[i].parameters
                 fitness = self.results[i,:,2]
                 index=self.best_index(fitness)
+                worst_fitness_index =  self.worst_index(fitness)
                 x_pos=self.results[i,index,0]
                 y_pos=self.results[i,index,1]
                 if isinstance(self.problem, RasterProblem):
@@ -210,6 +213,7 @@ class Evaluate():
                     x_pos = x_pos[0]
                     y_pos = y_pos[0]
                 best_sol=self.results[i,index,2]
+                worst_sol=self.results[i,worst_fitness_index,2]
                 number_occurrence = np.sum(fitness==best_sol)
                 std = np.std(fitness)
                 mean = np.mean(fitness)
@@ -218,6 +222,7 @@ class Evaluate():
                 file.write("\n")
                 file.write(f'{"Name:":<25} {self.metas[i].__class__.__name__ : <15}\n')
                 file.write(f'{"Best solution:":<25} {best_sol:<15.7}\n')
+                file.write(f'{"Worst solution:":<25} {worst_sol:<15.7}\n')
                 file.write(f'{"Location:":<25} {x_pos:<15}\t{y_pos:<15}\n')
                 file.write(f'{"Number of Ocurrence:":<25} {number_occurrence:<15}\n')
                 file.write(f'{"Mean:":<25} {mean:<15}\n')

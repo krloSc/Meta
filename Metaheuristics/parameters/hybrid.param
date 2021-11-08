@@ -1,0 +1,12 @@
+cross_rate 0.4
+mutation_rate 0.9
+mut_genes 3
+randomness 60
+decreasing 0.99
+rnd_thold 2
+generations 200
+cromosome_len 4
+elite_size 15
+step 10
+beta    0.3
+improve 0.8

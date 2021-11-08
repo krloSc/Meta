@@ -13,13 +13,17 @@ class Pso(Metaheuristic):
     def update_velocity(self, prev_velocity, best_sol, best_particle, r1, r2):
 
         velocity = (
-                    0.1*prev_velocity
-                    + r1*1.5*(best_sol-self.solution)
-                    + r2*3*(best_particle-self.solution))
-        #print(velocity)
+                    self.inertia*prev_velocity
+                    + r1*self.r1_factor*(best_sol-self.solution)
+                    + r2*self.r2_factor*(best_particle-self.solution))
         return velocity
 
     def run(self,problem):
+
+        self.iterations = self.parameters.get("iterations",100)
+        self.inertia = self.parameters.get("inertia",0.1)
+        self.r1_factor = self.parameters.get("r_one_factor", 1.5) # must be < total genes
+        self.r2_factor = self.parameters.get("r_two_factor", 3)
 
         init_time=time.time()
         self.solution=sol.init_solution(
@@ -34,7 +38,7 @@ class Pso(Metaheuristic):
         velocity = velocity.reshape(-1,self.solution.shape[1])
         best_sol = self.solution
 
-        for i in range(100):
+        for i in range(self.iterations):
 
             r1 = uniform(0,1,self.solution.shape[0]).reshape(-1,1)
             r2 = uniform(0,1,self.solution.shape[0]).reshape(-1,1)

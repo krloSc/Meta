@@ -18,10 +18,13 @@ class Fwa(Metaheuristic):
 
         sum=np.sum(dist,axis=0)
         prob=dist/sum
+        #print(solution)
+        #print(prob)
         index=np.argsort(prob,axis=None)
-
-        return solution[index[:self.order*(self.n_fireworks-1)]]
-        #return solution[index[-self.order*(self.n_fireworks-1):]]
+        #new_solution = solution[index[-self.order*(self.n_fireworks-1):]]
+        new_solution = solution[index[-self.order*(self.n_fireworks-1):]]
+        #input(new_solution)
+        return new_solution
 
     def create_mask(self, population, dimension):
 
@@ -37,8 +40,8 @@ class Fwa(Metaheuristic):
         m=self.parameters.get("m",100)
         a_hat=self.parameters.get("a_hat",500)
         n_explosion=self.parameters.get("n_explosion",30)
-        xmin=8
-        xmax=20
+        xmin=5
+        xmax=50
         #sparks = []
         initime=time.time()
         self.n_fireworks = self.solution.shape[0]
@@ -57,17 +60,17 @@ class Fwa(Metaheuristic):
             s = np.clip(s,xmin,xmax)
             #print(s)
             a=a_hat*(fitness_list-best+e)/(np.sum(fitness_list-best)+e)
-            a = np.clip(a,2,1000)
-
+            a = np.clip(a,5,1000)
+            print("number of spark produced")
+            print(s)
+            print("maximun amplitude")
+            print(a)
             for i in range(self.n_fireworks):
 
                 dimension_mask = self.create_mask(int(s[i]),2)
-                amplitude=a[i]*dimension_mask*uniform(-1,1,dimension_mask.shape)
-                #print(amplitude)                     # (s,2)
+                amplitude=a[i]*dimension_mask*uniform(-1,1,dimension_mask.shape)              # (s,2)
                 sparks=sol.generate_from(self.solution[i].reshape(1,-1),s[i],amplitude)
                 sparks = sparks.reshape(-1,2)
-
-                #input(sparks)
 
                 try:
                     solutions=np.concatenate((solutions,sparks))
@@ -81,8 +84,10 @@ class Fwa(Metaheuristic):
             best_spark=solutions[bindex].reshape(1,-1)
             self.lines.append(problem.eval_fitness_function(best_spark))
             solutions=np.delete(solutions,bindex,0)
+            prev_time = time.time()
             n_minus=self.nfire(solutions)
             self.solution=np.concatenate((best_spark,n_minus))
-            #input(problem.eval_fitness_function(self.solution))
+            input(self.solution)
+            input(self.best_value(problem.eval_fitness_function(self.solution)))
         self.time_taken = (time.time()-initime)
         return best_spark, problem.eval_fitness_function(best_spark)
