@@ -22,7 +22,16 @@ class Fwa(Metaheuristic):
         #print(prob)
         index=np.argsort(prob,axis=None)
         #new_solution = solution[index[-self.order*(self.n_fireworks-1):]]
-        new_solution = solution[index[-self.order*(self.n_fireworks-1):]]
+        new_solution = solution[index]
+        #print(index)
+        #print("nfire new solution")
+        #input(new_solution)
+        #print(self.problem.eval_fitness_function(new_solution)<0)
+        prob[self.problem.eval_fitness_function(new_solution)<0] = 0
+        #input(prob)
+        index=np.argsort(prob,axis=None)
+        new_solution = new_solution[index[-self.order*(self.n_fireworks-1):]]
+        #input(self.problem.eval_fitness_function(new_solution))
         #input(new_solution)
         return new_solution
 
@@ -35,6 +44,7 @@ class Fwa(Metaheuristic):
         return mask
 
     def run(self,problem):
+        self.problem = problem
         self.solution=sol.init_solution(self.size[0],self.size[1], problem.boundaries)
         e=self.parameters.get("e",0.001)
         m=self.parameters.get("m",100)
@@ -60,24 +70,21 @@ class Fwa(Metaheuristic):
             s = np.clip(s,xmin,xmax)
             #print(s)
             a=a_hat*(fitness_list-best+e)/(np.sum(fitness_list-best)+e)
-            a = np.clip(a,5,1000)
-            print("number of spark produced")
-            print(s)
-            print("maximun amplitude")
-            print(a)
+            a = np.clip(a,10,1000)
+            #print("number of spark produced")
+            #print(s)
+            #print("maximun amplitude")
+            #print(a)
+            solutions = np.array([])
             for i in range(self.n_fireworks):
 
                 dimension_mask = self.create_mask(int(s[i]),2)
                 amplitude=a[i]*dimension_mask*uniform(-1,1,dimension_mask.shape)              # (s,2)
                 sparks=sol.generate_from(self.solution[i].reshape(1,-1),s[i],amplitude)
-                sparks = sparks.reshape(-1,2)
+                solutions=np.append(solutions,sparks)
 
-                try:
-                    solutions=np.concatenate((solutions,sparks))
-                except:
-                    solutions=sparks
-
-            solutions=np.concatenate((solutions,self.solution))
+            solutions=np.append(solutions,self.solution)
+            solutions = solutions.reshape(-1,2)
             bindex=self.best_index(problem.eval_fitness_function(solutions))
             best=self.best_value(problem.eval_fitness_function(solutions))
             worst=self.worst(problem.eval_fitness_function(solutions))
@@ -87,7 +94,8 @@ class Fwa(Metaheuristic):
             prev_time = time.time()
             n_minus=self.nfire(solutions)
             self.solution=np.concatenate((best_spark,n_minus))
-            input(self.solution)
-            input(self.best_value(problem.eval_fitness_function(self.solution)))
+            #input(problem.eval_fitness_function(n_minus))
+            #input(self.solution)
+            #input(self.best_value(problem.eval_fitness_function(self.solution)))
         self.time_taken = (time.time()-initime)
         return best_spark, problem.eval_fitness_function(best_spark)
