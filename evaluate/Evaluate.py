@@ -3,6 +3,7 @@ from Metaheuristics import *
 from scipy.stats import rankdata
 import math
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from math import floor
 from datetime import datetime
@@ -243,3 +244,6 @@ class Evaluate():
             print(lines)
         file.close()
         return
+
+
+

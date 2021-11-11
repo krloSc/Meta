@@ -26,21 +26,21 @@ class Simulated(Metaheuristic):
             neigbours=sol.generate_from(self.solution,n_s,factor)
 
             for i in range(neigbours.shape[0]):
-                current_solution = self.solution[i,:].reshape(1,2)
+                current_solution = self.solution[i]
                 current_fitness=problem.eval_fitness_function(current_solution)
-                neigbours_fitness = problem.eval_fitness_function(neigbours[i,:,:])
+                neigbours_fitness = problem.eval_fitness_function(neigbours[i])
                 best_nbr=neigbours[i,self.best_index(neigbours_fitness)]
                 best_nbr_fitness = problem.eval_fitness_function(best_nbr.reshape(1,2))
                 if self.comparator(best_nbr_fitness,current_fitness):
-                    self.solution[i,:]=best_nbr
+                    self.solution[i]=best_nbr
                 else:
                     r=rand()
-                    l=current_fitness-best_nbr_fitness
+                    l=abs(current_fitness-best_nbr_fitness)
                     ann=np.exp(-l/t)
                     if (r<ann):
-                        self.solution[i,:]=best_nbr
-                fitness_list = problem.eval_fitness_function(self.solution)
-                self.lines.append(self.best_value(fitness_list))
+                        self.solution[i]=best_nbr
+            fitness_list = problem.eval_fitness_function(self.solution)
+            self.lines.append(self.best_value(fitness_list))
             t=t*delta
         self.time_taken = (time.time()-initime)
         fitness_list = problem.eval_fitness_function(self.solution)

@@ -5,7 +5,7 @@ from util import param
 import numpy as np
 import matplotlib.pyplot as plt
 
-problem = RasterProblem("Venezuela",OptimizationType.MAXIMIZATION)
+problem = RasterProblem("Falcon",OptimizationType.MAXIMIZATION)
 problem.get_values_from_file()
 evaluate = Evaluate.Evaluate()
 simulated = Simulated.Simulated((2,2),problem, parameters= "simulated")
@@ -24,8 +24,9 @@ metas = [
             fireworks,
             simulated
         ]
-evaluate.eva(metas,problem,20)
+evaluate.eva(metas,problem,3)
 evaluate.analysis(detailed=True)
 evaluate.plot_graphs() #alpha
 evaluate.visual_raster()
+#print(evaluate.results[:,:,2].reshape(6,30).T)
 input("Press Enter key to exit...")
