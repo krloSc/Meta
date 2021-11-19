@@ -2,11 +2,12 @@ from math import cos, sin, atan2, sqrt, radians, asin
 import numpy as np
 
 def map(value,xmin,xmax,ymin,ymax):
+    """Re-maps a number from one range to another"""
     result = (value-xmin)*((ymax-ymin)/(xmax-xmin))+ymin
     return result
 
 def get_distance(lat1,lon1,lat2,lon2) -> float:
-
+    """Return the distance between two coordinates"""
   R = 6378 # Radius of the earth in km
   delta_lat = np.radians(lat2-lat1)
   delta_lon = np.radians(lon2-lon1)
@@ -15,7 +16,6 @@ def get_distance(lat1,lon1,lat2,lon2) -> float:
         np.sin(delta_lon/2)**2)
 
   c = 2 * np.arctan2(np.sqrt(a), np.sqrt(1-a))
-  #c = 2*asin(min(1,sqrt(a)))
   d = R * c
   return d
 
