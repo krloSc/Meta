@@ -18,13 +18,13 @@ hill = Hill.HillClimbing((60,2),problem,parameters="hill")
 hybrid = HybridGa.HybridGa((6,2),problem,parameters="hybrid2")
 metas = [
             pso,
-            ga3,
             hill,
-            hybrid,
             fireworks,
+            ga3,
+            hybrid,
             simulated
         ]
-evaluate.eva(metas,problem,3)
+evaluate.eva(metas,problem,5)
 evaluate.analysis(detailed=True)
 evaluate.plot_graphs() #alpha
 evaluate.visual_raster()

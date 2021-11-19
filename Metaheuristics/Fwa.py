@@ -89,7 +89,7 @@ class Fwa(Metaheuristic):
             best=self.best_value(problem.eval_fitness_function(solutions))
             worst=self.worst(problem.eval_fitness_function(solutions))
             best_spark=solutions[bindex].reshape(1,-1)
-            self.lines.append(problem.eval_fitness_function(best_spark))
+            self.lines.append(float(problem.eval_fitness_function(best_spark)))
             solutions=np.delete(solutions,bindex,0)
             prev_time = time.time()
             n_minus=self.nfire(solutions)

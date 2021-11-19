@@ -35,6 +35,7 @@ class Evaluate():
             self.order = 1
         self.problem = problem
         self.metas=metas
+        self.epoch = epoch
         self.results=np.ones((len(metas),epoch,3), dtype = float)
         self.graphs = []
 
@@ -47,17 +48,7 @@ class Evaluate():
                 self.graphs.append(meta.lines)
                 meta.lines = []
 
-        #print("______________________________")
-        #print("Metaheuristic \t Best Solution")
-        #print("______________________________")
         self.ranking = self.get_ranking(self.results)
-        #self.best_fit = np.ones((len(self.metas),1))
-
-        #for i in range(len(self.metas)):
-        #    self.best_fit[i] = self.best_value(self.results[i,:,2])
-        #    print(f'{self.metas[i].__class__.__name__:<15}',
-        #    ":\t ",
-        #    f'{self.best_fit[i][0]:^15.13f}')
         return
 
     def get_ranking(self, results: np.ndarray) -> np.ndarray:
@@ -110,12 +101,15 @@ class Evaluate():
                         )
 #marker=r'$\clubsuit$',
 #s=40,
+
+        plt.axis('scaled')
         ax.scatter(
                     self.problem.sub_stations_index[:,0],
                     self.problem.sub_stations_index[:,1],
+                    label="Sub-stations",
                     alpha=0.5,
                     zorder=1,
-                    color = 'w'
+                    color = 'y'
                     )
 
         ax.legend()
@@ -138,13 +132,39 @@ class Evaluate():
 
             fig, axs = plt.subplots(1, int(len(self.metas)))
 
-        for meta, ax, i in zip(self.metas, axs.flatten(), range(len(self.metas))):
-            ax.plot(self.graphs[i])
-            ax.set_title(meta.__class__.__name__, fontsize=8)
+        indexes = self.get_graphs_index()
+        try:
+            for meta, ax, i in zip(self.metas, axs.flatten(), range(len(self.metas))):
+                ax.set_title(meta.__class__.__name__, fontsize=8)
+                for j in range(2):
+                    if j == 0:
+                        plot_label = (f"Best result at run {int(indexes[i,0])+1}")
+                    else:
+                        plot_label = (f"Worst result at run {int(indexes[i,1])+1}")
+                    index = int(indexes[i,j])
+                    ax.plot(self.graphs[index*len(self.metas)+i],
+                            label = plot_label)
+                    ax.legend()
+        except Exception as e:
+            input(e)
+            axs.plot(self.graphs[0])
+            axs.set_title(self.metas.__class__.__name__, fontsize=8)
+            axs.legend()
+
 
         plt.show()
 
-        pass
+        return
+
+    def get_graphs_index(self):
+
+        meta_indexes =  np.zeros((len(self.metas),2))
+        for i in range(len(self.metas)):
+            current_data = [self.graphs[x][-1] for x in range(i,len(self.metas)*self.epoch,len(self.metas))]
+            meta_indexes[i] = self.best_index(current_data), self.worst_index(current_data)
+        return meta_indexes
+
+
 
     def analysis(self, detailed = False):
         """Print statistical analysis of Metaheuristics' performance"""

@@ -53,7 +53,7 @@ class Pso(Metaheuristic):
             current_fitness = problem.eval_fitness_function(self.solution)
             current_best_fitness = self.best_value(current_fitness)
             best_particle_fitness = problem.eval_fitness_function(best_particle)
-            self.lines.append(best_particle_fitness)
+            self.lines.append(float(best_particle_fitness))
             if self.comparator(current_best_fitness, best_particle_fitness):
                 best_particle=self.solution[self.best_index(current_fitness)]
 
