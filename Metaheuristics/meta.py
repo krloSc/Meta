@@ -13,6 +13,7 @@ class Metaheuristic(ABC):
     size: tuple
     problem: Problem
     parameters: dict = None
+    
     def __post_init__(self):
         if type(self.parameters) == str:
             self.parameters = param.get_parameters(self.parameters)

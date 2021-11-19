@@ -16,7 +16,7 @@ class Evaluate():
         pass
 
     def eva (self,metas,problem,epoch=5):
-        """Obtain an array of results and print the best solutions"""
+        """Store the results of each Metaheuristic in an Numpy array"""
 
         self.x_min = problem.boundaries["y_min"]
         self.x_max = problem.boundaries["y_max"]
@@ -52,6 +52,7 @@ class Evaluate():
         return
 
     def get_ranking(self, results: np.ndarray) -> np.ndarray:
+        """Return the ranking achieved by the Metaheuristic"""
 
         ranking = np.zeros((results.shape[0],results.shape[1]))
         for i in range(results.shape[1]):
@@ -99,8 +100,6 @@ class Evaluate():
                         alpha=1,
                         zorder=1
                         )
-#marker=r'$\clubsuit$',
-#s=40,
 
         plt.axis('scaled')
         ax.scatter(
@@ -157,7 +156,8 @@ class Evaluate():
         return
 
     def get_graphs_index(self):
-
+        """Return the index for the best and worst run for each Metaheuristic"""
+        
         meta_indexes =  np.zeros((len(self.metas),2))
         for i in range(len(self.metas)):
             current_data = [self.graphs[x][-1] for x in range(i,len(self.metas)*self.epoch,len(self.metas))]

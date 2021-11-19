@@ -37,7 +37,7 @@ class Solution():
         return solutions
 
     def generate_single(self, origin, randomness = 1):
-
+        """Geneate a single solution given an origin"""
         solution = origin + uniform(-1,1,size= 2)*randomness
         solution[0] = np.clip(solution[0],self.x_min,self.x_max-1)
         solution[1] = np.clip(solution[1],self.y_min,self.y_max-1)
@@ -52,5 +52,8 @@ class Solution():
         return solutions
 
     def check_boundaries(self,solutions):
+        """Check the given solution to be inside the problem boundaries and clip
+            it if needed"""
         solutions[:,0] = np.clip(solutions[:,0],self.x_min,self.x_max-1)
         solutions[:,1] = np.clip(solutions[:,1],self.y_min,self.y_max-1)
+        return

@@ -11,7 +11,7 @@ sol=Solution()
 class Pso(Metaheuristic):
 
     def update_velocity(self, prev_velocity, best_sol, best_particle, r1, r2):
-
+        """Calculate the velocity of the particles"""
         velocity = (
                     self.inertia*prev_velocity
                     + r1*self.r1_factor*(best_sol-self.solution)
@@ -19,7 +19,7 @@ class Pso(Metaheuristic):
         return velocity
 
     def run(self,problem):
-
+        """ Run the PSO algorithm and return the best solution and its fitness"""
         self.iterations = self.parameters.get("iterations",100)
         self.inertia = self.parameters.get("inertia",0.1)
         self.r1_factor = self.parameters.get("r_one_factor", 1.5) # must be < total genes

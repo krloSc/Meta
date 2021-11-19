@@ -16,10 +16,8 @@ class HybridGa(Metaheuristic):
         """Obtain the fitness of a entire cromosome perfoming a sum of every gene's fitness in it"""
 
         fitness = self.problem.eval_fitness_function(solution.reshape(-1,2))
-        #fitness = np.sum(fitness.reshape(rows,-1), axis = 1)
         fitness = np.amax(fitness.reshape(rows, -1),axis=1)
         genes = solution.shape[1]
-        #return (fitness/genes)
         return fitness
 
     def parents_selection(self, individuals: np.ndarray) -> np.ndarray:
@@ -101,7 +99,8 @@ class HybridGa(Metaheuristic):
         return elites[:self.elite_size]
 
     def create_mask(self, population, dimension):
-
+        """Create a mask for randomly choose the dimension where the spark will
+                move"""
         mask =  np.zeros((population, dimension))
         for i in range(population):
             mask[i] = choice(range(dimension), dimension, replace = False)
@@ -109,14 +108,14 @@ class HybridGa(Metaheuristic):
         return mask
 
     def improve(self, solution: np.ndarray) -> np.ndarray:
-
+        """Perform exploitation of the solution"""
         mask = self.create_mask(*solution.shape)
         improved_solution = solution + mask*self.step*uniform(-1,1)
         sol.check_boundaries(improved_solution)
         return improved_solution.reshape(1,-1,2)
 
     def explore(self, solution: np.ndarray, problem) -> np.ndarray:
-
+        """Perform exploration to get out of local minima/maxima"""
         mask = self.create_mask(*solution.shape)
         random_solution = sol.init_solution(self.cromosome_len, self.size[1], problem.boundaries)
         new_solution = solution*(-mask+1)+random_solution*mask
@@ -124,7 +123,8 @@ class HybridGa(Metaheuristic):
         return new_solution.reshape(1,-1,2)
 
     def run(self, problem: Problem) -> tuple:
-        """ Run the Ga algorithm and return the best solution and its fitness"""
+        """ Run the Hybrid GA/Hill-Climbing algorithm and return the best solution and its fitness"""
+        
         initime=time.time()
         self.problem = problem
         self.cromosome_len = self.parameters.get("cromosome_len", 4) #cromosome size

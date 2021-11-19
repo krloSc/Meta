@@ -63,13 +63,8 @@ class SpaceProblem(Problem):
 class RasterProblem(Problem):
     """Space problem definition"""
 
-
-    #def __post_init__(self):
-    #    self.get_values_from_file()
-    #    return
-
     def get_indexes(self, sub_stations: np.ndarray) -> np.ndarray:
-
+        """Convert the coordinates into index integer"""
         xmin = np.array([self.x_left,self.y_below])
         upper_lon = self.x_left + self.columns*self.cellsize
         upper_lat = self.y_below + self.rows*self.cellsize
@@ -187,6 +182,7 @@ class RasterProblem(Problem):
         return net_value.round(4)
 
     def get_coordinates(self, solution: np.ndarray) -> np.ndarray:
+        """Convert a index value into a coordinate"""
         longitude = self.x_left+solution[:,1]*self.cellsize
         latitude = self.y_below+solution[:,0]*self.cellsize
         return latitude, longitude

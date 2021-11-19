@@ -10,6 +10,8 @@ sol=Solution()
 class Fwa(Metaheuristic):
 
     def nfire(self,solution):
+        """Return the n-1 sparks for the next explosion using probability"""
+
         dist=np.zeros((solution.shape[0],1))
         for i in range(solution.shape[0]):
             current=solution[i]
@@ -18,24 +20,16 @@ class Fwa(Metaheuristic):
 
         sum=np.sum(dist,axis=0)
         prob=dist/sum
-        #print(solution)
-        #print(prob)
         index=np.argsort(prob,axis=None)
-        #new_solution = solution[index[-self.order*(self.n_fireworks-1):]]
         new_solution = solution[index]
-        #print(index)
-        #print("nfire new solution")
-        #input(new_solution)
-        #print(self.problem.eval_fitness_function(new_solution)<0)
         prob[self.problem.eval_fitness_function(new_solution)<0] = 0
-        #input(prob)
         index=np.argsort(prob,axis=None)
         new_solution = new_solution[index[-self.order*(self.n_fireworks-1):]]
-        #input(self.problem.eval_fitness_function(new_solution))
-        #input(new_solution)
         return new_solution
 
     def create_mask(self, population, dimension):
+        """Create a mask for randomly choose the dimension where the spark will
+            move"""
 
         mask =  np.zeros((population, dimension))
         for i in range(population):
@@ -44,6 +38,7 @@ class Fwa(Metaheuristic):
         return mask
 
     def run(self,problem):
+        """ Run the firework algorithm and return the best solution and its fitness"""
         self.problem = problem
         self.solution=sol.init_solution(self.size[0],self.size[1], problem.boundaries)
         e=self.parameters.get("e",0.001)
@@ -52,11 +47,8 @@ class Fwa(Metaheuristic):
         n_explosion=self.parameters.get("n_explosion",30)
         xmin=5
         xmax=50
-        #sparks = []
         initime=time.time()
         self.n_fireworks = self.solution.shape[0]
-
-        #input(problem.eval_fitness_function(self.solution))
 
         for explosion in range(n_explosion):
 
@@ -68,13 +60,8 @@ class Fwa(Metaheuristic):
                         /(np.sum(worst-fitness_list)+e)
                         )
             s = np.clip(s,xmin,xmax)
-            #print(s)
             a=a_hat*(fitness_list-best+e)/(np.sum(fitness_list-best)+e)
             a = np.clip(a,10,1000)
-            #print("number of spark produced")
-            #print(s)
-            #print("maximun amplitude")
-            #print(a)
             solutions = np.array([])
             for i in range(self.n_fireworks):
 
@@ -94,8 +81,5 @@ class Fwa(Metaheuristic):
             prev_time = time.time()
             n_minus=self.nfire(solutions)
             self.solution=np.concatenate((best_spark,n_minus))
-            #input(problem.eval_fitness_function(n_minus))
-            #input(self.solution)
-            #input(self.best_value(problem.eval_fitness_function(self.solution)))
         self.time_taken = (time.time()-initime)
         return best_spark, problem.eval_fitness_function(best_spark)

@@ -11,7 +11,9 @@ sol=Solution()
 class HillClimbing(Metaheuristic):
 
     def create_mask(self, population, dimension):
-
+        """Create a mask for randomly choose the dimension where the spark will
+            move"""
+            
         mask =  np.zeros((population, dimension))
         for i in range(population):
             mask[i] = choice(range(dimension), dimension, replace = False)
@@ -19,6 +21,7 @@ class HillClimbing(Metaheuristic):
         return mask
 
     def improve(self, solution: np.ndarray) -> np.ndarray:
+        """Perform exploitation of the solution"""
 
         mask = self.create_mask(*solution.shape)
         improved_solution = solution + mask*self.step*uniform(-1,1)
@@ -26,6 +29,7 @@ class HillClimbing(Metaheuristic):
         return improved_solution
 
     def explore(self, solution: np.ndarray, problem) -> np.ndarray:
+        """Perform exploration to get out of local minima/maxima"""
 
         mask = self.create_mask(*solution.shape)
         random_solution = sol.init_solution(self.size[0],self.size[1], problem.boundaries)
@@ -34,6 +38,8 @@ class HillClimbing(Metaheuristic):
         return new_solution
 
     def run(self,problem):
+        """ Run the Hill-Climbing algorithm and return the best solution and its fitness"""
+
         initime=time.time()
         self.step = self.parameters.get("step", 10)
         iterations = self.parameters.get("iterations", 200)

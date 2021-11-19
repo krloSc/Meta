@@ -11,6 +11,8 @@ sol=Solution()
 class Simulated(Metaheuristic):
 
     def run(self,problem):
+        """ Run the Simulated Annealing algorithm and return the best solution and its fitness"""
+        
         initime=time.time()
         self.solution = sol.init_solution(self.size[0],self.size[1], problem.boundaries)
         t=self.parameters.get("to",1000)
