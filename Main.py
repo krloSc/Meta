@@ -17,7 +17,11 @@ ga3 = ga_v3.Ga_v3((6,2),problem,parameters="Ga_v2")
 hill = Hill.HillClimbing((60,2),problem,parameters="hill")
 hybrid = HybridGa.HybridGa((6,2),problem,parameters="hybrid2")
 metas = [
+            fireworks,
             pso,
+            ga3,
+            hill,
+            simulated,
             hybrid
         ]
 evaluate.eva(metas,problem,5)

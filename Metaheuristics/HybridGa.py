@@ -113,19 +113,18 @@ class HybridGa(Metaheuristic):
         self.sol.check_boundaries(improved_solution)
         return improved_solution.reshape(1,-1,2)
 
-    def explore(self, solution: np.ndarray, problem) -> np.ndarray:
+    def explore(self, solution: np.ndarray) -> np.ndarray:
         """Perform exploration to get out of local minima/maxima"""
         mask = self.create_mask(*solution.shape)
-        random_solution = self.sol.init_solution(self.cromosome_len, self.size[1], problem.boundaries)
+        random_solution = self.sol.init_solution(self.cromosome_len, self.size[1], self.problem.boundaries)
         new_solution = solution*(-mask+1)+random_solution*mask
         self.sol.check_boundaries(new_solution)
         return new_solution.reshape(1,-1,2)
 
-    def run(self, problem: Problem) -> tuple:
+    def run(self) -> tuple:
         """ Run the Hybrid GA/Hill-Climbing algorithm and return the best solution and its fitness"""
 
         initime=time.time()
-        self.problem = problem
         self.cromosome_len = self.parameters.get("cromosome_len", 4) #cromosome size
         cross_rate = self.parameters.get("cross_rate",0.3)
         mutation_rate = self.parameters.get("mutation_rate",0.7)
@@ -172,8 +171,8 @@ class HybridGa(Metaheuristic):
                                                         random_amount)
 
                 if rand() <= beta:
-                    child_a = self.explore(child_a.reshape(-1,2), problem)
-                    child_b = self.explore(child_b.reshape(-1,2), problem)
+                    child_a = self.explore(child_a.reshape(-1,2))
+                    child_b = self.explore(child_b.reshape(-1,2))
                 if rand() <= improve:
                     child_a = self.improve(child_a.reshape(-1,2))
                     child_b = self.improve(child_b.reshape(-1,2))
@@ -192,8 +191,8 @@ class HybridGa(Metaheuristic):
             random_amount *= decreasing_rate
 
         best_cromosome = solution[self.best_index(fitness)].reshape(-1,2)
-        cromosme_fitness = problem.eval_fitness_function(best_cromosome)
+        cromosme_fitness = self.problem.eval_fitness_function(best_cromosome)
         best_gene = best_cromosome[self.best_index(cromosme_fitness)]
-        best_gene_fitness = problem.eval_fitness_function(best_gene)
+        best_gene_fitness = self.problem.eval_fitness_function(best_gene)
         self.time_taken = (time.time()-initime)
         return best_gene, best_gene_fitness

@@ -27,36 +27,36 @@ class HillClimbing(Metaheuristic):
         self.sol.check_boundaries(improved_solution)
         return improved_solution
 
-    def explore(self, solution: np.ndarray, problem) -> np.ndarray:
+    def explore(self, solution: np.ndarray) -> np.ndarray:
         """Perform exploration to get out of local minima/maxima"""
 
         mask = self.create_mask(*solution.shape)
-        random_solution = self.sol.init_solution(self.size[0],self.size[1], problem.boundaries)
+        random_solution = self.sol.init_solution(self.size[0],self.size[1], self.problem.boundaries)
         new_solution = solution*(-mask+1)+random_solution*mask
         self.sol.check_boundaries(new_solution)
         return new_solution
 
-    def run(self,problem):
+    def run(self):
         """ Run the Hill-Climbing algorithm and return the best solution and its fitness"""
 
         initime=time.time()
         self.step = self.parameters.get("step", 10)
         iterations = self.parameters.get("iterations", 200)
         beta = self.parameters.get("beta",0.2)
-        solution = self.sol.init_solution(self.size[0],self.size[1], problem.boundaries)
-        fitness = problem.eval_fitness_function(solution)
+        solution = self.sol.init_solution(self.size[0],self.size[1], self.problem.boundaries)
+        fitness = self.problem.eval_fitness_function(solution)
         for i in range(iterations):
 
             if rand() <= beta:
-                solution_prime = self.explore(solution, problem)
+                solution_prime = self.explore(solution)
             else:
                 solution_prime = self.improve(solution)
 
-            current_fitness = problem.eval_fitness_function(solution_prime)
+            current_fitness = self.problem.eval_fitness_function(solution_prime)
             better_index = self.comparator(current_fitness, fitness)
             if np.any(better_index):
                 solution[better_index] = solution_prime[better_index]
-            fitness = problem.eval_fitness_function(solution)
+            fitness = self.problem.eval_fitness_function(solution)
             self.lines.append(self.best_value(fitness))
         best_fitness = self.best_index(fitness)
         self.time_taken = (time.time()-initime)

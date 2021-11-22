@@ -1,0 +1,50 @@
+______________________________________ Summary ______________________________________
+
+Best solution:	39.2134
+At: (11.862394188859081, -70.00421892976316)
+_____________________________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	  Time taken   	    ranking    
+      Pso      	     39.21     	  2.1412e-02   	    0.2224     	      1.0      
+   HybridGa    	     39.21     	  5.5571e-03   	    0.9544     	      2.0      
+
+_________________________________ Detailed analysis _________________________________
+
+Name:                     Pso            
+Best solution:            39.2134        
+Worst solution:           39.1594        
+Location:                 11.612447706336832	-69.75427244724091
+Number of Ocurrence:      1              
+Mean:                     39.20222       
+Standard deviation:       0.021411529604397926
+imprecision:              0.01712800000000101
+
+       Parameters used        
+iterations                40             
+inertia                   0.1            
+r_one_factor              1.5            
+r_two_factor              3              
+_____________________________________________________________________________________
+
+Name:                     HybridGa       
+Best solution:            39.2077        
+Worst solution:           39.1935        
+Location:                 11.613572975305699	-69.75857936819669
+Number of Ocurrence:      1              
+Mean:                     39.19932       
+Standard deviation:       0.005557121557065853
+imprecision:              0.005024000000000228
+
+       Parameters used        
+cross_rate                0.4            
+mutation_rate             0.7            
+mut_genes                 4              
+randomness                60             
+decreasing                0.99           
+rnd_thold                 2              
+generations               200            
+cromosome_len             5              
+elite_size                1              
+step                      10             
+beta                      0.3            
+improve                   0.8            
+_____________________________________________________________________________________

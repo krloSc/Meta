@@ -42,7 +42,7 @@ class Evaluate():
         for i in range(epoch):
             for j, meta in enumerate(metas):
                 print(f"Running {meta.__class__.__name__:} {i+1}/{epoch}")
-                resul,fit=meta.run(problem)
+                resul,fit=meta.run()
                 self.results[j,i,0:2]=resul
                 self.results[j,i,2]=fit
                 self.graphs.append(meta.lines)

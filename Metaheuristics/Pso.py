@@ -21,8 +21,9 @@ class Pso(Metaheuristic):
                     + r2*self.r2_factor*(best_particle-self.solution))
         return velocity
 
-    def run(self,problem):
+    def run(self):
         """ Run the PSO algorithm and return the best solution and its fitness"""
+        
         self.iterations = self.parameters.get("iterations",100)
         self.inertia = self.parameters.get("inertia",0.1)
         self.r1_factor = self.parameters.get("r_one_factor", 1.5) # must be < total genes
@@ -32,10 +33,10 @@ class Pso(Metaheuristic):
         self.solution=self.sol.init_solution(
                                         self.size[0],
                                         self.size[1],
-                                        problem.boundaries
+                                        self.problem.boundaries
                                         )
 
-        current_fitness=problem.eval_fitness_function(self.solution)
+        current_fitness=self.problem.eval_fitness_function(self.solution)
         best_particle=self.solution[self.best_index(current_fitness)]
         velocity = uniform(0,1,self.solution.size)
         velocity = velocity.reshape(-1,self.solution.shape[1])
@@ -53,16 +54,16 @@ class Pso(Metaheuristic):
                                             r2
                                             )
             self.solution=self.sol.update_sol(self.solution,velocity)
-            current_fitness = problem.eval_fitness_function(self.solution)
+            current_fitness = self.problem.eval_fitness_function(self.solution)
             current_best_fitness = self.best_value(current_fitness)
-            best_particle_fitness = problem.eval_fitness_function(best_particle)
+            best_particle_fitness = self.problem.eval_fitness_function(best_particle)
             self.lines.append(float(best_particle_fitness))
             if self.comparator(current_best_fitness, best_particle_fitness):
                 best_particle=self.solution[self.best_index(current_fitness)]
 
-            previous_fitness = problem.eval_fitness_function(best_sol)
+            previous_fitness = self.problem.eval_fitness_function(best_sol)
             index_mask = self.comparator(current_fitness, previous_fitness)
             best_sol[index_mask] = self.solution[index_mask]
 
         self.time_taken = (time.time()-init_time)
-        return best_particle, problem.eval_fitness_function(best_particle)
+        return best_particle, self.problem.eval_fitness_function(best_particle)

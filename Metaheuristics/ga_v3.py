@@ -98,10 +98,10 @@ class Ga_v3(Metaheuristic):
 
 
 
-    def run(self, problem: Problem) -> tuple:
+    def run(self) -> tuple:
         """ Run the Ga algorithm and return the best solution and its fitness"""
+
         initime=time.time()
-        self.problem = problem
         self.cromosome_len = self.parameters.get("cromosome_len", 4) #cromosome size
         cross_rate = self.parameters.get("cross_rate",0.3)
         mutation_rate = self.parameters.get("mutation_rate",0.7)
@@ -156,8 +156,8 @@ class Ga_v3(Metaheuristic):
             random_amount *= decreasing_rate
 
         best_cromosome = solution[self.best_index(fitness)].reshape(-1,2)
-        cromosme_fitness = problem.eval_fitness_function(best_cromosome)
+        cromosme_fitness = self.problem.eval_fitness_function(best_cromosome)
         best_gene = best_cromosome[self.best_index(cromosme_fitness)]
-        best_gene_fitness = problem.eval_fitness_function(best_gene)
+        best_gene_fitness = self.problem.eval_fitness_function(best_gene)
         self.time_taken = (time.time()-initime)
         return best_gene, best_gene_fitness
