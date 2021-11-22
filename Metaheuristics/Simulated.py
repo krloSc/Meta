@@ -8,7 +8,7 @@ import time
 
 class Simulated(Metaheuristic):
 
-    def run(self):
+    def run(self) -> tuple:
         """ Run the Simulated Annealing algorithm and return the best solution and its fitness"""
 
         initime=time.time()

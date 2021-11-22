@@ -36,7 +36,7 @@ class HillClimbing(Metaheuristic):
         self.sol.check_boundaries(new_solution)
         return new_solution
 
-    def run(self):
+    def run(self) -> tuple:
         """ Run the Hill-Climbing algorithm and return the best solution and its fitness"""
 
         initime=time.time()

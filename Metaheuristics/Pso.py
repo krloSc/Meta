@@ -21,9 +21,9 @@ class Pso(Metaheuristic):
                     + r2*self.r2_factor*(best_particle-self.solution))
         return velocity
 
-    def run(self):
+    def run(self) -> tuple:
         """ Run the PSO algorithm and return the best solution and its fitness"""
-        
+
         self.iterations = self.parameters.get("iterations",100)
         self.inertia = self.parameters.get("inertia",0.1)
         self.r1_factor = self.parameters.get("r_one_factor", 1.5) # must be < total genes

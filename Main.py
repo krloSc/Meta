@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 
 problem = RasterProblem("Falcon",OptimizationType.MAXIMIZATION)
 problem.get_values_from_file()
-evaluate = Evaluate.Evaluate()
 simulated = Simulated.Simulated((2,2),problem, parameters= "simulated")
 fireworks = Fwa.Fwa((5,2),problem,parameters="firework")
 pso = Pso.Pso((100,2),problem,parameters="PSO")
@@ -24,7 +23,8 @@ metas = [
             simulated,
             hybrid
         ]
-evaluate.eva(metas,problem,5)
+evaluate = Evaluate.Evaluate(metas,problem,epoch=5)
+evaluate.eva()
 evaluate.analysis(detailed=True)
 evaluate.plot_graphs()
 evaluate.visual_raster()

@@ -12,11 +12,7 @@ from util import map
 
 class Evaluate():
 
-    def __init__(self):
-        pass
-
-    def eva (self,metas,problem,epoch=5):
-        """Store the results of each Metaheuristic in an Numpy array"""
+    def __init__(self,metas,problem,epoch=5) -> None:
 
         self.x_min = problem.boundaries["y_min"]
         self.x_max = problem.boundaries["y_max"]
@@ -39,9 +35,12 @@ class Evaluate():
         self.results=np.ones((len(metas),epoch,3), dtype = float)
         self.graphs = []
 
-        for i in range(epoch):
-            for j, meta in enumerate(metas):
-                print(f"Running {meta.__class__.__name__:} {i+1}/{epoch}")
+    def eva (self):
+        """Store the results of each Metaheuristic in an Numpy array"""
+
+        for i in range(self.epoch):
+            for j, meta in enumerate(self.metas):
+                print(f"Running {meta.__class__.__name__:} {i+1}/{self.epoch}")
                 resul,fit=meta.run()
                 self.results[j,i,0:2]=resul
                 self.results[j,i,2]=fit

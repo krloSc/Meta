@@ -44,7 +44,7 @@ class Fwa(Metaheuristic):
         self.sol.check_boundaries(solution)
         return
 
-    def run(self):
+    def run(self) -> tuple:
         """ Run the firework algorithm and return the best solution and its fitness"""
 
         self.solution=self.sol.init_solution(self.size[0],self.size[1], self.problem.boundaries)
