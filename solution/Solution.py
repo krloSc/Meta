@@ -36,17 +36,17 @@ class Solution():
         solutions[:,:,1] = np.clip(solutions[:,:,1],self.y_min,self.y_max-1)
         return solutions
 
-    def generate_single(self, origin, randomness = 1):
+    def generate_single(self, origin: np.ndarray, randomness = 1) -> np.ndarray:
         """Geneate a single solution given an origin"""
         solution = origin + uniform(-1,1,size= 2)*randomness
         solution[0] = np.clip(solution[0],self.x_min,self.x_max-1)
         solution[1] = np.clip(solution[1],self.y_min,self.y_max-1)
         return solution
 
-    def update_sol(self, solutions: np.ndarray, slopes: np.ndarray) -> np.ndarray:
+    def update_sol(self, solutions: np.ndarray, change: np.ndarray) -> np.ndarray:
         """Update a solution according to a rate of change"""
 
-        solutions = solutions+slopes
+        solutions = solutions+change
         solutions[:,0] = np.clip(solutions[:,0],self.x_min,self.x_max-1)
         solutions[:,1] = np.clip(solutions[:,1],self.y_min,self.y_max-1)
         return solutions

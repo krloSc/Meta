@@ -121,17 +121,18 @@ class Evaluate():
         if math.sqrt(len(self.metas)) == int(math.sqrt(len(self.metas))):
 
             grid = int(math.sqrt(len(self.metas)))
-            fig, axs = plt.subplots(grid,grid)
+            fig, axs = plt.subplots(grid,grid, figsize = (16,8))
 
         elif len(self.metas)%2 == 0:
 
-            fig, axs = plt.subplots(2,int(len(self.metas)/2))
+            fig, axs = plt.subplots(2,int(len(self.metas)/2), figsize = (16,8))
 
         else:
 
             fig, axs = plt.subplots(1, int(len(self.metas)))
 
         indexes = self.get_graphs_index()
+
         try:
             for meta, ax, i in zip(self.metas, axs.flatten(), range(len(self.metas))):
                 ax.set_title(meta.__class__.__name__, fontsize=8)
@@ -144,20 +145,24 @@ class Evaluate():
                     ax.plot(self.graphs[index*len(self.metas)+i],
                             label = plot_label)
                     ax.legend()
-        except Exception as e:
-            input(e)
-            axs.plot(self.graphs[0])
+        except:
             axs.set_title(self.metas.__class__.__name__, fontsize=8)
-            axs.legend()
-
-
+            for j in range(2):
+                if j == 0:
+                    plot_label = (f"Best result at run {int(indexes[0,0])+1}")
+                else:
+                    plot_label = (f"Worst result at run {int(indexes[0,1])+1}")
+                index = int(indexes[0,j])
+                axs.plot(self.graphs[index*len(self.metas)],
+                            label = plot_label)
+                axs.legend()
         plt.show()
 
         return
 
     def get_graphs_index(self):
         """Return the index for the best and worst run for each Metaheuristic"""
-        
+
         meta_indexes =  np.zeros((len(self.metas),2))
         for i in range(len(self.metas)):
             current_data = [self.graphs[x][-1] for x in range(i,len(self.metas)*self.epoch,len(self.metas))]

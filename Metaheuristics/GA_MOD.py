@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 import time
 from util import param
 from Metaheuristics.meta import Metaheuristic
-sol=Solution()
 
 class Ga(Metaheuristic):
 
@@ -38,10 +37,10 @@ class Ga(Metaheuristic):
         """Generate a set of cromosomes including elites from previous generations"""
 
         cromosome_len = self.parameters.get("cromosome_len", 4) #cromosome size
-        solution = sol.init_solution(self.rows, columns, self.problem.boundaries)
+        solution = self.sol.init_solution(self.rows, columns, self.problem.boundaries)
         for i in range(cromosome_len-1): #number of solution per cromosome
             solution = np.append(solution,
-                            sol.init_solution(self.rows, columns, self.problem.boundaries),
+                            self.sol.init_solution(self.rows, columns, self.problem.boundaries),
                             axis = 1)
         solution = solution.reshape(self.rows,-1,2)
         if elite.size != 0:
@@ -86,7 +85,7 @@ class Ga(Metaheuristic):
         genes = np.random.choice(range(max_index), max_genes, replace=False)
         mutated = parent.copy()
         for i in genes:
-            mutated[i] = sol.generate_single(parent[i], randomness)
+            mutated[i] = self.sol.generate_single(parent[i], randomness)
         mutated = mutated.reshape(-1,2)
         parent_fitness = self.problem.eval_fitness_function(parent.reshape(-1,2))
         mutated_fitness = self.problem.eval_fitness_function(mutated)

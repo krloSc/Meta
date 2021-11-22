@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 import time
 from util import param
 from Metaheuristics.meta import Metaheuristic
-sol=Solution()
 
 class Ga_v3(Metaheuristic):
 
@@ -38,10 +37,10 @@ class Ga_v3(Metaheuristic):
     def generate_individuals(self, columns: np.ndarray, elite: np.ndarray):
         """Generate a set of cromosomes including elites from previous generations"""
 
-        solution = sol.init_solution(self.rows, columns, self.problem.boundaries)
+        solution = self.sol.init_solution(self.rows, columns, self.problem.boundaries)
         for i in range(self.cromosome_len-1): #number of solution per cromosome
             solution = np.append(solution,
-                            sol.init_solution(self.rows, columns, self.problem.boundaries),
+                            self.sol.init_solution(self.rows, columns, self.problem.boundaries),
                             axis = 1)
         solution = solution.reshape(self.rows,-1,2)
         if elite.size != 0:
@@ -78,8 +77,8 @@ class Ga_v3(Metaheuristic):
         child_a = parent_a.copy()
         child_b = parent_b.copy()
         for i,j in zip(genes_a, genes_b):
-            child_a[i] = sol.generate_single(parent_a[i], randomness)
-            child_b[j] = sol.generate_single(parent_b[i], randomness)
+            child_a[i] = self.sol.generate_single(parent_a[i], randomness)
+            child_b[j] = self.sol.generate_single(parent_b[i], randomness)
         child_a = child_a.reshape(1,-1,2)
         child_b = child_b.reshape(1,-1,2)
 

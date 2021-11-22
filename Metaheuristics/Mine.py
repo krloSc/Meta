@@ -4,7 +4,6 @@ import numpy as np
 from numpy.random import rand,uniform,randint
 import matplotlib.pyplot as plt
 import time
-sol=Solution()
 
 #Inicializacion
 class Mine():
@@ -13,15 +12,15 @@ class Mine():
 
         if type(parameters) == str:
             parameters = param.get_parameters(parameters)
-            
+
         self.size = size
         self.parameters=parameters
 
     def run(self,problem):
-        self.solution=sol.init_solution(self.size[0],self.size[1], problem.boundaries)
+        self.solution=self.sol.init_solution(self.size[0],self.size[1], problem.boundaries)
         initime=time.time()
         new_sol=np.copy(self.solution)
-        subset=sol.generate_from(self.solution,10,uniform(-0.2,0.2,(10,2))) #mejorar estancamiento
+        subset=self.sol.generate_from(self.solution,10,uniform(-0.2,0.2,(10,2))) #mejorar estancamiento
         #print(solution)
 
         for i in range(subset.shape[0]):
@@ -50,7 +49,7 @@ class Mine():
                 #print(r_d)
             #input()
             entrophy=uniform(-1,1,(sub_dim,self.solution.shape[1]))/(0.01*n)#*r_d
-            subset=sol.generate_from(self.solution,sub_dim,entrophy)
+            subset=self.sol.generate_from(self.solution,sub_dim,entrophy)
             for i in range(self.solution.shape[0]):
                 current_sub=subset[i]
                 current_sol[i]=current_sub[np.argmin(fit.evaluate(subset[i],problem))]

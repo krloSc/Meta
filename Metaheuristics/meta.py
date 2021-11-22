@@ -13,7 +13,7 @@ class Metaheuristic(ABC):
     size: tuple
     problem: Problem
     parameters: dict = None
-    
+
     def __post_init__(self):
         if type(self.parameters) == str:
             self.parameters = param.get_parameters(self.parameters)
@@ -35,6 +35,8 @@ class Metaheuristic(ABC):
             self.best_value = max
             self.worst = min
             self.order = 1
+
+        self.sol = Solution()
 
     @abstractmethod
     def run():

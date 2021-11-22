@@ -6,11 +6,14 @@ from numpy.random import rand,uniform
 import matplotlib.pyplot as plt
 import time
 
-sol=Solution()
-
 class Pso(Metaheuristic):
 
-    def update_velocity(self, prev_velocity, best_sol, best_particle, r1, r2):
+    def update_velocity(self,
+            prev_velocity: np.ndarray,
+            best_sol: np.ndarray,
+            best_particle: np.ndarray,
+            r1: float,
+            r2: float) -> np.ndarray:
         """Calculate the velocity of the particles"""
         velocity = (
                     self.inertia*prev_velocity
@@ -26,7 +29,7 @@ class Pso(Metaheuristic):
         self.r2_factor = self.parameters.get("r_two_factor", 3)
 
         init_time=time.time()
-        self.solution=sol.init_solution(
+        self.solution=self.sol.init_solution(
                                         self.size[0],
                                         self.size[1],
                                         problem.boundaries
@@ -49,7 +52,7 @@ class Pso(Metaheuristic):
                                             r1,
                                             r2
                                             )
-            self.solution=sol.update_sol(self.solution,velocity)
+            self.solution=self.sol.update_sol(self.solution,velocity)
             current_fitness = problem.eval_fitness_function(self.solution)
             current_best_fitness = self.best_value(current_fitness)
             best_particle_fitness = problem.eval_fitness_function(best_particle)

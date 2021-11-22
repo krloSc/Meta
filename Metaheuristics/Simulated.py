@@ -6,15 +6,13 @@ from numpy.random import rand,uniform
 import matplotlib.pyplot as plt
 import time
 
-sol=Solution()
-
 class Simulated(Metaheuristic):
 
     def run(self,problem):
         """ Run the Simulated Annealing algorithm and return the best solution and its fitness"""
-        
+
         initime=time.time()
-        self.solution = sol.init_solution(self.size[0],self.size[1], problem.boundaries)
+        self.solution = self.sol.init_solution(self.size[0],self.size[1], problem.boundaries)
         t=self.parameters.get("to",1000)
         ta=self.parameters.get("ta",0.001)
         delta=self.parameters.get("delta",0.99)
@@ -25,7 +23,7 @@ class Simulated(Metaheuristic):
         while t>ta:
             n_s=5
             factor=uniform(-1,1,(n_s,self.solution.shape[1]))*(t*slope+bias) #ojoo
-            neigbours=sol.generate_from(self.solution,n_s,factor)
+            neigbours=self.sol.generate_from(self.solution,n_s,factor)
 
             for i in range(neigbours.shape[0]):
                 current_solution = self.solution[i]

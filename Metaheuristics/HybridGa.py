@@ -7,20 +7,19 @@ import time
 from util import param
 from Metaheuristics.meta import Metaheuristic
 
-sol=Solution()
 
 class HybridGa(Metaheuristic):
 
 
-    def individual_fitness(self, solution: np.ndarray, rows) -> np.ndarray:
+    def individual_fitness(self, solution: np.ndarray) -> np.ndarray:
         """Obtain the fitness of a entire cromosome perfoming a sum of every gene's fitness in it"""
 
         fitness = self.problem.eval_fitness_function(solution.reshape(-1,2))
-        fitness = np.amax(fitness.reshape(rows, -1),axis=1)
+        fitness = np.amax(fitness.reshape(self.rows, -1),axis=1)
         genes = solution.shape[1]
         return fitness
 
-    def parents_selection(self, individuals: np.ndarray) -> np.ndarray:
+    def parents_selection(self, individuals: np.ndarray) -> tuple:
         """Parents selection through Roulette Wheel selection"""
 
         wheel = []
@@ -35,13 +34,13 @@ class HybridGa(Metaheuristic):
                 break
         return parent_a, parent_b
 
-    def generate_individuals(self, columns: np.ndarray, elite: np.ndarray):
+    def generate_individuals(self, elite: np.ndarray) -> np.ndarray:
         """Generate a set of cromosomes including elites from previous generations"""
 
-        solution = sol.init_solution(self.rows, columns, self.problem.boundaries)
+        solution = self.sol.init_solution(self.rows, self.columns, self.problem.boundaries)
         for i in range(self.cromosome_len-1): #number of solution per cromosome
             solution = np.append(solution,
-                            sol.init_solution(self.rows, columns, self.problem.boundaries),
+                            self.sol.init_solution(self.rows, self.columns, self.problem.boundaries),
                             axis = 1)
         solution = solution.reshape(self.rows,-1,2)
         if elite.size != 0:
@@ -52,7 +51,7 @@ class HybridGa(Metaheuristic):
     def recombination(
             self,
             parent_a: np.ndarray,
-            parent_b: np.ndarray) -> None:
+            parent_b: np.ndarray) -> tuple:
         """perform a recombination process to produce a new offspring"""
 
         max_index =  parent_a.shape[0]
@@ -79,8 +78,8 @@ class HybridGa(Metaheuristic):
         child_a = parent_a.copy()
         child_b = parent_b.copy()
         for i,j in zip(genes_a, genes_b):
-            child_a[i] = sol.generate_single(parent_a[i], randomness)
-            child_b[j] = sol.generate_single(parent_b[i], randomness)
+            child_a[i] = self.sol.generate_single(parent_a[i], randomness)
+            child_b[j] = self.sol.generate_single(parent_b[i], randomness)
         child_a = child_a.reshape(1,-1,2)
         child_b = child_b.reshape(1,-1,2)
 
@@ -111,20 +110,20 @@ class HybridGa(Metaheuristic):
         """Perform exploitation of the solution"""
         mask = self.create_mask(*solution.shape)
         improved_solution = solution + mask*self.step*uniform(-1,1)
-        sol.check_boundaries(improved_solution)
+        self.sol.check_boundaries(improved_solution)
         return improved_solution.reshape(1,-1,2)
 
     def explore(self, solution: np.ndarray, problem) -> np.ndarray:
         """Perform exploration to get out of local minima/maxima"""
         mask = self.create_mask(*solution.shape)
-        random_solution = sol.init_solution(self.cromosome_len, self.size[1], problem.boundaries)
+        random_solution = self.sol.init_solution(self.cromosome_len, self.size[1], problem.boundaries)
         new_solution = solution*(-mask+1)+random_solution*mask
-        sol.check_boundaries(new_solution)
+        self.sol.check_boundaries(new_solution)
         return new_solution.reshape(1,-1,2)
 
     def run(self, problem: Problem) -> tuple:
         """ Run the Hybrid GA/Hill-Climbing algorithm and return the best solution and its fitness"""
-        
+
         initime=time.time()
         self.problem = problem
         self.cromosome_len = self.parameters.get("cromosome_len", 4) #cromosome size
@@ -141,17 +140,16 @@ class HybridGa(Metaheuristic):
         beta = self.parameters.get("beta",0.2)
         improve = self.parameters.get("improve",0.2)
         self.rows = self.size[0]
-        columns = self.size[1]
+        self.columns = self.size[1]
         elite = np.array([])
         random_amount = randomness
         for i in range(generations):
 
             solution = self.generate_individuals(
-                    columns,
                     elite)
 
             new_generation = np.array([])
-            fitness = self.individual_fitness(solution, self.rows)
+            fitness = self.individual_fitness(solution)
 
             while new_generation.size < self.rows*self.cromosome_len*2:
 
@@ -184,11 +182,11 @@ class HybridGa(Metaheuristic):
                 new_generation = np.append(new_generation,children)
 
             new_generation = new_generation.reshape(-1,self.cromosome_len,2)
-            new_fitness = self.individual_fitness(new_generation, self.rows)
+            new_fitness = self.individual_fitness(new_generation)
             better = self.comparator(new_fitness,fitness)
             if (np.any(better)):
                 solution[better] = new_generation[better]
-            fitness =  self.individual_fitness(solution, self.rows)
+            fitness =  self.individual_fitness(solution)
             elite = self.select_elites(solution, fitness)
             self.lines.append(self.best_value(fitness))
             random_amount *= decreasing_rate

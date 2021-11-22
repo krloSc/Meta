@@ -2,10 +2,9 @@ from problem.Problem import*
 from solution.Solution import *
 from Metaheuristics.meta import Metaheuristic
 import numpy as np
-from numpy.random import rand,uniform, choice, randint
+from numpy.random import rand,uniform, choice, randint, normal
 import matplotlib.pyplot as plt
 import time
-sol=Solution()
 
 class Fwa(Metaheuristic):
 
@@ -37,10 +36,18 @@ class Fwa(Metaheuristic):
 
         return mask
 
+    def gaussian_improve(self, solution: np.ndarray) -> np.ndarray:
+        """Improve the solution using a gaussian distribution"""
+        mask = self.create_mask(solution.shape[0],2)[:,0].astype(int)
+        factor = normal(1,1,solution.shape)
+        solution[mask] = solution[mask]*factor
+        self.sol.check_boundaries(solution)
+        return
+
     def run(self,problem):
         """ Run the firework algorithm and return the best solution and its fitness"""
         self.problem = problem
-        self.solution=sol.init_solution(self.size[0],self.size[1], problem.boundaries)
+        self.solution=self.sol.init_solution(self.size[0],self.size[1], problem.boundaries)
         e=self.parameters.get("e",0.001)
         m=self.parameters.get("m",100)
         a_hat=self.parameters.get("a_hat",500)
@@ -67,7 +74,7 @@ class Fwa(Metaheuristic):
 
                 dimension_mask = self.create_mask(int(s[i]),2)
                 amplitude=a[i]*dimension_mask*uniform(-1,1,dimension_mask.shape)              # (s,2)
-                sparks=sol.generate_from(self.solution[i].reshape(1,-1),s[i],amplitude)
+                sparks=self.sol.generate_from(self.solution[i].reshape(1,-1),s[i],amplitude)
                 solutions=np.append(solutions,sparks)
 
             solutions=np.append(solutions,self.solution)
@@ -80,6 +87,7 @@ class Fwa(Metaheuristic):
             solutions=np.delete(solutions,bindex,0)
             prev_time = time.time()
             n_minus=self.nfire(solutions)
+            #self.gaussian_improve(n_minus)
             self.solution=np.concatenate((best_spark,n_minus))
         self.time_taken = (time.time()-initime)
         return best_spark, problem.eval_fitness_function(best_spark)
