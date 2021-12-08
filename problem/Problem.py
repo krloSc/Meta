@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import Enum, auto
-from util import map
+from util.Util import *
 import numpy as np
 import pandas as pd
 import os
 import re
+map = Map()
 
 class OptimizationType(Enum):
     """Assign ids to optimization problem types"""

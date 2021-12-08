@@ -42,7 +42,7 @@ class Simulated(Metaheuristic):
             fitness_list = self.problem.eval_fitness_function(self.solution)
             self.lines.append(self.best_value(fitness_list))
             t=t*delta
-        self.time_taken = (time.time()-initime)
+        self.time_taken.append(time.time()-initime)
         fitness_list = self.problem.eval_fitness_function(self.solution)
         best_solution = self.solution[self.best_index(fitness_list)]
         best_solution_fitness = self.best_value(fitness_list)

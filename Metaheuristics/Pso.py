@@ -65,5 +65,5 @@ class Pso(Metaheuristic):
             index_mask = self.comparator(current_fitness, previous_fitness)
             best_sol[index_mask] = self.solution[index_mask]
 
-        self.time_taken = (time.time()-init_time)
+        self.time_taken.append(time.time()-init_time)
         return best_particle, self.problem.eval_fitness_function(best_particle)

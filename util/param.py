@@ -1,5 +1,6 @@
 import re
 import os
+
 def get_parameters(file_name):
     """Read the parameters file and retrieve the values"""
     try:

@@ -1,0 +1,25 @@
+______________________________________ Summary ______________________________________
+
+Best solution:	40.2465
+At: (10.312479546884893, -63.93748158032975)
+_____________________________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	  Time taken   	    ranking    
+      Pso      	     40.25     	  0.0000e+00   	    0.2214     	      1.0      
+
+_________________________________ Detailed analysis _________________________________
+
+Name:                     Pso            
+Best solution:            40.2465        
+Worst solution:           40.2465        
+Location:                 10.62085175067025	-64.24585378411511
+Number of Ocurrence:      5              
+Mean:                     40.2465        
+Standard deviation:       0.0            
+imprecision:              0.0            
+
+       Parameters used        
+iterations                40             
+inertia                   0.1            
+r_one_factor              1.5            
+r_two_factor              3              
+_____________________________________________________________________________________

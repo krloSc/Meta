@@ -159,5 +159,5 @@ class Ga_v3(Metaheuristic):
         cromosme_fitness = self.problem.eval_fitness_function(best_cromosome)
         best_gene = best_cromosome[self.best_index(cromosme_fitness)]
         best_gene_fitness = self.problem.eval_fitness_function(best_gene)
-        self.time_taken = (time.time()-initime)
+        self.time_taken.append(time.time()-initime)
         return best_gene, best_gene_fitness

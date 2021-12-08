@@ -89,5 +89,5 @@ class Fwa(Metaheuristic):
             n_minus=self.nfire(solutions)
             #self.gaussian_improve(n_minus)
             self.solution=np.concatenate((best_spark,n_minus))
-        self.time_taken = (time.time()-initime)
+        self.time_taken.append(time.time()-initime)
         return best_spark, self.problem.eval_fitness_function(best_spark)

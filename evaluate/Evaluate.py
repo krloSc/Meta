@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 from math import floor
 from datetime import datetime
 import os
-from util import map
 
 class Evaluate():
 
@@ -190,6 +189,8 @@ class Evaluate():
         file.write(f'{"":_<38} Summary {"":_>38}\n')
         file.write("\n")
 
+
+        file.write(f"Problem name:\t{self.problem.name}\n")
         global_fitness = self.results[global_fit,fit_index[global_fit],2]
         file.write(f"Best solution:\t{global_fitness}\n")
         x_position = self.results[global_fit,fit_index[global_fit]][1]
@@ -217,6 +218,7 @@ class Evaluate():
             best_sol=self.results[i,index,2]
             std=np.std(self.results[i,:,2])
             time=self.metas[i].time_taken
+            time =  sum(time)/len(time)
             file.write(f'{name:^15.13}\t'
                     f'{best_sol:^15.4}\t'
                     f'{std:^15.4e}\t'

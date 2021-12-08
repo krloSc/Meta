@@ -59,5 +59,5 @@ class HillClimbing(Metaheuristic):
             fitness = self.problem.eval_fitness_function(solution)
             self.lines.append(self.best_value(fitness))
         best_fitness = self.best_index(fitness)
-        self.time_taken = (time.time()-initime)
+        self.time_taken.append(time.time()-initime)
         return solution[best_fitness], fitness[best_fitness]
