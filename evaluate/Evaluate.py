@@ -68,13 +68,13 @@ class Evaluate():
         X,Y=np.meshgrid(X,Y)
         Z=eval(self.problem.problem)
         fig,ax=plt.subplots(1,1)
-        ax.contourf(X,Y,Z,10)
+        ax.contourf(X,Y,Z,50)
         ax.autoscale(False)
         for i in range(len(self.metas)):
             ax.scatter(
                         self.results[i,:,1],
                         self.results[i,:,0],
-                        label=self.metas[floor(i/2)].__class__.__name__,
+                        label=self.metas[i].__class__.__name__,
                         alpha=1,
                         zorder=1
                         )

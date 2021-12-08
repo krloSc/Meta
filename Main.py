@@ -5,7 +5,7 @@ from util import param
 import numpy as np
 import matplotlib.pyplot as plt
 
-problem = RasterProblem("Amazonas",OptimizationType.MAXIMIZATION)
+problem = SpaceProblem("Venezuela",OptimizationType.MAXIMIZATION)
 problem.get_values_from_file()
 simulated = Simulated.Simulated((2,2),problem, parameters= "simulated")
 fireworks = Fwa.Fwa((5,2),problem,parameters="firework")
@@ -23,7 +23,7 @@ metas = [
             simulated,
             hybrid
         ]
-evaluate = Evaluate.Evaluate(metas,problem,epoch=)
+evaluate = Evaluate.Evaluate(metas,problem,epoch=20)
 evaluate.eva()
 evaluate.analysis(detailed=True)
 evaluate.plot_graphs()
