@@ -1,0 +1,122 @@
+______________________________________ Summary ______________________________________
+
+Problem name:	Tachira
+Best solution:	32.2177
+At: (8.254133018214654, -72.03757737294033)
+_____________________________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	  Time taken   	    ranking    
+      Fwa      	     32.22     	  3.7693e-02   	    0.4788     	      5.0      
+      Pso      	     32.22     	  1.9876e-02   	    0.2193     	      2.0      
+     Ga_v3     	     32.2      	  2.9784e-02   	    0.6281     	      6.0      
+ HillClimbing  	     32.22     	  2.6986e-03   	    0.8609     	      1.0      
+   Simulated   	     32.21     	  4.0824e-01   	    1.0720     	      4.0      
+   HybridGa    	     32.21     	  3.5845e-02   	    0.9423     	      3.0      
+
+_________________________________ Detailed analysis _________________________________
+
+Name:                     Fwa            
+Best solution:            32.2176        
+Worst solution:           32.0925        
+Location:                 7.812404970829738	-71.59584781220998
+Number of Ocurrence:      1              
+Mean:                     32.17264500000001
+Standard deviation:       0.037692804021457534
+imprecision:              0.032456999999996586
+
+       Parameters used        
+e                         0.001          
+m                         50             
+a_hat                     500            
+n_explosion               50             
+_____________________________________________________________________________________
+
+Name:                     Pso            
+Best solution:            32.2177        
+Worst solution:           32.1209        
+Location:                 7.8124226035596775	-71.59586695828536
+Number of Ocurrence:      3              
+Mean:                     32.19633       
+Standard deviation:       0.019876471014745125
+imprecision:              0.01066200000000066
+
+       Parameters used        
+iterations                40             
+inertia                   0.1            
+r_one_factor              1.5            
+r_two_factor              3              
+_____________________________________________________________________________________
+
+Name:                     Ga_v3          
+Best solution:            32.1995        
+Worst solution:           32.0884        
+Location:                 7.811886493913279	-71.59033418072572
+Number of Ocurrence:      2              
+Mean:                     32.17346499999999
+Standard deviation:       0.029783691426685084
+imprecision:              0.022722500000003264
+
+       Parameters used        
+cross_rate                0.4            
+mutation_rate             0.9            
+mut_genes                 3              
+randomness                60             
+decreasing                0.987          
+rnd_thold                 2              
+generations               200            
+cromosome_len             3              
+elite_size                5              
+_____________________________________________________________________________________
+
+Name:                     HillClimbing   
+Best solution:            32.2176        
+Worst solution:           32.2066        
+Location:                 7.81246202985144	-71.59581833062302
+Number of Ocurrence:      1              
+Mean:                     32.214650000000006
+Standard deviation:       0.0026986107537024214
+imprecision:              0.002104999999998114
+
+       Parameters used        
+step                      7              
+iterations                200            
+beta                      0.4            
+_____________________________________________________________________________________
+
+Name:                     Simulated      
+Best solution:            32.2117        
+Worst solution:           30.4344        
+Location:                 7.812267276279357	-71.59401165707669
+Number of Ocurrence:      1              
+Mean:                     32.011815      
+Standard deviation:       0.408235438533942
+imprecision:              0.27448750000000055
+
+       Parameters used        
+to                        20             
+ta                        0.001          
+delta                     0.97           
+_____________________________________________________________________________________
+
+Name:                     HybridGa       
+Best solution:            32.2147        
+Worst solution:           32.1085        
+Location:                 7.811670450268261	-71.59549954558837
+Number of Ocurrence:      1              
+Mean:                     32.17727       
+Standard deviation:       0.03584473601520845
+imprecision:              0.03181899999999978
+
+       Parameters used        
+cross_rate                0.4            
+mutation_rate             0.7            
+mut_genes                 4              
+randomness                60             
+decreasing                0.99           
+rnd_thold                 2              
+generations               200            
+cromosome_len             5              
+elite_size                1              
+step                      10             
+beta                      0.3            
+improve                   0.8            
+_____________________________________________________________________________________

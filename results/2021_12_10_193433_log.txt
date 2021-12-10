@@ -1,0 +1,26 @@
+______________________________________ Summary ______________________________________
+
+Problem name:	VENEZUELA
+Best solution:	40.2458
+At: (9.770461697022427, -63.39622619182493)
+_____________________________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	  Time taken   	    ranking    
+      Pso      	     40.25     	  4.9143e-02   	    1.3510     	      1.0      
+
+_________________________________ Detailed analysis _________________________________
+
+Name:                     Pso            
+Best solution:            40.2458        
+Worst solution:           40.1201        
+Location:                 10.620440474675071	-64.24620496947757
+Number of Ocurrence:      7              
+Mean:                     40.21983       
+Standard deviation:       0.04914291505395338
+imprecision:              0.03921200000000056
+
+       Parameters used        
+iterations                100            
+inertia                   0.1            
+r_one_factor              1.5            
+r_two_factor              3              
+_____________________________________________________________________________________

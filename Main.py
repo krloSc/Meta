@@ -5,11 +5,11 @@ from util import param
 import numpy as np
 import matplotlib.pyplot as plt
 
-problem = SpaceProblem("Venezuela",OptimizationType.MAXIMIZATION)
+problem = RasterProblem("VENEZUELA",OptimizationType.MAXIMIZATION)
 problem.get_values_from_file()
 simulated = Simulated.Simulated((2,2),problem, parameters= "simulated")
 fireworks = Fwa.Fwa((5,2),problem,parameters="firework")
-pso = Pso.Pso((100,2),problem,parameters="PSO")
+pso = Pso.Pso((200,2),problem,parameters="PSO")
 ga = Ga.Ga((5,2),problem,parameters="ga_parameters_v1")
 ga2 = GA_MOD.Ga((10,2),problem,parameters="Ga_v2")
 ga3 = ga_v3.Ga_v3((6,2),problem,parameters="Ga_v2")
@@ -23,7 +23,7 @@ metas = [
             simulated,
             hybrid
         ]
-evaluate = Evaluate.Evaluate(metas,problem,epoch=20)
+evaluate = Evaluate.Evaluate(metas,problem,epoch=10)
 evaluate.eva()
 evaluate.analysis(detailed=True)
 evaluate.plot_graphs()
