@@ -1,0 +1,128 @@
+______________________________________ Summary ______________________________________
+
+Problem name:	sucre
+Best solution:	1770.4765
+At: (10.312487406336858, -63.93750118394107)
+_____________________________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	  Time taken   	    ranking    
+      Pso      	   1.77e+03    	  0.0000e+00   	    0.4066     	      1.0      
+      Fwa      	   1.77e+03    	  5.7289e-03   	    0.5110     	      2.5      
+   Simulated   	   1.77e+03    	  4.4791e-03   	    1.1027     	      4.0      
+     Ga_v3     	   1.77e+03    	  1.3658e-02   	    0.6576     	      5.0      
+ HillClimbing  	   1.77e+03    	  2.7645e-03   	    0.9086     	      2.5      
+   HybridGa    	   1.77e+03    	  5.7155e-04   	    0.9914     	      6.0      
+
+_________________________________ Detailed analysis _________________________________
+
+Name:                     Pso            
+Best solution:            1770.476       
+Worst solution:           1770.476       
+Max Power:                4.53768e+08    
+Location:                 10.620832147058927	-64.24584592466314
+Number of Ocurrence:      3              
+Mean:                     1770.4765      
+Standard deviation:       0.0            
+imprecision:              0.0            
+
+       Parameters used        
+iterations                100            
+inertia                   0.1            
+r_one_factor              1.5            
+r_two_factor              3              
+_____________________________________________________________________________________
+
+Name:                     Fwa            
+Best solution:            1770.476       
+Worst solution:           1770.464       
+Max Power:                4.53768e+08    
+Location:                 10.620971396596014	-64.24585756173695
+Number of Ocurrence:      1              
+Mean:                     1770.4719999999998
+Standard deviation:       0.0057288742349715874
+imprecision:              0.005400000000084522
+
+       Parameters used        
+e                         0.001          
+m                         50             
+a_hat                     500            
+n_explosion               50             
+_____________________________________________________________________________________
+
+Name:                     Simulated      
+Best solution:            1770.475       
+Worst solution:           1770.466       
+Max Power:                4.53768e+08    
+Location:                 10.621456588329037	-64.24597732964035
+Number of Ocurrence:      1              
+Mean:                     1770.4687666666669
+Standard deviation:       0.004479087208652049
+imprecision:              0.00422222222232449
+
+       Parameters used        
+to                        20             
+ta                        0.001          
+delta                     0.97           
+_____________________________________________________________________________________
+
+Name:                     Ga_v3          
+Best solution:            1770.471       
+Worst solution:           1770.439       
+Max Power:                4.53768e+08    
+Location:                 10.62317096426084	-64.24645731752987
+Number of Ocurrence:      1              
+Mean:                     1770.4579      
+Standard deviation:       0.013657964709258296
+imprecision:              0.012599999999944581
+
+       Parameters used        
+cross_rate                0.4            
+mutation_rate             0.9            
+mut_genes                 3              
+randomness                60             
+decreasing                0.987          
+rnd_thold                 2              
+generations               200            
+cromosome_len             3              
+elite_size                5              
+_____________________________________________________________________________________
+
+Name:                     HillClimbing   
+Best solution:            1770.475       
+Worst solution:           1770.469       
+Max Power:                4.53768e+08    
+Location:                 10.621413786454244	-64.24597643527169
+Number of Ocurrence:      1              
+Mean:                     1770.4726666666666
+Standard deviation:       0.002764456948851584
+imprecision:              0.00257777777778756
+
+       Parameters used        
+step                      7              
+iterations                200            
+beta                      0.4            
+_____________________________________________________________________________________
+
+Name:                     HybridGa       
+Best solution:            1770.465       
+Worst solution:           1770.463       
+Max Power:                4.53768e+08    
+Location:                 10.627616043603208	-64.24632001864181
+Number of Ocurrence:      1              
+Mean:                     1770.464       
+Standard deviation:       0.0005715476067181093
+imprecision:              0.0005333333334268294
+
+       Parameters used        
+cross_rate                0.4            
+mutation_rate             0.7            
+mut_genes                 4              
+randomness                60             
+decreasing                0.99           
+rnd_thold                 2              
+generations               200            
+cromosome_len             5              
+elite_size                1              
+step                      10             
+beta                      0.3            
+improve                   0.8            
+_____________________________________________________________________________________

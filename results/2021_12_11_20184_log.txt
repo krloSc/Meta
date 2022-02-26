@@ -1,0 +1,42 @@
+______________________________________ Summary ______________________________________
+
+Problem name:	venezuela
+Best solution:	40.2458
+At: (9.770464337911568, -63.39618948222499)
+_____________________________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	  Time taken   	    ranking    
+      Pso      	     40.25     	  7.4629e-01   	    0.9266     	      1.0      
+ HillClimbing  	     40.24     	  3.0467e-01   	    1.1429     	      2.0      
+
+_________________________________ Detailed analysis _________________________________
+
+Name:                     Pso            
+Best solution:            40.2458        
+Worst solution:           38.182         
+Location:                 10.620477184275012	-64.24620232858844
+Number of Ocurrence:      8              
+Mean:                     39.715320000000006
+Standard deviation:       0.7462903862438534
+imprecision:              0.6579739999999991
+
+       Parameters used        
+iterations                200            
+inertia                   0.1            
+r_one_factor              1.5            
+r_two_factor              3              
+_____________________________________________________________________________________
+
+Name:                     HillClimbing   
+Best solution:            40.2445        
+Worst solution:           39.0204        
+Location:                 10.62098872598172	-64.24635631366533
+Number of Ocurrence:      1              
+Mean:                     39.965585      
+Standard deviation:       0.30467180255973825
+imprecision:              0.22826800000000097
+
+       Parameters used        
+step                      7              
+iterations                200            
+beta                      0.4            
+_____________________________________________________________________________________

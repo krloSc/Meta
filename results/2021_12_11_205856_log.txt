@@ -1,0 +1,42 @@
+______________________________________ Summary ______________________________________
+
+Problem name:	Falcon
+Best solution:	39.2134
+At: (11.86240778451171, -70.00421905476078)
+_____________________________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	  Time taken   	    ranking    
+      Pso      	     39.21     	  1.2881e-01   	    0.3992     	      1.0      
+ HillClimbing  	     39.21     	  9.1428e-03   	    0.9001     	      2.0      
+
+_________________________________ Detailed analysis _________________________________
+
+Name:                     Pso            
+Best solution:            39.2134        
+Worst solution:           38.6181        
+Location:                 11.612447581339207	-69.75425885158828
+Number of Ocurrence:      11             
+Mean:                     39.17195499999999
+Standard deviation:       0.12880982289794557
+imprecision:              0.06032750000000568
+
+       Parameters used        
+iterations                100            
+inertia                   0.1            
+r_one_factor              1.5            
+r_two_factor              3              
+_____________________________________________________________________________________
+
+Name:                     HillClimbing   
+Best solution:            39.2129        
+Worst solution:           39.1814        
+Location:                 11.61253363287463	-69.75463284475347
+Number of Ocurrence:      1              
+Mean:                     39.20598       
+Standard deviation:       0.009142789508678464
+imprecision:              0.006748000000001397
+
+       Parameters used        
+step                      7              
+iterations                200            
+beta                      0.4            
+_____________________________________________________________________________________

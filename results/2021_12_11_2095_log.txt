@@ -1,0 +1,42 @@
+______________________________________ Summary ______________________________________
+
+Problem name:	miranda
+Best solution:	39.0571
+At: (11.095753578366738, -66.58752403794713)
+_____________________________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	  Time taken   	    ranking    
+      Pso      	     39.06     	  9.8710e-02   	    0.3858     	      1.0      
+ HillClimbing  	     39.06     	  1.8628e-03   	    0.8750     	      2.0      
+
+_________________________________ Detailed analysis _________________________________
+
+Name:                     Pso            
+Best solution:            39.0571        
+Worst solution:           38.8103        
+Location:                 10.562475949452857	-66.05424640903325
+Number of Ocurrence:      7              
+Mean:                     39.00772       
+Standard deviation:       0.0987100177286988
+imprecision:              0.0789679999999997
+
+       Parameters used        
+iterations                100            
+inertia                   0.1            
+r_one_factor              1.5            
+r_two_factor              3              
+_____________________________________________________________________________________
+
+Name:                     HillClimbing   
+Best solution:            39.0564        
+Worst solution:           39.0494        
+Location:                 10.562550268020777	-66.0549968699432
+Number of Ocurrence:      1              
+Mean:                     39.05353       
+Standard deviation:       0.00186282044223238
+imprecision:              0.0014839999999992416
+
+       Parameters used        
+step                      7              
+iterations                200            
+beta                      0.4            
+_____________________________________________________________________________________

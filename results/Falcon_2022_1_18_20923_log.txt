@@ -1,0 +1,128 @@
+______________________________________ Summary ______________________________________
+
+Problem name:	Falcon
+Best solution:	26.6217
+At: (11.704105095070034, -70.21254356600139)
+_____________________________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	  Time taken   	    ranking    
+      Pso      	    26.6217    	  8.4147e-03   	    0.5863     	      2.0      
+      Fwa      	    26.6215    	  1.5436e-02   	    0.4992     	      3.0      
+   Simulated   	    26.6192    	  9.9668e-02   	    1.0892     	      4.0      
+     Ga_v3     	    26.6200    	  6.4412e-03   	    0.6543     	      6.0      
+ HillClimbing  	    26.6216    	  4.4061e-03   	    0.8873     	      1.0      
+   HybridGa    	    26.6198    	  1.6249e-02   	    0.9697     	      5.0      
+
+_________________________________ Detailed analysis _________________________________
+
+Name:                     Pso            
+Best solution ($MM):      26.6217        
+Worst solution ($MM):     26.6008        
+Max Power (GWh/year):     18.177         
+Location:                 11.404123070098604	-69.91256154102996
+Number of Ocurrence:      14             
+Mean ($MM):               26.61285       
+Standard deviation:       8.4147e-03     
+imprecision:              8.2569e-03     
+
+       Parameters used        
+iterations                150            
+inertia                   0.1            
+r_one_factor              1.5            
+r_two_factor              3              
+_____________________________________________________________________________________
+
+Name:                     Fwa            
+Best solution ($MM):      26.6215        
+Worst solution ($MM):     26.5703        
+Max Power (GWh/year):     18.177         
+Location:                 11.4042422454036	-69.91257675480463
+Number of Ocurrence:      1              
+Mean ($MM):               26.61026       
+Standard deviation:       1.5436e-02     
+imprecision:              1.2464e-02     
+
+       Parameters used        
+e                         0.001          
+m                         50             
+a_hat                     500            
+n_explosion               50             
+_____________________________________________________________________________________
+
+Name:                     Simulated      
+Best solution ($MM):      26.6192        
+Worst solution ($MM):     26.0528        
+Max Power (GWh/year):     18.177         
+Location:                 11.4069229254787	-69.91258183478594
+Number of Ocurrence:      1              
+Mean ($MM):               26.58743       
+Standard deviation:       9.9668e-02     
+imprecision:              3.5642e-02     
+
+       Parameters used        
+to                        20             
+ta                        0.001          
+delta                     0.97           
+_____________________________________________________________________________________
+
+Name:                     Ga_v3          
+Best solution ($MM):      26.62          
+Worst solution ($MM):     26.5925        
+Max Power (GWh/year):     18.177         
+Location:                 11.404454566204745	-69.91293263276143
+Number of Ocurrence:      1              
+Mean ($MM):               26.60342       
+Standard deviation:       6.4412e-03     
+imprecision:              4.9029e-03     
+
+       Parameters used        
+cross_rate                0.4            
+mutation_rate             0.9            
+mut_genes                 3              
+randomness                60             
+decreasing                0.987          
+rnd_thold                 2              
+generations               200            
+cromosome_len             3              
+elite_size                5              
+_____________________________________________________________________________________
+
+Name:                     HillClimbing   
+Best solution ($MM):      26.6216        
+Worst solution ($MM):     26.6063        
+Max Power (GWh/year):     18.177         
+Location:                 11.404198039741692	-69.91256277452595
+Number of Ocurrence:      1              
+Mean ($MM):               26.61722       
+Standard deviation:       4.4061e-03     
+imprecision:              3.6700e-03     
+
+       Parameters used        
+step                      7              
+iterations                200            
+beta                      0.4            
+_____________________________________________________________________________________
+
+Name:                     HybridGa       
+Best solution ($MM):      26.6198        
+Worst solution ($MM):     26.5558        
+Max Power (GWh/year):     18.177         
+Location:                 11.40487799000055	-69.9128880432762
+Number of Ocurrence:      1              
+Mean ($MM):               26.60082       
+Standard deviation:       1.6249e-02     
+imprecision:              1.2648e-02     
+
+       Parameters used        
+cross_rate                0.4            
+mutation_rate             0.7            
+mut_genes                 4              
+randomness                60             
+decreasing                0.99           
+rnd_thold                 2              
+generations               200            
+cromosome_len             5              
+elite_size                1              
+step                      10             
+beta                      0.3            
+improve                   0.8            
+_____________________________________________________________________________________

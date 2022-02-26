@@ -27,10 +27,10 @@ class Simulated(Metaheuristic):
 
             for i in range(neigbours.shape[0]):
                 current_solution = self.solution[i]
-                current_fitness=self.problem.eval_fitness_function(current_solution)
-                neigbours_fitness = self.problem.eval_fitness_function(neigbours[i])
+                current_fitness,_=self.problem.eval_fitness_function(current_solution)
+                neigbours_fitness,_ = self.problem.eval_fitness_function(neigbours[i])
                 best_nbr=neigbours[i,self.best_index(neigbours_fitness)]
-                best_nbr_fitness = self.problem.eval_fitness_function(best_nbr.reshape(1,2))
+                best_nbr_fitness,_ = self.problem.eval_fitness_function(best_nbr.reshape(1,2))
                 if self.comparator(best_nbr_fitness,current_fitness):
                     self.solution[i]=best_nbr
                 else:
@@ -39,11 +39,11 @@ class Simulated(Metaheuristic):
                     ann=np.exp(-l/t)
                     if (r<ann):
                         self.solution[i]=best_nbr
-            fitness_list = self.problem.eval_fitness_function(self.solution)
+            fitness_list,_ = self.problem.eval_fitness_function(self.solution)
             self.lines.append(self.best_value(fitness_list))
             t=t*delta
         self.time_taken.append(time.time()-initime)
-        fitness_list = self.problem.eval_fitness_function(self.solution)
-        best_solution = self.solution[self.best_index(fitness_list)]
-        best_solution_fitness = self.best_value(fitness_list)
-        return  best_solution , best_solution_fitness
+        fitness_list,power = self.problem.eval_fitness_function(self.solution)
+        best_index = self.best_index(fitness_list)
+        best_solution = self.solution[best_index]
+        return  best_solution , fitness_list[best_index], power[best_index]

@@ -44,7 +44,7 @@ class HillClimbing(Metaheuristic):
         iterations = self.parameters.get("iterations", 200)
         beta = self.parameters.get("beta",0.2)
         solution = self.sol.init_solution(self.size[0],self.size[1], self.problem.boundaries)
-        fitness = self.problem.eval_fitness_function(solution)
+        fitness,_ = self.problem.eval_fitness_function(solution)
         for i in range(iterations):
 
             if rand() <= beta:
@@ -52,12 +52,12 @@ class HillClimbing(Metaheuristic):
             else:
                 solution_prime = self.improve(solution)
 
-            current_fitness = self.problem.eval_fitness_function(solution_prime)
+            current_fitness,_ = self.problem.eval_fitness_function(solution_prime)
             better_index = self.comparator(current_fitness, fitness)
             if np.any(better_index):
                 solution[better_index] = solution_prime[better_index]
-            fitness = self.problem.eval_fitness_function(solution)
+            fitness,power = self.problem.eval_fitness_function(solution)
             self.lines.append(self.best_value(fitness))
         best_fitness = self.best_index(fitness)
         self.time_taken.append(time.time()-initime)
-        return solution[best_fitness], fitness[best_fitness]
+        return solution[best_fitness], fitness[best_fitness], power[best_fitness]

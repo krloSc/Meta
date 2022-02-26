@@ -31,7 +31,7 @@ class Evaluate():
         self.problem = problem
         self.metas=metas
         self.epoch = epoch
-        self.results=np.ones((len(metas),epoch,3), dtype = float)
+        self.results=np.ones((len(metas),epoch,4), dtype = float)
         self.graphs = []
 
     def eva (self):
@@ -40,9 +40,10 @@ class Evaluate():
         for i in range(self.epoch):
             for j, meta in enumerate(self.metas):
                 print(f"Running {meta.__class__.__name__:} {i+1}/{self.epoch}")
-                resul,fit=meta.run()
+                resul,fit,power =meta.run()
                 self.results[j,i,0:2]=resul
                 self.results[j,i,2]=fit
+                self.results[j,i,3] = power
                 self.graphs.append(meta.lines)
                 meta.lines = []
 
@@ -68,12 +69,12 @@ class Evaluate():
         X,Y=np.meshgrid(X,Y)
         Z=eval(self.problem.problem)
         fig,ax=plt.subplots(1,1)
-        ax.contourf(X,Y,Z,50)
+        ax.contourf(X,Y,Z,100)
         ax.autoscale(False)
         for i in range(len(self.metas)):
             ax.scatter(
-                        self.results[i,:,1],
                         self.results[i,:,0],
+                        self.results[i,:,1],
                         label=self.metas[i].__class__.__name__,
                         alpha=1,
                         zorder=1
@@ -174,7 +175,9 @@ class Evaluate():
 
         date = datetime.today()
         path = os.getcwd()
-        file_name = (str(date.year)
+        file_name = (
+                self.problem.name
+                +"_"+str(date.year)
                 +"_"+str(date.month)
                 +"_"+str(date.day)
                 +"_"+str(date.hour)
@@ -220,7 +223,7 @@ class Evaluate():
             time=self.metas[i].time_taken
             time =  sum(time)/len(time)
             file.write(f'{name:^15.13}\t'
-                    f'{best_sol:^15.4}\t'
+                    f'{best_sol:^15.4f}\t'
                     f'{std:^15.4e}\t'
                     f'{time:^15.4f}\t'
                     f'{self.ranking[i]:^15}\n'
@@ -241,6 +244,7 @@ class Evaluate():
                     y_pos = y_pos[0]
                 best_sol=self.results[i,index,2]
                 worst_sol=self.results[i,worst_fitness_index,2]
+                max_power = self.results[i,index,3]
                 number_occurrence = np.sum(fitness==best_sol)
                 std = np.std(fitness)
                 mean = np.mean(fitness)
@@ -248,13 +252,14 @@ class Evaluate():
 
                 file.write("\n")
                 file.write(f'{"Name:":<25} {self.metas[i].__class__.__name__ : <15}\n')
-                file.write(f'{"Best solution:":<25} {best_sol:<15.7}\n')
-                file.write(f'{"Worst solution:":<25} {worst_sol:<15.7}\n')
+                file.write(f'{"Best solution ($MM):":<25} {best_sol:<15.7}\n')
+                file.write(f'{"Worst solution ($MM):":<25} {worst_sol:<15.7}\n')
+                file.write(f'{"Max Power (GWh/year):":<25} {max_power:<15.7}\n')
                 file.write(f'{"Location:":<25} {x_pos:<15}\t{y_pos:<15}\n')
                 file.write(f'{"Number of Ocurrence:":<25} {number_occurrence:<15}\n')
-                file.write(f'{"Mean:":<25} {mean:<15}\n')
-                file.write(f'{"Standard deviation:":<25} {std:<15}\n')
-                file.write(f'{"imprecision:":<25} {imprecision:<15}\n')
+                file.write(f'{"Mean ($MM):":<25} {mean:<15.7}\n')
+                file.write(f'{"Standard deviation:":<25} {std:<15.4e}\n')
+                file.write(f'{"imprecision:":<25} {imprecision:<15.4e}\n')
                 file.write("\n")
 
                 file.write(f'{"Parameters used":^30}\n')
@@ -269,6 +274,12 @@ class Evaluate():
         for lines in text_result:
             print(lines)
         file.close()
+
+        file = open(path+"/results/"+file_name+"_iter"+".txt","w+")
+        for i in range(len(self.metas)):
+            file.write(f'{self.metas[i].__class__.__name__},{self.results[i,:,2]},{self.results[i,:,3]}\n')
+        file.close();
+
         return
 
 

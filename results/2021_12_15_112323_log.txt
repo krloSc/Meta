@@ -1,0 +1,122 @@
+______________________________________ Summary ______________________________________
+
+Problem name:	himmeblau
+Best solution:	-0.0
+At: (3.0, 2.0)
+_____________________________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	  Time taken   	    ranking    
+      Fwa      	   -0.001866   	  5.8382e-02   	    0.1116     	      3.0      
+      Pso      	     -0.0      	  2.0183e-22   	    0.0149     	      1.0      
+     Ga_v3     	   -0.001247   	  2.7135e-01   	    0.1669     	      5.0      
+ HillClimbing  	  -7.742e-05   	  5.5110e-03   	    0.2067     	      2.0      
+   Simulated   	   -0.008671   	  2.5576e-01   	    0.0764     	      6.0      
+   HybridGa    	   -0.002419   	  2.1480e-02   	    0.3305     	      4.0      
+
+_________________________________ Detailed analysis _________________________________
+
+Name:                     Fwa            
+Best solution:            -0.001866154   
+Worst solution:           -0.2288233     
+Location:                 3.57950595642837	-1.8404481455166146
+Number of Ocurrence:      1              
+Mean:                     -0.04436277342104626
+Standard deviation:       0.058381971971481136
+imprecision:              0.04072907841866132
+
+       Parameters used        
+e                         0.001          
+m                         50             
+a_hat                     500            
+n_explosion               50             
+_____________________________________________________________________________________
+
+Name:                     Pso            
+Best solution:            -0.0           
+Worst solution:           -9.275671e-22  
+Location:                 3.0            	2.0            
+Number of Ocurrence:      1              
+Mean:                     -4.787716350157766e-23
+Standard deviation:       2.0182600760505873e-22
+imprecision:              8.796899309235755e-23
+
+       Parameters used        
+iterations                100            
+inertia                   0.1            
+r_one_factor              1.5            
+r_two_factor              3              
+_____________________________________________________________________________________
+
+Name:                     Ga_v3          
+Best solution:            -0.001246732   
+Worst solution:           -0.988512      
+Location:                 3.005330167172181	2.001470925401321
+Number of Ocurrence:      1              
+Mean:                     -0.284653629335308
+Standard deviation:       0.2713529726794911
+imprecision:              0.2172960453994885
+
+       Parameters used        
+cross_rate                0.4            
+mutation_rate             0.9            
+mut_genes                 3              
+randomness                60             
+decreasing                0.987          
+rnd_thold                 2              
+generations               200            
+cromosome_len             3              
+elite_size                5              
+_____________________________________________________________________________________
+
+Name:                     HillClimbing   
+Best solution:            -7.741859e-05  
+Worst solution:           -0.01877737    
+Location:                 -3.7803736803523993	-3.2841429416809396
+Number of Ocurrence:      1              
+Mean:                     -0.004551724615405988
+Standard deviation:       0.005511006611493072
+imprecision:              0.004371067105392435
+
+       Parameters used        
+step                      7              
+iterations                200            
+beta                      0.4            
+_____________________________________________________________________________________
+
+Name:                     Simulated      
+Best solution:            -0.008671192   
+Worst solution:           -1.044916      
+Location:                 2.9965278526070094	2.023990469775498
+Number of Ocurrence:      1              
+Mean:                     -0.26187653894131574
+Standard deviation:       0.25575812326693276
+imprecision:              0.1952170476804428
+
+       Parameters used        
+to                        20             
+ta                        0.001          
+delta                     0.97           
+_____________________________________________________________________________________
+
+Name:                     HybridGa       
+Best solution:            -0.002418592   
+Worst solution:           -0.09183769    
+Location:                 3.001188752551993	2.0110914188533444
+Number of Ocurrence:      1              
+Mean:                     -0.022814092728466226
+Standard deviation:       0.021480295987033434
+imprecision:              0.016362559949172902
+
+       Parameters used        
+cross_rate                0.4            
+mutation_rate             0.7            
+mut_genes                 4              
+randomness                60             
+decreasing                0.99           
+rnd_thold                 2              
+generations               200            
+cromosome_len             5              
+elite_size                1              
+step                      10             
+beta                      0.3            
+improve                   0.8            
+_____________________________________________________________________________________

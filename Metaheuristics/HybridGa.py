@@ -14,7 +14,7 @@ class HybridGa(Metaheuristic):
     def individual_fitness(self, solution: np.ndarray) -> np.ndarray:
         """Obtain the fitness of a entire cromosome perfoming a sum of every gene's fitness in it"""
 
-        fitness = self.problem.eval_fitness_function(solution.reshape(-1,2))
+        fitness,_ = self.problem.eval_fitness_function(solution.reshape(-1,2))
         fitness = np.amax(fitness.reshape(self.rows, -1),axis=1)
         genes = solution.shape[1]
         return fitness
@@ -191,8 +191,7 @@ class HybridGa(Metaheuristic):
             random_amount *= decreasing_rate
 
         best_cromosome = solution[self.best_index(fitness)].reshape(-1,2)
-        cromosme_fitness = self.problem.eval_fitness_function(best_cromosome)
+        cromosme_fitness,_ = self.problem.eval_fitness_function(best_cromosome)
         best_gene = best_cromosome[self.best_index(cromosme_fitness)]
-        best_gene_fitness = self.problem.eval_fitness_function(best_gene)
         self.time_taken.append(time.time()-initime)
-        return best_gene, best_gene_fitness
+        return best_gene, *self.problem.eval_fitness_function(best_gene)

@@ -1,0 +1,43 @@
+______________________________________ Summary ______________________________________
+
+Problem name:	falcon
+Best solution:	39.2134
+At: (11.862424360905408, -70.00421861745268)
+_____________________________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	  Time taken   	    ranking    
+      Pso      	     39.21     	  2.6316e-02   	    0.3908     	      1.0      
+      Fwa      	     39.21     	  3.4410e-02   	    0.4939     	      2.0      
+
+_________________________________ Detailed analysis _________________________________
+
+Name:                     Pso            
+Best solution:            39.2134        
+Worst solution:           39.1596        
+Location:                 11.61244801864731	-69.75424227519458
+Number of Ocurrence:      2              
+Mean:                     39.19188       
+Standard deviation:       0.026315729136772815
+imprecision:              0.02578400000000016
+
+       Parameters used        
+iterations                100            
+inertia                   0.1            
+r_one_factor              1.5            
+r_two_factor              3              
+_____________________________________________________________________________________
+
+Name:                     Fwa            
+Best solution:            39.213         
+Worst solution:           39.124         
+Location:                 11.612525055092798	-69.75454876781092
+Number of Ocurrence:      1              
+Mean:                     39.18616       
+Standard deviation:       0.034409626560018725
+imprecision:              0.03004799999999932
+
+       Parameters used        
+e                         0.001          
+m                         50             
+a_hat                     500            
+n_explosion               50             
+_____________________________________________________________________________________

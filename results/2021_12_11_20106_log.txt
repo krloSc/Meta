@@ -1,0 +1,42 @@
+______________________________________ Summary ______________________________________
+
+Problem name:	tachira
+Best solution:	32.2178
+At: (8.254149341054436, -72.03751984108763)
+_____________________________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	  Time taken   	    ranking    
+      Pso      	     32.22     	  1.1611e-02   	    0.3842     	      2.0      
+ HillClimbing  	     32.22     	  1.5750e-03   	    0.8682     	      1.0      
+
+_________________________________ Detailed analysis _________________________________
+
+Name:                     Pso            
+Best solution:            32.2178        
+Worst solution:           32.1941        
+Location:                 7.812480135412376	-71.59585063544557
+Number of Ocurrence:      4              
+Mean:                     32.20358       
+Standard deviation:       0.011610581380791312
+imprecision:              0.01137599999999992
+
+       Parameters used        
+iterations                100            
+inertia                   0.1            
+r_one_factor              1.5            
+r_two_factor              3              
+_____________________________________________________________________________________
+
+Name:                     HillClimbing   
+Best solution:            32.2173        
+Worst solution:           32.2125        
+Location:                 7.812358218790893	-71.59579434610214
+Number of Ocurrence:      1              
+Mean:                     32.214549999999996
+Standard deviation:       0.001574960316961251
+imprecision:              0.0013900000000006685
+
+       Parameters used        
+step                      7              
+iterations                200            
+beta                      0.4            
+_____________________________________________________________________________________

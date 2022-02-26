@@ -36,7 +36,7 @@ class Pso(Metaheuristic):
                                         self.problem.boundaries
                                         )
 
-        current_fitness=self.problem.eval_fitness_function(self.solution)
+        current_fitness,_=self.problem.eval_fitness_function(self.solution)
         best_particle=self.solution[self.best_index(current_fitness)]
         velocity = uniform(0,1,self.solution.size)
         velocity = velocity.reshape(-1,self.solution.shape[1])
@@ -54,16 +54,16 @@ class Pso(Metaheuristic):
                                             r2
                                             )
             self.solution=self.sol.update_sol(self.solution,velocity)
-            current_fitness = self.problem.eval_fitness_function(self.solution)
+            current_fitness,_ = self.problem.eval_fitness_function(self.solution)
             current_best_fitness = self.best_value(current_fitness)
-            best_particle_fitness = self.problem.eval_fitness_function(best_particle)
+            best_particle_fitness,_ = self.problem.eval_fitness_function(best_particle)
             self.lines.append(float(best_particle_fitness))
             if self.comparator(current_best_fitness, best_particle_fitness):
                 best_particle=self.solution[self.best_index(current_fitness)]
 
-            previous_fitness = self.problem.eval_fitness_function(best_sol)
+            previous_fitness,_ = self.problem.eval_fitness_function(best_sol)
             index_mask = self.comparator(current_fitness, previous_fitness)
             best_sol[index_mask] = self.solution[index_mask]
 
         self.time_taken.append(time.time()-init_time)
-        return best_particle, self.problem.eval_fitness_function(best_particle)
+        return best_particle, *self.problem.eval_fitness_function(best_particle)

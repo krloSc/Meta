@@ -21,7 +21,7 @@ class Fwa(Metaheuristic):
         prob=dist/sum
         index=np.argsort(prob,axis=None)
         new_solution = solution[index]
-        prob[self.problem.eval_fitness_function(new_solution)<0] = 0
+        prob[self.problem.eval_fitness_function(new_solution)[0]<0] = 0
         index=np.argsort(prob,axis=None)
         new_solution = new_solution[index[-self.order*(self.n_fireworks-1):]]
         return new_solution
@@ -59,7 +59,7 @@ class Fwa(Metaheuristic):
 
         for explosion in range(n_explosion):
 
-            fitness_list = self.problem.eval_fitness_function(self.solution)
+            fitness_list,_ = self.problem.eval_fitness_function(self.solution)
             best=self.best_value(fitness_list)
             worst=self.worst(fitness_list)
             s=np.rint(
@@ -79,15 +79,15 @@ class Fwa(Metaheuristic):
 
             solutions=np.append(solutions,self.solution)
             solutions = solutions.reshape(-1,2)
-            bindex=self.best_index(self.problem.eval_fitness_function(solutions))
-            best=self.best_value(self.problem.eval_fitness_function(solutions))
-            worst=self.worst(self.problem.eval_fitness_function(solutions))
+            bindex=self.best_index(self.problem.eval_fitness_function(solutions)[0])
+            best=self.best_value(self.problem.eval_fitness_function(solutions)[0])
+            worst=self.worst(self.problem.eval_fitness_function(solutions)[0])
             best_spark=solutions[bindex].reshape(1,-1)
-            self.lines.append(float(self.problem.eval_fitness_function(best_spark)))
+            self.lines.append(float(self.problem.eval_fitness_function(best_spark)[0]))
             solutions=np.delete(solutions,bindex,0)
             prev_time = time.time()
             n_minus=self.nfire(solutions)
             #self.gaussian_improve(n_minus)
             self.solution=np.concatenate((best_spark,n_minus))
         self.time_taken.append(time.time()-initime)
-        return best_spark, self.problem.eval_fitness_function(best_spark)
+        return best_spark, *self.problem.eval_fitness_function(best_spark)

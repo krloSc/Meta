@@ -1,0 +1,27 @@
+______________________________________ Summary ______________________________________
+
+Problem name:	Venezuela
+Best solution:	26.5697
+At: (4.256327781351848, -62.57936766002651)
+_____________________________________________________________________________________
+ Metaheuristic 	 Best solution 	      Std      	  Time taken   	    ranking    
+      Pso      	    26.5697    	  2.0279e-01   	    0.8436     	      1.0      
+
+_________________________________ Detailed analysis _________________________________
+
+Name:                     Pso            
+Best solution ($MM):      26.5697        
+Worst solution ($MM):     26.0033        
+Max Power (GWh/year):     17.9215        
+Location:                 11.437299006473486	-69.76033888514816
+Number of Ocurrence:      1              
+Mean ($MM):               26.36382       
+Standard deviation:       2.0279e-01     
+imprecision:              1.7552e-01     
+
+       Parameters used        
+iterations                100            
+inertia                   0.1            
+r_one_factor              5              
+r_two_factor              3              
+_____________________________________________________________________________________
