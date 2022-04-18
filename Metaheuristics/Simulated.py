@@ -22,7 +22,7 @@ class Simulated(Metaheuristic):
 
         while t>ta:
             n_s=5
-            factor=uniform(-1,1,(n_s,self.solution.shape[1]))*(t*slope+bias) #ojoo
+            factor=uniform(-1,1,(n_s,self.solution.shape[1]))*(t*slope+bias) 
             neigbours=self.sol.generate_from(self.solution,n_s,factor)
 
             for i in range(neigbours.shape[0]):
@@ -42,6 +42,7 @@ class Simulated(Metaheuristic):
             fitness_list,_ = self.problem.eval_fitness_function(self.solution)
             self.lines.append(self.best_value(fitness_list))
             t=t*delta
+
         self.time_taken.append(time.time()-initime)
         fitness_list,power = self.problem.eval_fitness_function(self.solution)
         best_index = self.best_index(fitness_list)

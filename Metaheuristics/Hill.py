@@ -54,10 +54,13 @@ class HillClimbing(Metaheuristic):
 
             current_fitness,_ = self.problem.eval_fitness_function(solution_prime)
             better_index = self.comparator(current_fitness, fitness)
+
             if np.any(better_index):
                 solution[better_index] = solution_prime[better_index]
+
             fitness,power = self.problem.eval_fitness_function(solution)
             self.lines.append(self.best_value(fitness))
+
         best_fitness = self.best_index(fitness)
         self.time_taken.append(time.time()-initime)
         return solution[best_fitness], fitness[best_fitness], power[best_fitness]
